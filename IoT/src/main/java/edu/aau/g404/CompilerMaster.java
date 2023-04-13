@@ -4,10 +4,11 @@ public class CompilerMaster {
 
     private static CompilerMaster instance = null;
     private String helloWorld = "Hello world";
+    private LexiScanner lexiScanner;
 
 
     private CompilerMaster(){
-
+        lexiScanner = new LexiScanner("src/main/java/edu/aau/g404/TestProgram.txt");
     }
 
     public static CompilerMaster getInstance(){
@@ -19,5 +20,11 @@ public class CompilerMaster {
 
     public void printHelloWorld(){
         System.out.println(helloWorld);
+    }
+
+
+
+    public void runCompiler(){
+        lexiScanner.printFile();
     }
 }
