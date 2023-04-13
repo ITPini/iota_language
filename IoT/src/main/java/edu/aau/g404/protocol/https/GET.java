@@ -12,38 +12,14 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GET {
-    private String url;
-    private String applicationKey;
-
-    public GET(String url, String applicationKey){
-        this.url = url;
-        this.applicationKey = applicationKey;
+public class GET extends Request {
+    private String requestType = "GET";
+    public GET(String url, String applicationKey) {
+        super(url, applicationKey);
     }
 
     public GET() {
 
-    }
-
-    public List<Light> deserializeLights(String jsonResponse) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<Light> lights = new ArrayList<>();
-
-        try {
-            JsonNode root = objectMapper.readTree(jsonResponse);
-            JsonNode data = root.get("data");
-
-            if (data.isArray()) {
-                for (JsonNode node : data) {
-                    Light light = objectMapper.treeToValue(node, Light.class);
-                    lights.add(light);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return lights;
     }
 
     public List<Light> request() {
@@ -54,7 +30,7 @@ public class GET {
             HttpURLConnection connection = (HttpURLConnection) requestUrl.openConnection();
 
             // Set request method
-            connection.setRequestMethod("GET");
+            connection.setRequestMethod(requestType);
 
             // Set header key-value
             connection.setRequestProperty("hue-application-key", applicationKey);
@@ -78,6 +54,27 @@ public class GET {
         }
 
         return deserializeLights(jsonResponse);
+    }
+
+    public List<Light> deserializeLights(String jsonResponse) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Light> lights = new ArrayList<>();
+
+        try {
+            JsonNode root = objectMapper.readTree(jsonResponse);
+            JsonNode data = root.get("data");
+
+            if (data.isArray()) {
+                for (JsonNode node : data) {
+                    Light light = objectMapper.treeToValue(node, Light.class);
+                    lights.add(light);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return lights;
     }
 
     public String getUrl() {

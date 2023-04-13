@@ -12,13 +12,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class PUT {
-    private String url;
-    private String applicationKey;
-
+public class PUT extends Request {
+    private String requestType = "PUT";
     public PUT(String url, String applicationKey) {
-        this.url = url;
-        this.applicationKey = applicationKey;
+        super(url, applicationKey);
     }
 
     public PUT() {
@@ -31,7 +28,7 @@ public class PUT {
             HttpURLConnection connection = (HttpURLConnection) requestUrl.openConnection();
 
             // Set request method
-            connection.setRequestMethod("PUT");
+            connection.setRequestMethod(requestType);
 
             // Set header key-value
             connection.setRequestProperty("hue-application-key", applicationKey);
