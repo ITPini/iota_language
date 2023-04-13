@@ -54,7 +54,7 @@ public class Light {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public class MetaData {
+    public static class MetaData {
         @JsonCreator
         public MetaData(){
 
