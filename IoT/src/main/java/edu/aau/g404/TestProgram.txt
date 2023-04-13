@@ -4,15 +4,15 @@ Light LivingRoomLight1 "b20b77ab-7e6f-4fd9-bc56-96fd23d0358c";
 Light LivingRoomLight2 "778f9ae8-ad6e-4775-879f-a8d490b05e4b";
 Sensor MotionSensor1 "f456-ff4646-fg466-789f"; 
 
-Begin(Automation)
+Begin(Automation);
 	Trigger(TIME = 08:00);
 	Trigger(TIME = 17:00);
-	Action(LivingRoomLight1.On = TRUE);
-End(Automation)
+	Action(LivingRoomLight1.On TRUE);
+End(Automation);
 
-Begin(Automation)
+Begin(Automation);
 	Trigger(MovementSensor1.Movement = TRUE); 
 	Action(LivingRoomLight1.On TRUE);
 	Action(LivingRoomLight1.Brightness 100);
 	Action(LivingRoomLight1.Color 255,000,160);
-End(Automation)
+End(Automation);
