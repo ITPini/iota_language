@@ -32,7 +32,8 @@ class PUTTest {
         Light light = new Light();
         light.setOnState(new Light.On(true));
         light.setDimming(new Light.Dimming(100.0f));
-        put.request(light);
+        Response response = put.request(light);
+        assertEquals(200, response.getResponseCode());
     }
 
     @Test

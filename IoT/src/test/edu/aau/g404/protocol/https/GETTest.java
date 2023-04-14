@@ -30,10 +30,14 @@ public class GETTest {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        List<Light> lights = get.request();
+        Response<List<Light>> response = get.request();
+
+        List<Light> lights = response.getData();
         for (Light light : lights) {
             System.out.println(light.getIdentifier() + " (" +light.getMetaData().getName() + ")");
         }
+
+        assertEquals(200, response.getResponseCode());
         assertNotNull(lights);
     }
 

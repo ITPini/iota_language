@@ -22,7 +22,8 @@ public class PUT extends Request {
 
     }
 
-    public String request(Light light) {
+    public Response request(Light light) {
+        int responseCode = 0;
         try {
             URL requestUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) requestUrl.openConnection();
@@ -60,15 +61,17 @@ public class PUT extends Request {
             }
             responseReader.close();
 
-            System.out.println("Response Code : " + connection.getResponseCode()); // For debugging
+            responseCode = connection.getResponseCode();
+
+            System.out.println("Response Code : " + responseCode); // For debugging
             System.out.println("JSON body: " + objectMapper.writeValueAsString(light)); // For debugging
 
             // Print response
-            return responseBuilder.toString();
+            return new Response(responseCode, null);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return new Response(400, null);
     }
 
     public String getUrl() {

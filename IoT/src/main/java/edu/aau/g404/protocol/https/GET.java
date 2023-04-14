@@ -22,8 +22,9 @@ public class GET extends Request {
 
     }
 
-    public List<Light> request() {
+    public Response<List<Light>> request() {
         String jsonResponse = null;
+        int responseCode = 0;
 
         try {
             URL requestUrl = new URL(url);
@@ -45,7 +46,8 @@ public class GET extends Request {
             }
             responseReader.close();
 
-            System.out.println("Response Code : " + connection.getResponseCode()); // For debugging
+            responseCode = connection.getResponseCode();
+            System.out.println("Response Code : " + responseCode); // For debugging
 
             // Deserialize response
             jsonResponse = response.toString();
@@ -53,7 +55,7 @@ public class GET extends Request {
             e.printStackTrace();
         }
 
-        return deserializeLights(jsonResponse);
+        return new Response<>(responseCode, deserializeLights(jsonResponse));
     }
 
     public List<Light> deserializeLights(String jsonResponse) {
