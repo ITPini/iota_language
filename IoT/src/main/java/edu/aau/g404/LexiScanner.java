@@ -11,11 +11,13 @@ import static java.lang.Character.isLetter;
 
 public class LexiScanner {
 
-    private Map keyTable;
+    private Map<String, String> keyTable;
 
     private FileReader file;
 
     private int charPointer;
+
+    private TreeConstructionWorker tokenManager = new TreeConstructionWorker();
 
     public LexiScanner(String path) {
         try {
@@ -24,13 +26,17 @@ public class LexiScanner {
             e.printStackTrace();
         }
         keyTable = new HashMap<String, String>();
-        keyTable.put("Begin", "Type");
-        keyTable.put("Trigger", "Type");
-        keyTable.put("Action", "Type");
-        keyTable.put("End", "Type");
+        //keywords
+        keyTable.put("Use", "Package");
+        keyTable.put("Begin", "Automations");
+        keyTable.put("Trigger", "Triggers");
+        keyTable.put("Action", "Actions");
+        keyTable.put("End", "Automations");
         keyTable.put("Light", "Type");
         keyTable.put("Sensor", "Type");
-        //keyTable.put("Automation", "Type");
+
+        //terminals
+
     }
 
 
@@ -40,15 +46,36 @@ public class LexiScanner {
         while ((currentChar = this.readNextChar()) != '$') {
             if (isLetter(currentChar) || isDigit(currentChar) || currentChar == '-' || currentChar == '_') {
                 currentWord += currentChar;
-                while (isLetter(currentChar = this.readNextChar()) || isDigit(currentChar) || currentChar == '-' || currentChar == '_'){
+                while (isLetter(currentChar = this.readNextChar()) || isDigit(currentChar) || currentChar == '-' || currentChar == '_') {
                     currentWord += currentChar;
                 }
+                tokenManager.addToken(new Token(currentWord));
+                tokenManager.setCurrentToken(new Token(currentWord));
+                switch (keyTable.get(currentWord)) {
+                    case "Package":
+                        ;
+                        break;
+                    case "Automations":
+                        ;
+                        break;
+                    case "Triggers":
+                        ;
+                        break;
+                    case "Actions":
+                        ;
+                        break;
+                    case "Type":
+                        ;
+                        break;
+                    default:
+                }
+
                 System.out.print(currentWord);
                 currentWord = "";
             }
             if (currentChar == ' ' || currentChar == '\n') {
                 printChar(currentChar);
-            } else {//if (!isLetter(currentChar) && currentChar != '-' && currentChar != '_') {
+            } else {
                 switch (currentChar) {
                     case '\"':
                         printChar(currentChar);
@@ -75,6 +102,9 @@ public class LexiScanner {
             }
         }
     }
+
+
+
 
     public char readNextChar() {
         try {

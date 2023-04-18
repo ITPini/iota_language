@@ -5,10 +5,9 @@ import java.util.Map;
 
 public class AST {
 
-    Map tokenType;
     Token astRoot;
 
     public AST() {
-        tokenType = new HashMap<String, String>();
+        astRoot = new Token("Start");
     }
 }

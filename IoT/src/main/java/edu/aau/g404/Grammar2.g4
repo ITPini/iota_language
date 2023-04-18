@@ -2,14 +2,14 @@ grammar Grammar2;
 start: package* initiations* automations* EOF;
 package: 'Use ' packagename ';';
 packagename: Name;
-initiations: type Name identifier ';';
-type: 'Light ' | 'Sensor ';
+initiations: Type Name identifier ';';
+Type: 'Light ' | 'Sensor ';
 Name: ([A-Z]|[a-z]|[0-9]|'_'|'-')+;
 identifier: '"' Name '"'
 | Name
 | '"' Name '"' ',' identifier
 | Name ',' identifier;
-automations: 'Begin(Automation);' triggers* actions* 'End(Automation);' ;
+automations: 'Begin(Automation)' triggers* actions* 'End(Automation);' ;
 triggers: 'Trigger(' boolExpr ');' ;
 boolExpr: bool 'and' boolExpr
 | bool 'or' boolExpr
