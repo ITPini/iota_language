@@ -25,6 +25,6 @@ public class CompilerMaster {
 
 
     public void runCompiler(){
-        lexiScanner.printFile();
+        lexiScanner.scanner();
     }
 }

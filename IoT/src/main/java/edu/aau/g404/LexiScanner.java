@@ -24,56 +24,53 @@ public class LexiScanner {
             e.printStackTrace();
         }
         keyTable = new HashMap<String, String>();
-        keyTable.put("Light", "Type");
-        keyTable.put("Sensor", "Type");
         keyTable.put("Begin", "Type");
         keyTable.put("Trigger", "Type");
         keyTable.put("Action", "Type");
+        keyTable.put("End", "Type");
         keyTable.put("Light", "Type");
-        keyTable.put("Light", "Type");
+        keyTable.put("Sensor", "Type");
+        //keyTable.put("Automation", "Type");
     }
 
-    public int getCharPointer() {
-        return charPointer;
-    }
 
-    public void setCharPointer(int charPointer) {
-        this.charPointer = charPointer;
-    }
-
-    public void Scanner() {
+    public void scanner() {
         char currentChar;
+        String currentWord = "";
         while ((currentChar = this.readNextChar()) != '$') {
+            if (isLetter(currentChar) || isDigit(currentChar) || currentChar == '-' || currentChar == '_') {
+                currentWord += currentChar;
+                while (isLetter(currentChar = this.readNextChar()) || isDigit(currentChar) || currentChar == '-' || currentChar == '_'){
+                    currentWord += currentChar;
+                }
+                System.out.print(currentWord);
+                currentWord = "";
+            }
             if (currentChar == ' ' || currentChar == '\n') {
-            } else if (!isLetter(currentChar) && currentChar != '-' && currentChar != '_') {
+                printChar(currentChar);
+            } else {//if (!isLetter(currentChar) && currentChar != '-' && currentChar != '_') {
                 switch (currentChar) {
                     case '\"':
-                        ;
+                        printChar(currentChar);
                         break;
                     case '*':
-                        ;
+                        printChar(currentChar);
                         break;
                     case '+':
-                        ;
+                        printChar(currentChar);
                         break;
                     case '.':
-                        ;
+                        printChar(currentChar);
                         break;
                     case ',':
-                        ;
+                        printChar(currentChar);
                         break;
                     case ';':
-                        ;
+                        printChar(currentChar);
                         break;
                     default:
+                        printChar(currentChar);
                 }
-
-            } else {
-                String currentWord = "";
-                currentWord += currentChar;
-                while (isLetter(currentChar = this.readNextChar()) || isDigit(currentChar) || currentChar == '-' || currentChar == '_') {
-                }
-
 
             }
         }
@@ -97,6 +94,18 @@ public class LexiScanner {
         while ((currentChar = this.readNextChar()) != '$') {
             System.out.print(currentChar);
         }
+    }
+
+    public void printChar(char c) {
+        System.out.print(c);
+    }
+
+    public int getCharPointer() {
+        return charPointer;
+    }
+
+    public void setCharPointer(int charPointer) {
+        this.charPointer = charPointer;
     }
 
 
