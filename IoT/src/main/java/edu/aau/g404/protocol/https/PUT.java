@@ -23,7 +23,7 @@ public class PUT extends Request {
     }
 
     public Response request(Light light) {
-        int responseCode = 0;
+        int responseCode;
         try {
             URL requestUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) requestUrl.openConnection();
