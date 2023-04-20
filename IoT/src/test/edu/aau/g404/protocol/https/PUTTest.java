@@ -1,10 +1,7 @@
 package edu.aau.g404.protocol.https;
 
 import edu.aau.g404.device.Light;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,10 +10,10 @@ class PUTTest {
 
     private static final PUT put = new PUT();
 
-    @BeforeAll
-    static void beforeAll() {
+    @BeforeEach
+    void setUp() {
         put
-                .setUrl("https://192.168.0.134/clip/v2/resource/light/ac37190b-eafe-4181-a6d6-89a938714b73")
+                .setUrl("https://192.168.0.134/clip/v2/resource/grouped_light/55cd6585-bde1-4983-9e28-0e96d1ed435a")
                 .setApplicationKey("XAxUnLEodCpkcqb0hnLYi--mdL0x4J3MbQZZ5iuc");
     }
 
@@ -29,16 +26,21 @@ class PUTTest {
             throw new RuntimeException(e);
         }
 
+        Light.Color color = new Light.Color(0.5, 0.1);
+
         Light light = new Light();
-        light.setOnState(new Light.On(true));
-        light.setDimming(new Light.Dimming(100.0f));
+        light
+                .setColor(color)
+                .setOnState(new Light.On().setOn(true))
+                .setDimming(new Light.Dimming().setBrightness(100f));
+
         Response response = put.request(light);
         assertEquals(200, response.getResponseCode());
     }
 
     @Test
     void getUrl() {
-        assertEquals("https://192.168.0.134/clip/v2/resource/light/ac37190b-eafe-4181-a6d6-89a938714b73", put.getUrl());
+        assertEquals("https://192.168.0.134/clip/v2/resource/grouped_light/55cd6585-bde1-4983-9e28-0e96d1ed435a", put.getUrl());
     }
 
     @Test

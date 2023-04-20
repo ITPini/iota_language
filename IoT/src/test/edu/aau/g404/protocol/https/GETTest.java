@@ -1,10 +1,7 @@
 package edu.aau.g404.protocol.https;
 
 import edu.aau.g404.device.Light;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 
 import java.util.List;
 
@@ -15,8 +12,8 @@ public class GETTest {
 
     private static final GET get = new GET();
 
-    @BeforeAll
-    static void beforeAll() {
+    @BeforeEach
+    void setUp() {
         get
                 .setUrl("https://192.168.0.134/clip/v2/resource/light")
                 .setApplicationKey("XAxUnLEodCpkcqb0hnLYi--mdL0x4J3MbQZZ5iuc");
@@ -24,21 +21,22 @@ public class GETTest {
 
     @Test
     void request() {
-        // TODO: Better test implementation
         try {
             SSLHelper.disableSSLVerification();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         Response<List<Light>> response = get.request();
+        assertEquals(200, response.getResponseCode());
 
         List<Light> lights = response.getData();
-        for (Light light : lights) {
-            System.out.println(light.getIdentifier() + " (" +light.getMetaData().getName() + ")");
-        }
+        assertFalse(lights.isEmpty());
 
-        assertEquals(200, response.getResponseCode());
-        assertNotNull(lights);
+        for (Light light : lights) {
+            assertNotNull(light);
+            assertNotNull(light.getIdentifier());
+            assertNotNull(light.getMetaData().getName());
+        }
     }
 
     @Test
