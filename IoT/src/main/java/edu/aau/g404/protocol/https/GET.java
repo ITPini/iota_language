@@ -13,13 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GET extends Request {
-    private String requestType = "GET";
     public GET(String url, String applicationKey) {
         super(url, applicationKey);
+        super.requestType = "GET";
     }
 
     public GET() {
-
+        super.requestType = "GET";
     }
 
     public Response<List<Light>> request() {
@@ -77,23 +77,5 @@ public class GET extends Request {
         }
 
         return lights;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public GET setUrl(String url) {
-        this.url = url;
-        return this;
-    }
-
-    public String getApplicationKey() {
-        return applicationKey;
-    }
-
-    public GET setApplicationKey(String applicationKey) {
-        this.applicationKey = applicationKey;
-        return this;
     }
 }

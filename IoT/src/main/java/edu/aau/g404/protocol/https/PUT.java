@@ -13,13 +13,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class PUT extends Request {
-    private String requestType = "PUT";
     public PUT(String url, String applicationKey) {
         super(url, applicationKey);
+        super.requestType = "PUT";
     }
 
     public PUT() {
-
+        super.requestType = "PUT";
     }
 
     public Response request(Light light) {
@@ -72,24 +72,6 @@ public class PUT extends Request {
             e.printStackTrace();
         }
         return new Response(400, null);
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public PUT setUrl(String url) {
-        this.url = url;
-        return this;
-    }
-
-    public String getApplicationKey() {
-        return applicationKey;
-    }
-
-    public PUT setApplicationKey(String applicationKey) {
-        this.applicationKey = applicationKey;
-        return this;
     }
 }
 
