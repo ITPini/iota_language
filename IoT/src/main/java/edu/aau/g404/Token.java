@@ -6,10 +6,16 @@ public class Token {
 
     //Map for type * see AST
     private String type;
+    private String value;
     private ArrayList<Token> children;
 
     public Token(String type){
         this.type = type;
+        children = new ArrayList<Token>();
+    }
+    public Token(String type, String value){
+        this.type = type;
+        this.value = value;
         children = new ArrayList<Token>();
     }
 
@@ -28,5 +34,11 @@ public class Token {
     }
     public void setChildren(ArrayList<Token> children) {
         this.children = children;
+    }
+    public String getValue() {
+        return value;
+    }
+    public void setValue(String value) {
+        this.value = value;
     }
 }

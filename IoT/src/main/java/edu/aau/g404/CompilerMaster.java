@@ -26,5 +26,6 @@ public class CompilerMaster {
 
     public void runCompiler(){
         lexiScanner.scanner();
+        lexiScanner.printTokens();
     }
 }
