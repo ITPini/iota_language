@@ -20,17 +20,15 @@ public class LexiScanner {
 
     private ArrayList<Token> codeAsTokens;
 
-    private TreeConstructionWorker tokenManager = new TreeConstructionWorker();
-
     public LexiScanner(String path) {
         try {
             file = new FileReader(path);
         } catch (FileNotFoundException e) { //custom error handler should be implemented at some point
             e.printStackTrace();
         }
-        codeAsTokens = new ArrayList<Token>();
+        codeAsTokens = new ArrayList<>();
 
-        keyTable = new HashMap<String, String>();
+        keyTable = new HashMap<>();
         //keywords
         keyTable.put("Use", "Package");
         keyTable.put("Begin", "Automations");
@@ -48,17 +46,17 @@ public class LexiScanner {
     }
 
 
-    public void scanner() {
+    public ArrayList<Token> scanner() {
         String errorMessage = "";
         char currentChar;
         //char nextChar;
         String currentWord = "";
-        int count = 0;
+        //int count = 0;
         System.out.println("Time to scan!");
 
         while ((currentChar = this.readNextChar()) != '$' && errorMessage == "") {
-            count++;
-            System.out.println(count);
+            //count++;
+            //System.out.println(count);
             if (isLetter(currentChar)) {
                 currentWord += currentChar;
                 while (isLetter(currentChar = this.readNextChar()) || isDigit(currentChar) || currentChar == '-' || currentChar == '_') {
@@ -148,9 +146,11 @@ public class LexiScanner {
         if (errorMessage != "") {
             System.out.println(errorMessage);
         }
+        return codeAsTokens;
     }
 
     private void lastChecker() {
+        // Should check if numbers of ( matched numbers of ) and other things
     }
 
 
