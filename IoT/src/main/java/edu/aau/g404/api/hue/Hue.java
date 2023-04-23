@@ -1,6 +1,5 @@
-package edu.aau.g404.hue;
+package edu.aau.g404.api.hue;
 
-import edu.aau.g404.device.Light;
 import edu.aau.g404.protocol.https.GET;
 
 import java.util.List;
@@ -17,9 +16,9 @@ public class Hue {
     public void printLights() {
         get.setUrl("https://" + ip + "/clip/v2/resource/light");
 
-        List<Light> lights = get.request().getData();
+        List<HueLight> lights = get.request().getData();
 
-        for (Light light : lights) {
+        for (HueLight light : lights) {
             System.out.println("\u001B[32m" + light.getIdentifier() + "\u001b[36m" + " (" + light.getMetaData().getName() + ")");
         }
     }
