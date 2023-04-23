@@ -1,6 +1,6 @@
 package edu.aau.g404.protocol.https;
 
-import edu.aau.g404.device.Light;
+import edu.aau.g404.api.hue.HueLight;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,13 +26,13 @@ class PUTTest {
             throw new RuntimeException(e);
         }
 
-        Light.Color color = new Light.Color(0.5, 0.1);
+        HueLight.Color color = new HueLight.Color(0.5, 0.1);
 
-        Light light = new Light();
+        HueLight light = new HueLight();
         light
                 .setColor(color)
-                .setOnState(new Light.On().setOn(true))
-                .setDimming(new Light.Dimming().setBrightness(100f));
+                .setOnState(new HueLight.On().setOn(true))
+                .setDimming(new HueLight.Dimming().setBrightness(100f));
 
         Response response = put.request(light);
         assertEquals(200, response.getResponseCode());
