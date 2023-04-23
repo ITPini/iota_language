@@ -7,8 +7,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.HashMap;
 import java.util.Map;
 
+
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Light {
+public abstract class Light {
+
+    /*
     @JsonProperty("id")
     private String identifier;
 
@@ -169,6 +172,8 @@ public class Light {
             return this;
         }
     }
+
+     */
 }
 
 
