@@ -3,7 +3,7 @@ package edu.aau.g404.protocol.https;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import edu.aau.g404.device.Light;
+import edu.aau.g404.api.hue.HueLight;
 
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -22,7 +22,7 @@ public class PUT extends Request {
         super.requestType = "PUT";
     }
 
-    public Response request(Light light) {
+    public Response request(HueLight light) {
         int responseCode;
         try {
             URL requestUrl = new URL(url);

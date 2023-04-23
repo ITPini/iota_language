@@ -2,7 +2,7 @@ package edu.aau.g404.protocol.https;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.aau.g404.device.Light;
+import edu.aau.g404.api.hue.HueLight;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,7 +22,7 @@ public class GET extends Request {
         super.requestType = "GET";
     }
 
-    public Response<List<Light>> request() {
+    public Response<List<HueLight>> request() {
         String jsonResponse = null;
         int responseCode = 0;
 
@@ -58,9 +58,9 @@ public class GET extends Request {
         return new Response<>(responseCode, deserializeLights(jsonResponse));
     }
 
-    public List<Light> deserializeLights(String jsonResponse) {
+    public List<HueLight> deserializeLights(String jsonResponse) {
         ObjectMapper objectMapper = new ObjectMapper();
-        List<Light> lights = new ArrayList<>();
+        List<HueLight> smartLights = new ArrayList<>();
 
         try {
             JsonNode root = objectMapper.readTree(jsonResponse);
@@ -68,14 +68,14 @@ public class GET extends Request {
 
             if (data.isArray()) {
                 for (JsonNode node : data) {
-                    Light light = objectMapper.treeToValue(node, Light.class);
-                    lights.add(light);
+                    HueLight smartLight = objectMapper.treeToValue(node, HueLight.class);
+                    smartLights.add(smartLight);
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return lights;
+        return smartLights;
     }
 }
