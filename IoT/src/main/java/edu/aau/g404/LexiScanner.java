@@ -125,7 +125,7 @@ public class LexiScanner {
                         break;
                     case ',':
                         // Group or several values
-                        codeAsTokens.add(new Token("", "" + currentChar));
+                        codeAsTokens.add(new Token("Identifier", "" + currentChar));
                         break;
                     case ';':
                         //End Of Line

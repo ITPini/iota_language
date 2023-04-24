@@ -30,41 +30,107 @@ public class TreeConstructionWorker {
         keyTable.put("BoolExpr", "Triggers");
         keyTable.put("Type", "Initiations");
         keyTable.put("Changes", "Actions");
+        keyTable.put("IDValue", "Identifier");
+        keyTable.put("Identifier", "Initiations");
+        keyTable.put("Field", "Attribute");
 
         //Multiple possible non-terminal
-        keyTable.put("Name", "");
-        keyTable.put("Attribute", "");
-        keyTable.put("Expr", "");
-        keyTable.put("EOL", "");
-        keyTable.put("", "");
+        keyTable.put("Name", ""); // Identifier, PackageName, Initiations, Attribute
+        keyTable.put("Attribute", ""); //can be Expr or Change
+        keyTable.put("Expr", ""); //can be Bool or Change
+        keyTable.put("EOL", ""); //can be Triggers, Actions, Automations, Package, or Initiations
+        keyTable.put("", ""); //can be Triggers, Actions, or Automations
 
         //terminals
 
     }
 
 
-    public Token astBuilder(ArrayList<Token> tokenList){
-        for (Token e: tokenList) {
-            if (currentToken.getType() == keyTable.get(e.getType())){
-                currentToken.addChild(e);
-            } else {
-                previousToken = currentToken;
-                currentToken = new Token(keyTable.get(e.getType()), e.getType());
-                currentToken.addChild(e);
-                previousToken.addChild(currentToken);
+    public Token astBuilder(ArrayList<Token> tokenList) {
+        ArrayList<Token> currentBranch = new ArrayList<>();
+        for (Token e : tokenList) {
+            currentBranch.add(e);
+            if (e.getValue() == ";") {
+                currentToken = new Token(keyTable.get(currentBranch.get(0).getType()), currentBranch.get(0).getType());
+                currentToken.addChild(currentBranch.get(0));
+                while (currentToken.getType() != "Start") {
+                    previousToken = new Token(keyTable.get(currentToken.getType()), currentToken.getType());
+                    previousToken.addChild(currentToken);
+                    currentToken = previousToken;
+                }
+                start.addChild(currentToken);
+
+                for (Token t : currentBranch) {
+                    currentToken = t;
+                    if (currentBranch.get(0) != t) {
+                        if (t.getType() != "") {
+                            currentToken = new Token(keyTable.get(t.getType()), t.getType());
+                            currentToken.addChild(t);
+                        }
+                        while (currentToken != start) {
+                            int count = currentBranch.indexOf(t);
+                            Token tokenCheck = currentBranch.get(count);
+                            while (currentToken.getParent() == null && count >= 0) {
+                                if (currentToken.getType() != "") {
+                                    if (tokenCheck.getValue() == currentToken.getType()) {
+                                        tokenCheck.addChild(currentToken);
+                                    } else if (tokenCheck.getParent() != null) {
+                                        tokenCheck = tokenCheck.getParent();
+                                    } else {
+                                        count--;
+                                        tokenCheck = currentBranch.get(count);
+                                    }
+                                } else {//This needs work 
+                                    switch (currentToken.getValue()) { //maybe tokenCheck instead of currentToken
+                                        case "Name":
+                                            if (tokenCheck.getValue() == "Identifier" ||
+                                                    tokenCheck.getValue() == "PackageName" ||
+                                                    tokenCheck.getValue() == "Initiations" ||
+                                                    tokenCheck.getValue() == "Attribute") {
+                                                tokenCheck.addChild(currentToken);
+                                            } else if (tokenCheck.getParent() != null) {
+                                                tokenCheck = tokenCheck.getParent();
+                                            } else {
+                                                count--;
+                                                tokenCheck = currentBranch.get(count);
+                                            }
+                                            ;
+                                            break;
+                                        case "Attribute":
+                                            ;
+                                            break;
+                                        case "Expr":
+                                            ;
+                                            break;
+                                        case "EOL":
+                                            ;
+                                            break;
+                                        default:
+                                            ;
+                                    }
+                                }
+
+                                if (currentToken.getParent() == null) {
+                                    previousToken = new Token(keyTable.get(currentToken.getType()), currentToken.getType());
+                                    previousToken.addChild(currentToken);
+                                    currentToken = previousToken;
+                                } else {
+                                    currentToken = start;
+                                }
+
+                            }
+                        }
+                    }
+
+                }
+
             }
 
-            if (e.getType()== "Start"){
-
-            } else if(e.getType()== ""){
-
-            }
 
         }
         return start;
 
     }
-
 
 
     public void addToken(Token newToken) {
@@ -79,15 +145,15 @@ public class TreeConstructionWorker {
         }
     }
 
-    public void printTree(Token rootToken){
+    public void printTree(Token rootToken) {
         int dept = 0;
         printLeaf(rootToken, dept);
     }
 
     private void printLeaf(Token token, int dept) {
-        if (token.getChildren() != null){
-            for (Token e: token.getChildren()) {
-                printLeaf(e, dept+1);
+        if (token.getChildren() != null) {
+            for (Token e : token.getChildren()) {
+                printLeaf(e, dept + 1);
             }
         }
         for (int i = 0; i <= dept; i++) {
@@ -99,12 +165,15 @@ public class TreeConstructionWorker {
     public Token getPreviousToken() {
         return previousToken;
     }
+
     public void setPreviousToken(Token previousToken) {
         this.previousToken = previousToken;
     }
+
     public Token getCurrentToken() {
         return currentToken;
     }
+
     public void setCurrentToken(Token currentToken) {
         this.currentToken = currentToken;
     }
