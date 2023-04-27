@@ -26,13 +26,8 @@ class PUTTest {
             throw new RuntimeException(e);
         }
 
-        HueLight.Color color = new HueLight.Color(0.5, 0.1);
-
         HueLight light = new HueLight();
-        light
-                .setColor(color)
-                .setOnState(new HueLight.On().setOn(true))
-                .setDimming(new HueLight.Dimming().setBrightness(100f));
+        light.setColor(255, 50, 50).setBrightness(100f).isOn(true);
 
         Response response = put.request(light);
         assertEquals(200, response.getResponseCode());
