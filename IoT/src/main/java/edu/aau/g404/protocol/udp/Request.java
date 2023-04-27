@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.net.*;
 
 // TODO: Better naming convention for this class
-public class Request {
+public final class Request {
     protected String ip;
     protected int port;
 
