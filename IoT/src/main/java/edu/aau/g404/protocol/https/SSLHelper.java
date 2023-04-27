@@ -3,7 +3,7 @@ package edu.aau.g404.protocol.https;
 import java.security.cert.X509Certificate;
 import javax.net.ssl.*;
 
-public class SSLHelper {
+public final class SSLHelper {
 
     public static void disableSSLVerification() throws Exception {
         // Create a trust manager that does not perform any certificate verification

@@ -12,7 +12,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class PUT extends Request {
+public final class PUT extends Request {
     public PUT(String url, String applicationKey) {
         super(url, applicationKey);
         super.requestType = "PUT";

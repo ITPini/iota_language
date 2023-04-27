@@ -12,7 +12,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GET extends Request {
+public final class GET extends Request {
     public GET(String url, String applicationKey) {
         super(url, applicationKey);
         super.requestType = "GET";

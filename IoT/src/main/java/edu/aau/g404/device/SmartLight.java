@@ -14,9 +14,3 @@ public abstract class SmartLight {
     public abstract SmartLight setBrightness(float brightness);
     public abstract SmartLight setColor(int red, int green, int blue);
 }
-
-
-
-
-
-
