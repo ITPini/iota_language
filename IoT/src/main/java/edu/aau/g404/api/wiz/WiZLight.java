@@ -5,13 +5,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.aau.g404.device.SmartLight;
 
+// TODO: Review getters and setters
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class WiZLight extends SmartLight {
-    private int id;
-    private String method;
+public final class WiZLight implements SmartLight {
+    private int id = 1;
+    private String method = "setState";
     private Params params;
 
     public WiZLight() {
+        this.params = new Params();
     }
 
     @Override
