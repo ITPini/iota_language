@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class HueLight extends SmartLight {
+public final class HueLight extends SmartLight {
     @JsonProperty("id")
     private String identifier;
 
@@ -26,6 +26,10 @@ public class HueLight extends SmartLight {
     private Color color;
 
     public HueLight() {
+        this.metaData = new MetaData();
+        this.onState = new On();
+        this.dimming = new Dimming();
+        this.color = new Color();
     }
 
     @Override
@@ -49,23 +53,36 @@ public class HueLight extends SmartLight {
     }
 
     // Source: https://github.com/Koenkk/zigbee2mqtt/issues/272
-    public double[] rgbToXY(int r, int g, int b) {
-        // Convert RGB to linear RGB
-        double linearR = (r / 255.0) <= 0.04045 ? (r / 255.0) / 12.92 : Math.pow(((r / 255.0) + 0.055) / 1.055, 2.4);
-        double linearG = (g / 255.0) <= 0.04045 ? (g / 255.0) / 12.92 : Math.pow(((g / 255.0) + 0.055) / 1.055, 2.4);
-        double linearB = (b / 255.0) <= 0.04045 ? (b / 255.0) / 12.92 : Math.pow(((b / 255.0) + 0.055) / 1.055, 2.4);
+    double[] rgbToXY(int r, int g, int b) {
+        // RGB to linear RGB
+        double linearR = toLinearRGB(r);
+        double linearG = toLinearRGB(g);
+        double linearB = toLinearRGB(b);
 
-        // Convert linear RGB to XYZ
-        // Source: http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
-        double x = linearR * 0.664511 + linearG * 0.154324 + linearB * 0.162028;
-        double y = linearR * 0.283881 + linearG * 0.668433 + linearB * 0.047685;
-        double z = linearR * 0.000088 + linearG * 0.072310 + linearB * 0.986039;
+        // Color space Matrix RGB to XY (sRGB D65)
+        double colorSpace[][] = {
+                {0.664511, 0.154324, 0.162028},
+                {0.283881, 0.668433, 0.047685},
+                {0.000088, 0.072310, 0.986039}
+        };
 
-        // Calculate normalized chromaticity coordinates x and y
+        // Linear RGB to XYZ
+        // Source: http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html, https://en.wikipedia.org/wiki/CIE_1931_color_space
+        double x = linearR * colorSpace[0][0] + linearG * colorSpace[0][1] + linearB * colorSpace[0][2];
+        double y = linearR * colorSpace[1][0] + linearG * colorSpace[1][1] + linearB * colorSpace[1][2];
+        double z = linearR * colorSpace[2][0] + linearG * colorSpace[2][1] + linearB * colorSpace[2][2];
+
+        // Normalized chromaticity coordinates x and y
+        // Source: https://en.wikipedia.org/wiki/CIE_1931_color_space
         double cieX = x / (x + y + z);
         double cieY = y / (x + y + z);
 
         return new double[]{cieX, cieY};
+    }
+
+    double toLinearRGB(int color){ // double[] xy = testLight.rgbToXY(255, 100, 12);
+        double component = color / 255.0;
+        return component <= 0.04045 ? component / 12.92 : Math.pow((component + 0.055) / 1.055, 2.4);
     }
 
     public String getIdentifier() {
