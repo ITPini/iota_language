@@ -8,8 +8,9 @@ import edu.aau.g404.device.SmartLight;
 import java.util.HashMap;
 import java.util.Map;
 
+// TODO: Review getters and setters
 @JsonIgnoreProperties(ignoreUnknown = true)
-public final class HueLight extends SmartLight {
+public final class HueLight implements SmartLight {
     @JsonProperty("id")
     private String identifier;
 
@@ -26,26 +27,25 @@ public final class HueLight extends SmartLight {
     private Color color;
 
     public HueLight() {
-        this.metaData = new MetaData();
-        this.onState = new On();
-        this.dimming = new Dimming();
-        this.color = new Color();
     }
 
     @Override
     public SmartLight isOn(boolean bool) {
+        this.onState = new On();
         this.onState.setOn(bool);
         return this;
     }
 
     @Override
     public SmartLight setBrightness(float brightness) {
+        this.dimming = new Dimming();
         this.dimming.brightness = brightness;
         return this;
     }
 
     @Override
     public SmartLight setColor(int red, int green, int blue) {
+        this.color = new Color();
         double[] xy = rgbToXY(red, green, blue);
         this.color.setX(xy[0]);
         this.color.setY(xy[1]);
@@ -53,7 +53,7 @@ public final class HueLight extends SmartLight {
     }
 
     // Source: https://github.com/Koenkk/zigbee2mqtt/issues/272
-    double[] rgbToXY(int r, int g, int b) {
+    protected double[] rgbToXY(int r, int g, int b) {
         // RGB to linear RGB
         double linearR = toLinearRGB(r);
         double linearG = toLinearRGB(g);
@@ -80,7 +80,7 @@ public final class HueLight extends SmartLight {
         return new double[]{cieX, cieY};
     }
 
-    double toLinearRGB(int color){ // double[] xy = testLight.rgbToXY(255, 100, 12);
+    protected double toLinearRGB(int color){ // double[] xy = testLight.rgbToXY(255, 100, 12);
         double component = color / 255.0;
         return component <= 0.04045 ? component / 12.92 : Math.pow((component + 0.055) / 1.055, 2.4);
     }
