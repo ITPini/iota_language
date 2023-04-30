@@ -7,11 +7,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class PUTTest {
-
     private static final PUT put = new PUT();
 
     @BeforeEach
-    void setUp() {
+    void init() {
         put
                 .setUrl("https://192.168.0.134/clip/v2/resource/grouped_light/55cd6585-bde1-4983-9e28-0e96d1ed435a")
                 .setApplicationKey("XAxUnLEodCpkcqb0hnLYi--mdL0x4J3MbQZZ5iuc");

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import static org.junit.jupiter.api.Assertions.*;
+// TODO: Implement tests
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class RequestTest {
@@ -14,7 +15,7 @@ class RequestTest {
     private static final Request udp = new Request();
 
     @BeforeEach
-    void setUp() {
+    void init() {
         udp.setIp("192.168.0.106").setPort(38899);
     }
 
