@@ -9,6 +9,7 @@ import edu.aau.g404.protocol.https.SSLHelper;
 import java.util.List;
 
 public final class Hue implements LightController {
+    private static final SmartLight LIGHT_CLASS = new HueLight();
     private String applicationKey;
     private String baseUrl;
     private GET get;
@@ -16,10 +17,15 @@ public final class Hue implements LightController {
 
     public Hue(String bridgeIp, String applicationKey) {
         this.applicationKey = applicationKey;
-        baseUrl = "https://" + bridgeIp + "/clip/v2/resource/light/";
+        baseUrl = "https://" + bridgeIp + "/clip/v2/resource/light";
     }
 
     public void printLights() {
+        try {
+            SSLHelper.disableSSLVerification();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         get = new GET(baseUrl, applicationKey);
 
         List<HueLight> lights = get.request().getData();
@@ -38,7 +44,12 @@ public final class Hue implements LightController {
         }
 
         put = new PUT();
-        put.setUrl(baseUrl + identifier).setApplicationKey(applicationKey);
-        put.request((HueLight) light);
+        put.setUrl(baseUrl + "/" + identifier).setApplicationKey(applicationKey);
+        put.request(light);
+    }
+
+    @Override
+    public SmartLight getLightClass() {
+        return LIGHT_CLASS;
     }
 }
