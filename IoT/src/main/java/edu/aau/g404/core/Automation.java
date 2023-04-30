@@ -1,37 +1,33 @@
 package edu.aau.g404.core;
 
-import edu.aau.g404.api.hue.HueLight;
+import edu.aau.g404.core.action.Action;
 import edu.aau.g404.device.LightController;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
-
-// TODO: Work in progress
 public final class Automation  {
-    private LightController lightController;
     private ExecutorService executorService;
-    private HueLight newState;
-    private HueLight alternativeState;
+    private List<Action> actionList = new ArrayList<>();
 
-    public Automation(LightController lightController) {
-        this.lightController = lightController;
-        this.executorService = Executors.newSingleThreadExecutor();
-
-        this.newState = new HueLight();
-        newState.setColor(255, 0, 0).isOn(true).setBrightness(100); // Test
-
-        this.alternativeState = new HueLight();
-        alternativeState.setColor(0, 0, 255).isOn(true).setBrightness(100); // Test
+    public Automation() {
+        this.executorService = Executors.newCachedThreadPool();
     }
 
-    public void start(String identifier, long intervalMillis, int numberOfCycles) {
+    public void addAction(Action action) {
+        actionList.add(action);
+    }
+
+    public void start(LightController lightController, String identifier, long intervalMillis, int numberOfCycles) {
         Runnable runnable = () -> {
             for (int i = 0; i < numberOfCycles; i++) {
-                lightController.updateLightState(identifier, newState);
-                sleep(intervalMillis);
-                lightController.updateLightState(identifier, alternativeState);
-                sleep(intervalMillis);
+                for (Action action : actionList) {
+                    action.execute(lightController, identifier);
+                    sleep(intervalMillis);
+                }
             }
         };
 
@@ -48,5 +44,12 @@ public final class Automation  {
 
     public void stop() {
         executorService.shutdown();
+        try {
+            if (!executorService.awaitTermination(5, TimeUnit.MINUTES)) { // Wait for the tasks to complete, with a specified timeout (e.g., 5 minutes)
+                System.out.println("Some tasks did not complete within the specified timeout.");
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException("Interrupted while waiting for tasks to complete.", e);
+        }
     }
 }
