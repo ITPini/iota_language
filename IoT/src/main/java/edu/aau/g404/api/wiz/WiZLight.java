@@ -10,10 +10,10 @@ import edu.aau.g404.device.SmartLight;
 public final class WiZLight implements SmartLight {
     private int id = 1;
     private String method = "setState";
-    private Params params;
+    private Params params = new Params();
 
     public WiZLight() {
-        this.params = new Params();
+
     }
 
     @Override

@@ -2,7 +2,7 @@ package edu.aau.g404.protocol.udp;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.aau.g404.api.wiz.WiZLight;
+import edu.aau.g404.device.SmartLight;
 
 import java.io.IOException;
 import java.net.*;
@@ -20,7 +20,7 @@ public final class Request {
         this.port = port;
     }
 
-    public void request(WiZLight light) {
+    public void request(SmartLight light) {
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
