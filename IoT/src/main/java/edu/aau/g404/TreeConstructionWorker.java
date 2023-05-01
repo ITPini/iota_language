@@ -122,7 +122,11 @@ public class TreeConstructionWorker {
                                 }
                             }
                             if (currentToken.getParent() == null) {
-                                previousToken = new Token(keyTable.get(currentToken.getType()), currentToken.getType());
+                                if (currentToken.getValue().equals("Expr")){
+                                    previousToken = new Token(keyTable.get("Bool"), "Bool");
+                                } else {
+                                    previousToken = new Token(keyTable.get(currentToken.getType()), currentToken.getType());
+                                }
                                 previousToken.addChild(currentToken);
                                 currentToken = previousToken;
                             } else {
