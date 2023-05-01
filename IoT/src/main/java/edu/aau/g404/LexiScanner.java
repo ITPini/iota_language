@@ -31,14 +31,18 @@ public class LexiScanner {
         keyTable = new HashMap<>();
         //keywords
         keyTable.put("Use", "Package");
-        keyTable.put("Begin", "Automations");
+        keyTable.put("Begin", "ScopeStart");
         keyTable.put("Trigger", "Triggers");
         keyTable.put("Action", "Actions");
-        keyTable.put("End", "Automations");
+        keyTable.put("End", "ScopeEnd");
         keyTable.put("Light", "Type");
         keyTable.put("Sensor", "Type");
         keyTable.put("and", "BoolExpr");
         keyTable.put("or", "BoolExpr");
+        keyTable.put("TIME", "Key");
+        keyTable.put("Automation", "");
+
+
 
 
         //terminals
@@ -52,7 +56,7 @@ public class LexiScanner {
         //char nextChar;
         String currentWord = "";
         //int count = 0;
-        System.out.println("Time to scan!");
+        System.out.println("Begin scanning!");
 
         while ((currentChar = this.readNextChar()) != '$' && errorMessage == "") {
             //count++;

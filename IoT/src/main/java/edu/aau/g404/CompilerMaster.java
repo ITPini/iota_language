@@ -30,7 +30,7 @@ public class CompilerMaster {
 
     public void runCompiler(){
         ArrayList tokenList = lexiScanner.scanner();
-        lexiScanner.printTokens();
+        //lexiScanner.printTokens();
         Token root = tokenManager.astBuilder(tokenList);
         tokenManager.printTree(root);
     }

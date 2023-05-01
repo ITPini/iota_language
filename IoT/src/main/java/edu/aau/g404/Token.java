@@ -26,6 +26,7 @@ public class Token {
 
     }
 
+
     public String getType() {
         return type;
     }
