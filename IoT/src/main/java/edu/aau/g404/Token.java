@@ -12,15 +12,18 @@ public class Token {
 
     public Token(String type){
         this.type = type;
-        children = new ArrayList<Token>();
+        //children = new ArrayList<Token>();
     }
     public Token(String type, String value){
         this.type = type;
         this.value = value;
-        children = new ArrayList<Token>();
+        //children = new ArrayList<Token>();
     }
 
     public void addChild(Token newChild){
+        if (children==null){
+            children = new ArrayList<Token>();
+        }
         children.add(newChild);
         newChild.setParent(this);
 

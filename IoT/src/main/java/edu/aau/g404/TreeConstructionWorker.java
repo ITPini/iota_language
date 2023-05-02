@@ -8,6 +8,8 @@ import java.util.Map;
 
 public class TreeConstructionWorker {
 
+    int printDepth = 0;
+
     private Token previousToken = null;
     private Token currentToken = null;
     private final Token start;
@@ -53,12 +55,12 @@ public class TreeConstructionWorker {
         ArrayList<Token> currentBranch = new ArrayList<>();
         for (Token e : tokenList) {
             currentBranch.add(e);
-            System.out.println(e.getValue());//Snitch!
+            //System.out.println(e.getValue());//Snitch!
             if (e.getValue().equals(";")) { //Handle the creation of the AST for one line of code at a time
 
                 generateLeftMostBranch(currentBranch); //Creates the left most branch of the AST containing this line of code
                 for (Token t : currentBranch) {
-                    System.out.println("Working on: " + t.getValue());//Snitch!
+                    //System.out.println("Working on: " + t.getValue());//Snitch!
                     currentToken = t;
                     if (currentBranch.get(0) != t) {
                         if (!t.getType().equals("")) {
@@ -66,7 +68,7 @@ public class TreeConstructionWorker {
                             currentToken.addChild(t);
                         }
                         while (currentToken != start) {
-                            System.out.println(currentToken.getValue());//Snitch
+                            //System.out.println(currentToken.getValue());//Snitch
                             int count = currentBranch.indexOf(t);
                             Token tokenCheck = t;
                             while (currentToken.getParent() == null && count >= 0) {
@@ -122,7 +124,7 @@ public class TreeConstructionWorker {
                                 }
                             }
                             if (currentToken.getParent() == null) {
-                                if (currentToken.getValue().equals("Expr")){
+                                if (currentToken.getValue().equals("Expr")) {
                                     previousToken = new Token(keyTable.get("Bool"), "Bool");
                                 } else {
                                     previousToken = new Token(keyTable.get(currentToken.getType()), currentToken.getType());
@@ -170,21 +172,67 @@ public class TreeConstructionWorker {
 
 
     public void printTree(Token rootToken) {
-        int dept = 0;
-        printLeaf(rootToken, dept);
+
+        ArrayList<String[]> valueList = printLeaf(rootToken, new ArrayList<String[]>(), 0);
+        for (String[] a : valueList) {
+            for (String s: a){
+                if (s == null){
+                    System.out.printf(" %-15.15s ", "");
+                } else {
+                    System.out.printf(" %-15.15s ", s);
+                }
+            }
+            System.out.println("");
+        }
     }
 
-    private void printLeaf(Token token, int dept) {
+    private ArrayList<String[]> printLeaf(Token token, ArrayList<String[]> result, int depth) {
+        if (result.size()==printDepth){
+            result.add(new String[8]);
+        }
+        result.get(printDepth)[depth] = token.getValue();
         if (token.getChildren() != null) {
             for (Token e : token.getChildren()) {
-                printLeaf(e, dept + 1);
+                result = printLeaf(e, result, depth+1);
             }
+        } else {
+            printDepth++;
         }
-        for (int i = 0; i <= dept; i++) {
-            System.out.print("   ");
-        }
-        System.out.println(token.getValue());
+        return result;
     }
+
+    public void prettyPrintTree(Token root, int totalSize) {
+        int depth;
+        int bottom;
+        int size;
+        System.out.printf("%10s%n", "print time!");
+        for (int i = 0; i < totalSize / 2; i++) {
+            System.out.printf("%10s ", "");
+        }
+        System.out.printf("%10s%n", root.getValue());
+
+
+        size = root.getChildren().size();
+        for (int i = 0; i < (totalSize / 2 - size / 2); i++) {
+            System.out.printf("%10s ", "");
+        }
+        System.out.printf("%5s%5s ", "/", "");
+        for (int i = 0; i < size - 2; i++) {
+            System.out.printf("%5s%5s ", "|", "");
+        }
+        System.out.printf("%5s%5s%n", "\\", "");
+
+
+        size = root.getChildren().size();
+        for (int i = 0; i < (totalSize / 2 - size / 2); i++) {
+            System.out.printf("%10s ", "");
+        }
+        for (Token t : root.getChildren()) {
+            System.out.printf("%10s ", t.getValue());
+        }
+        //System.out.printf("%15s%n", "");
+    }
+
 
     public Token getPreviousToken() {
         return previousToken;

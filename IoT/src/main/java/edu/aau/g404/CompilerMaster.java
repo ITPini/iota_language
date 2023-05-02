@@ -33,5 +33,6 @@ public class CompilerMaster {
         //lexiScanner.printTokens();
         Token root = tokenManager.astBuilder(tokenList);
         tokenManager.printTree(root);
+        //tokenManager.prettyPrintTree(root, tokenList.size());
     }
 }
