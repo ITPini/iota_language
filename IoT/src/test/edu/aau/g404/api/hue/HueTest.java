@@ -1,11 +1,13 @@
 package edu.aau.g404.api.hue;
 
+import edu.aau.g404.device.SmartLight;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-// TODO: Implement tests
+import static org.junit.jupiter.api.Assertions.*;
+
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class HueTest {
 
@@ -24,5 +26,11 @@ class HueTest {
 
     @Test
     void updateLightState() {
+    }
+
+    @Test
+    void getLightClass() {
+        SmartLight smartLight = hue.getLightClass();
+        assertEquals(HueLight.class, smartLight.getClass());
     }
 }
