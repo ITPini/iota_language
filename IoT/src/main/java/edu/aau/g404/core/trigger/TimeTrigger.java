@@ -2,8 +2,7 @@ package edu.aau.g404.core.trigger;
 
 import java.time.LocalTime;
 
-// TODO: Work in progress
-public class TimeTrigger implements Trigger {
+public final class TimeTrigger implements Trigger {
     private LocalTime triggerTime;
 
     public TimeTrigger(LocalTime triggerTime) {
@@ -11,6 +10,6 @@ public class TimeTrigger implements Trigger {
     }
     @Override
     public boolean isTriggered() {
-        return LocalTime.now().isAfter(triggerTime);
+        return LocalTime.now().isAfter(triggerTime.minusMinutes(1)) && LocalTime.now().isBefore(triggerTime.plusMinutes(1));
     }
 }
