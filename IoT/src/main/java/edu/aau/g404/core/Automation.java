@@ -1,44 +1,30 @@
 package edu.aau.g404.core;
 
 import edu.aau.g404.core.action.Action;
+import edu.aau.g404.core.trigger.Trigger;
 import edu.aau.g404.device.LightController;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public final class Automation  {
-    private ExecutorService executorService;
-    private List<Action> actionList = new ArrayList<>();
+    private ScheduledExecutorService executorService;
+    private List<AutomationThread> automationThreads = new ArrayList<>();
 
     public Automation() {
-        this.executorService = Executors.newCachedThreadPool();
+        this.executorService = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
     }
 
-    public void addAction(Action action) {
-        actionList.add(action);
+    public void addThread(LightController lightController, String identifier, List<Action> actionList, List<Trigger> triggerList) {
+        automationThreads.add(new AutomationThread(lightController, identifier, actionList, triggerList));
     }
 
-    public void start(LightController lightController, String identifier, long intervalMillis, int numberOfCycles) {
-        Runnable runnable = () -> {
-            for (int i = 0; i < numberOfCycles; i++) {
-                for (Action action : actionList) {
-                    action.execute(lightController, identifier);
-                    sleep(intervalMillis);
-                }
-            }
-        };
-
-        executorService.submit(runnable);
-    }
-
-    private void sleep(long millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+    public void start(){
+        for (AutomationThread thread : automationThreads) {
+            executorService.scheduleAtFixedRate(thread::run, 0, 1000, TimeUnit.MILLISECONDS);
         }
     }
 
@@ -50,6 +36,46 @@ public final class Automation  {
             }
         } catch (InterruptedException e) {
             throw new RuntimeException("Interrupted while waiting for tasks to complete.", e);
+        }
+    }
+
+    private static class AutomationThread {
+        private LightController lightController;
+        private String identifier;
+        private List<Action> actionList;
+        private List<Trigger> triggerList;
+
+        public AutomationThread(LightController lightController, String identifier, List<Action> actionList, List<Trigger> triggerList) {
+            this.lightController = lightController;
+            this.identifier = identifier;
+            this.actionList = actionList;
+            this.triggerList = triggerList;
+        }
+
+        public void run() {
+            if (shouldTrigger()) {
+                for (Action action : actionList) {
+                    action.execute(lightController, identifier);
+                    sleep(1000);
+                }
+            }
+        }
+
+        private boolean shouldTrigger(){
+            for (Trigger trigger : triggerList) {
+                if (trigger.isTriggered()) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private void sleep(long millis) {
+            try {
+                Thread.sleep(millis);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
