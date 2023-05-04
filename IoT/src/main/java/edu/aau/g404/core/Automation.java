@@ -44,6 +44,7 @@ public final class Automation  {
         private String identifier;
         private List<Action> actionList;
         private List<Trigger> triggerList;
+        private long lastExecutionTime;
 
         public AutomationThread(LightController lightController, String identifier, List<Action> actionList, List<Trigger> triggerList) {
             this.lightController = lightController;
@@ -53,10 +54,14 @@ public final class Automation  {
         }
 
         public void run() {
-            if (shouldTrigger()) {
-                for (Action action : actionList) {
-                    action.execute(lightController, identifier);
-                    sleep(1000);
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - lastExecutionTime >= TimeUnit.MINUTES.toMillis(1)) {
+                if (shouldTrigger()) {
+                    for (Action action : actionList) {
+                        action.execute(lightController, identifier);
+                        sleep(1000);
+                    }
+                    lastExecutionTime = currentTime;
                 }
             }
         }
