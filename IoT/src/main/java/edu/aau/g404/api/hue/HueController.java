@@ -1,12 +1,14 @@
 package edu.aau.g404.api.hue;
 
-import edu.aau.g404.device.LightController;
+import edu.aau.g404.api.LightController;
 import edu.aau.g404.device.SmartLight;
 import edu.aau.g404.protocol.https.HttpsGetRequest;
 import edu.aau.g404.protocol.https.HttpsPutRequest;
 import edu.aau.g404.protocol.https.SSLHelper;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public final class HueController implements LightController {
     private String applicationKey;
@@ -25,9 +27,12 @@ public final class HueController implements LightController {
     }
 
     public void printLights() {
-        HttpsGetRequest get = new HttpsGetRequest(baseUrl + "/clip/v2/resource/light", applicationKey);
+        Map<String, String> headers = new HashMap<>();
+        headers.put("hue-application-key", applicationKey);
 
-        List<HueLight> lights = get.request().getData();
+        HttpsGetRequest get = new HttpsGetRequest(baseUrl + "/clip/v2/resource/light", headers, new HueLightDeserializer());
+
+        List<HueLight> lights = get.request();
 
         for (HueLight light : lights) {
             System.out.printf("\u001B[32m%s\u001b[36m (%s)\n", light.getIdentifier(), light.getMetaData().getName());
@@ -35,9 +40,12 @@ public final class HueController implements LightController {
     }
 
     @Override
-    public void updateLightState(String identifier, SmartLight light) {
-        put.setUrl(baseUrl + "/clip/v2/resource/light/" + identifier).setApplicationKey(applicationKey);
-        put.request(light);
+    public void updateLightState(String identifier, SmartLight newLightState) {
+        Map<String, String> headers = new HashMap<>();
+        headers.put("hue-application-key", applicationKey);
+
+        put.setUrl(baseUrl + "/clip/v2/resource/light/" + identifier).setApplicationKey(applicationKey).setHeaders(headers);
+        put.request(newLightState);
     }
 
     @Override

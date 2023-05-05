@@ -1,28 +1,28 @@
 package edu.aau.g404.protocol.https;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.aau.g404.api.hue.HueLight;
+import edu.aau.g404.api.Deserializer;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public final class HttpsGetRequest extends HttpsRequest {
-    public HttpsGetRequest(String url, String applicationKey) {
-        super(url, applicationKey);
+public final class HttpsGetRequest<T> extends HttpsRequest {
+    private Deserializer<T> deserializer;
+    public HttpsGetRequest(String url, Map<String, String> headers, Deserializer<T> deserializer) {
+        super(url, headers.get("hue-application-key"));
         super.requestType = "GET";
+        super.headers = headers;
+        this.deserializer = deserializer;
     }
 
     public HttpsGetRequest() {
         super.requestType = "GET";
     }
 
-    public HttpsResponse<List<HueLight>> request() {
+    public List<T> request() {
         String jsonResponse = null;
         int responseCode = 0;
 
@@ -34,7 +34,9 @@ public final class HttpsGetRequest extends HttpsRequest {
             connection.setRequestMethod(requestType);
 
             // Set header key-value
-            connection.setRequestProperty("hue-application-key", applicationKey);
+            for (Map.Entry<String, String> header : headers.entrySet()) {
+                connection.setRequestProperty(header.getKey(), header.getValue());
+            }
 
             BufferedReader responseReader = new BufferedReader(
                     new InputStreamReader(connection.getInputStream()));
@@ -49,33 +51,17 @@ public final class HttpsGetRequest extends HttpsRequest {
             responseCode = connection.getResponseCode();
             System.out.println("Response Code : " + responseCode); // For debugging
 
-            // Deserialize response
             jsonResponse = response.toString();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return new HttpsResponse<>(responseCode, deserializeLights(jsonResponse));
+        // Deserialize response
+        return deserializer.deserialize(jsonResponse);
     }
 
-    public List<HueLight> deserializeLights(String jsonResponse) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<HueLight> smartLights = new ArrayList<>();
-
-        try {
-            JsonNode root = objectMapper.readTree(jsonResponse);
-            JsonNode data = root.get("data");
-
-            if (data.isArray()) {
-                for (JsonNode node : data) {
-                    HueLight smartLight = objectMapper.treeToValue(node, HueLight.class);
-                    smartLights.add(smartLight);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return smartLights;
+    public HttpsGetRequest setDeserializer(Deserializer<T> deserializer) {
+        this.deserializer = deserializer;
+        return this;
     }
 }
