@@ -2,13 +2,13 @@ package edu.aau.g404.api.wiz;
 
 import edu.aau.g404.device.LightController;
 import edu.aau.g404.device.SmartLight;
-import edu.aau.g404.protocol.udp.Request;
+import edu.aau.g404.protocol.udp.UdpRequest;
 
-public final class WiZ implements LightController {
+public final class WiZController implements LightController {
     private static final int DEFAULT_WIZ_PORT = 38899;
-    private Request udp = new Request();
+    private UdpRequest udp = new UdpRequest();
 
-    public WiZ(){
+    public WiZController(){
 
     }
 

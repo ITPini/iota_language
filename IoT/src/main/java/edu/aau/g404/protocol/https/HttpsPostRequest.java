@@ -1,6 +1,6 @@
 package edu.aau.g404.protocol.https;
 
-public final class POST extends Request {
+public final class POST extends HttpsRequest {
     public POST(String url, String applicationKey) {
         super(url, applicationKey);
         super.requestType = "POST";

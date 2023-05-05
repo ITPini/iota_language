@@ -2,20 +2,20 @@ package edu.aau.g404.api.hue;
 
 import edu.aau.g404.device.LightController;
 import edu.aau.g404.device.SmartLight;
-import edu.aau.g404.protocol.https.GET;
-import edu.aau.g404.protocol.https.PUT;
+import edu.aau.g404.protocol.https.HttpsGetRequest;
+import edu.aau.g404.protocol.https.HttpsPutRequest;
 import edu.aau.g404.protocol.https.SSLHelper;
 
 import java.util.List;
 
-public final class Hue implements LightController {
+public final class HueController implements LightController {
     private String applicationKey;
     private String baseUrl;
-    private PUT put = new PUT();
+    private HttpsPutRequest put = new HttpsPutRequest();
 
-    public Hue(String bridgeIp, String applicationKey) {
+    public HueController(String bridgeIp, String applicationKey) {
         this.applicationKey = applicationKey;
-        baseUrl = "https://" + bridgeIp + "/clip/v2/resource/light";
+        baseUrl = "https://" + bridgeIp;
 
         try {
             SSLHelper.disableSSLVerification();
@@ -25,7 +25,7 @@ public final class Hue implements LightController {
     }
 
     public void printLights() {
-        GET get = new GET(baseUrl, applicationKey);
+        HttpsGetRequest get = new HttpsGetRequest(baseUrl + "/clip/v2/resource/light", applicationKey);
 
         List<HueLight> lights = get.request().getData();
 
@@ -36,7 +36,7 @@ public final class Hue implements LightController {
 
     @Override
     public void updateLightState(String identifier, SmartLight light) {
-        put.setUrl(baseUrl + "/" + identifier).setApplicationKey(applicationKey);
+        put.setUrl(baseUrl + "/clip/v2/resource/light/" + identifier).setApplicationKey(applicationKey);
         put.request(light);
     }
 
