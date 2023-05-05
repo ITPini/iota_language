@@ -1,15 +1,19 @@
 package edu.aau.g404.api.wiz;
 
+import edu.aau.g404.api.hue.HueLight;
+import edu.aau.g404.device.SmartLight;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 // TODO: Implement tests
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class WiZTest {
+class WiZControllerTest {
 
-    private static WiZ wiz;
+    private static WiZController wiZController;
     private static WiZLight testLight;
 
     @BeforeAll
@@ -17,12 +21,18 @@ class WiZTest {
         testLight = new WiZLight();
         testLight.setBrightness(100).setColor(0, 255, 255).isOn(true);
 
-        wiz = new WiZ();
+        wiZController = new WiZController();
 
-        wiz.updateLightState("192.168.0.107", testLight);
+        wiZController.updateLightState("192.168.0.107", testLight);
     }
 
     @Test
     void updateLightState() {
+    }
+
+    @Test
+    void getLightClass() {
+        SmartLight smartLight = wiZController.getLightClass();
+        assertEquals(WiZLight.class, smartLight.getClass());
     }
 }

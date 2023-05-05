@@ -5,28 +5,22 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-
-import static org.junit.jupiter.api.Assertions.*;
 // TODO: Implement tests
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class RequestTest {
+class UdpHttpsRequestTest {
 
-    private static final Request udp = new Request();
+    private static final UdpRequest udp = new UdpRequest();
 
     @BeforeEach
     void init() {
-        udp.setIp("192.168.0.106").setPort(38899);
+        udp.setIp("192.168.0.207").setPort(38899);
     }
 
     @Test
     void request() {
-        WiZLight light = new WiZLight(1, "setState", new WiZLight.Params());
+        WiZLight light = new WiZLight();
         light.setBrightness(50);
-
-        udp.request(light);
-
-        udp.setIp("192.168.0.107");
         udp.request(light);
     }
 }

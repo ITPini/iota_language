@@ -1,23 +1,13 @@
 package edu.aau.g404.core;
 
-import edu.aau.g404.api.hue.Hue;
-import edu.aau.g404.core.action.Action;
-import edu.aau.g404.core.action.ColorAction;
-import edu.aau.g404.core.trigger.TimeTrigger;
-import edu.aau.g404.core.trigger.Trigger;
-import edu.aau.g404.device.LightController;
+import edu.aau.g404.api.hue.HueController;
+import edu.aau.g404.api.LightController;
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 // TODO: Implement tests
 class AutomationTest {
 
-    LightController controller = new Hue("192.168.0.134", "XAxUnLEodCpkcqb0hnLYi--mdL0x4J3MbQZZ5iuc");
+    LightController controller = new HueController("192.168.0.134", "XAxUnLEodCpkcqb0hnLYi--mdL0x4J3MbQZZ5iuc");
     Automation automation = new Automation();
 
     @Test

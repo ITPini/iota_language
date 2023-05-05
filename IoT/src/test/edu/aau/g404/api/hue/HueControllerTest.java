@@ -9,9 +9,9 @@ import org.junit.jupiter.api.TestMethodOrder;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class HueTest {
+class HueControllerTest {
 
-    private static Hue hue;
+    private static HueController hueController;
     private static HueLight testLight;
 
     @BeforeAll
@@ -19,9 +19,9 @@ class HueTest {
         testLight = new HueLight();
         testLight.setBrightness(100).setColor(0, 0, 255).isOn(true);
 
-        hue = new Hue("192.168.0.134", "XAxUnLEodCpkcqb0hnLYi--mdL0x4J3MbQZZ5iuc");
+        hueController = new HueController("192.168.0.134", "XAxUnLEodCpkcqb0hnLYi--mdL0x4J3MbQZZ5iuc");
 
-        hue.updateLightState("b20b77ab-7e6f-4fd9-bc56-96fd23d0358c", testLight);
+        hueController.updateLightState("b20b77ab-7e6f-4fd9-bc56-96fd23d0358c", testLight);
     }
 
     @Test
@@ -30,7 +30,7 @@ class HueTest {
 
     @Test
     void getLightClass() {
-        SmartLight smartLight = hue.getLightClass();
+        SmartLight smartLight = hueController.getLightClass();
         assertEquals(HueLight.class, smartLight.getClass());
     }
 }
