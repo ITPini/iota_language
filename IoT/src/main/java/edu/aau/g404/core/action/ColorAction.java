@@ -1,6 +1,6 @@
 package edu.aau.g404.core.action;
 
-import edu.aau.g404.device.LightController;
+import edu.aau.g404.api.LightController;
 import edu.aau.g404.device.SmartLight;
 
 public final class ColorAction implements Action {
@@ -14,9 +14,9 @@ public final class ColorAction implements Action {
 
     @Override
     public void execute(LightController lightController, String identifier) {
-        SmartLight smartLight = createSmartLightInstance(lightController);
-        smartLight.setColor(red, green, blue);
-        lightController.updateLightState(identifier, smartLight);
+        SmartLight newLightState = createSmartLightInstance(lightController);
+        newLightState.setColor(red, green, blue);
+        lightController.updateLightState(identifier, newLightState);
     }
 
 }

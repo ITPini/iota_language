@@ -1,6 +1,6 @@
 package edu.aau.g404.core.action;
 
-import edu.aau.g404.device.LightController;
+import edu.aau.g404.api.LightController;
 import edu.aau.g404.device.SmartLight;
 
 public interface Action {

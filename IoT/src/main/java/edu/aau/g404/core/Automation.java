@@ -2,7 +2,7 @@ package edu.aau.g404.core;
 
 import edu.aau.g404.core.action.Action;
 import edu.aau.g404.core.trigger.Trigger;
-import edu.aau.g404.device.LightController;
+import edu.aau.g404.api.LightController;
 
 import java.util.ArrayList;
 import java.util.List;
