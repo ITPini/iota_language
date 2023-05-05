@@ -1,16 +1,16 @@
 package edu.aau.g404.protocol.https;
 
-public abstract class Request {
+public abstract class HttpsRequest {
     protected String requestType;
     protected String url;
     protected String applicationKey;
 
-    public Request(String url, String applicationKey) {
+    public HttpsRequest(String url, String applicationKey) {
         this.url = url;
         this.applicationKey = applicationKey;
     }
 
-    public Request() {
+    public HttpsRequest() {
 
     }
 
@@ -18,7 +18,7 @@ public abstract class Request {
         return url;
     }
 
-    public Request setUrl(String url) {
+    public HttpsRequest setUrl(String url) {
         this.url = url;
         return this;
     }
@@ -27,7 +27,7 @@ public abstract class Request {
         return applicationKey;
     }
 
-    public Request setApplicationKey(String applicationKey) {
+    public HttpsRequest setApplicationKey(String applicationKey) {
         this.applicationKey = applicationKey;
         return this;
     }

@@ -12,17 +12,17 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public final class PUT extends HttpsRequest {
-    public PUT(String url, String applicationKey) {
+public final class HttpsPutRequest extends HttpsRequest {
+    public HttpsPutRequest(String url, String applicationKey) {
         super(url, applicationKey);
         super.requestType = "PUT";
     }
 
-    public PUT() {
+    public HttpsPutRequest() {
         super.requestType = "PUT";
     }
 
-    public Response request(SmartLight light) {
+    public HttpsResponse request(SmartLight light) {
         int responseCode;
         try {
             URL requestUrl = new URL(url);
@@ -67,11 +67,11 @@ public final class PUT extends HttpsRequest {
             System.out.println("JSON body: " + objectMapper.writeValueAsString(light)); // For debugging
 
             // Print response
-            return new Response(responseCode, null);
+            return new HttpsResponse(responseCode, null);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new Response(400, null);
+        return new HttpsResponse(400, null);
     }
 }
 

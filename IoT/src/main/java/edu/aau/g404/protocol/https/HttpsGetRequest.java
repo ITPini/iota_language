@@ -12,17 +12,17 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class GET extends HttpsRequest {
-    public GET(String url, String applicationKey) {
+public final class HttpsGetRequest extends HttpsRequest {
+    public HttpsGetRequest(String url, String applicationKey) {
         super(url, applicationKey);
         super.requestType = "GET";
     }
 
-    public GET() {
+    public HttpsGetRequest() {
         super.requestType = "GET";
     }
 
-    public Response<List<HueLight>> request() {
+    public HttpsResponse<List<HueLight>> request() {
         String jsonResponse = null;
         int responseCode = 0;
 
@@ -55,7 +55,7 @@ public final class GET extends HttpsRequest {
             e.printStackTrace();
         }
 
-        return new Response<>(responseCode, deserializeLights(jsonResponse));
+        return new HttpsResponse<>(responseCode, deserializeLights(jsonResponse));
     }
 
     public List<HueLight> deserializeLights(String jsonResponse) {

@@ -2,29 +2,28 @@ package edu.aau.g404.protocol.udp;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.aau.g404.device.SmartLight;
+import edu.aau.g404.device.SmartDevice;
 
 import java.io.IOException;
 import java.net.*;
 
-// TODO: Better naming convention for this class
-public final class Request {
+public final class UdpRequest<T extends SmartDevice> {
     protected String ip;
     protected int port;
 
-    public Request() {
+    public UdpRequest() {
     }
 
-    public Request(String ip, int port) {
+    public UdpRequest(String ip, int port) {
         this.ip = ip;
         this.port = port;
     }
 
-    public void request(SmartLight light) {
+    public void request(T device) {
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
-            String payload = objectMapper.writeValueAsString(light);
+            String payload = objectMapper.writeValueAsString(device);
 
             InetAddress address = InetAddress.getByName(ip);
             byte[] data = payload.getBytes();
@@ -47,7 +46,7 @@ public final class Request {
         return ip;
     }
 
-    public Request setIp(String ip) {
+    public UdpRequest setIp(String ip) {
         this.ip = ip;
         return this;
     }
@@ -56,7 +55,7 @@ public final class Request {
         return port;
     }
 
-    public Request setPort(int port) {
+    public UdpRequest setPort(int port) {
         this.port = port;
         return this;
     }
