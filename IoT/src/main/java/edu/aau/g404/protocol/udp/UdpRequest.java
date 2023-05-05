@@ -19,11 +19,11 @@ public final class UdpRequest<T extends SmartDevice> {
         this.port = port;
     }
 
-    public void request(T device) {
+    public void request(T newState) {
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
-            String payload = objectMapper.writeValueAsString(device);
+            String payload = objectMapper.writeValueAsString(newState);
 
             InetAddress address = InetAddress.getByName(ip);
             byte[] data = payload.getBytes();

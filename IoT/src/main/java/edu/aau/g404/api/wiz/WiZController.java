@@ -1,6 +1,6 @@
 package edu.aau.g404.api.wiz;
 
-import edu.aau.g404.device.LightController;
+import edu.aau.g404.api.LightController;
 import edu.aau.g404.device.SmartLight;
 import edu.aau.g404.protocol.udp.UdpRequest;
 
@@ -13,8 +13,8 @@ public final class WiZController implements LightController {
     }
 
     @Override
-    public void updateLightState(String identifier, SmartLight light) {
-        udp.setIp(identifier).setPort(DEFAULT_WIZ_PORT).request(light);
+    public void updateLightState(String identifier, SmartLight newLightState) {
+        udp.setIp(identifier).setPort(DEFAULT_WIZ_PORT).request(newLightState);
     }
 
     @Override
