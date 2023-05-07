@@ -4,7 +4,7 @@ import java.time.LocalTime;
 
 /**
  * TimeTrigger class represents a time-based trigger.
- * Implements the Trigger interface and checks if the current tiime is within a minute of the specified trigger time.
+ * Implements the Trigger interface and checks if the current time is within a minute of the specified trigger time.
  */
 public final class TimeTrigger implements Trigger {
     private LocalTime triggerTime;

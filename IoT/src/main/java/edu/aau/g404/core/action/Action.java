@@ -4,8 +4,9 @@ import edu.aau.g404.api.LightController;
 import edu.aau.g404.device.SmartLight;
 
 /**
- * Action interface for defining the actions to be performed on SmartLight devices.
- * Provides methods to execute an action and create a SmartLight instance.
+ * Action interface for defining the actions to be performed on IoT devices.
+ * Provides methods to execute an action and create a SmartDevice instance.
+ * Currently, only works for SmartLight objects!
  */
 public interface Action {
     /**
