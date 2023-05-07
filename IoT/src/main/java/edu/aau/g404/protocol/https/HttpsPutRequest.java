@@ -13,17 +13,24 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
+/**
+ * HttpsPutRequest class handles HTTP PUT requests and sends an updated SmartDevice object to the endpoint.
+ * @param <T>   The type of objects to update, which must extend SmartDevice.
+ */
 public final class HttpsPutRequest<T extends SmartDevice> extends HttpsRequest {
     public HttpsPutRequest(String url, Map<String, String> headers) {
-        super(url, headers.get("hue-application-key"));
+        super(url, headers);
         super.requestType = "PUT";
-        super.headers = headers;
     }
 
     public HttpsPutRequest() {
         super.requestType = "PUT";
     }
 
+    /**
+     * Executes the HTTP Put request, updating the endpoint's state of the object.
+     * @param newState  The updated SmartDevice object to send to the endpoint.
+     */
     public void request(T newState) {
         int responseCode;
         try {
@@ -74,4 +81,3 @@ public final class HttpsPutRequest<T extends SmartDevice> extends HttpsRequest {
         }
     }
 }
-

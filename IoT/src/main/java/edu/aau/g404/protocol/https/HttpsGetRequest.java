@@ -1,6 +1,7 @@
 package edu.aau.g404.protocol.https;
 
 import edu.aau.g404.api.Deserializer;
+import edu.aau.g404.device.SmartDevice;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -9,12 +10,15 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
-public final class HttpsGetRequest<T> extends HttpsRequest {
+/**
+ * HttpsGetRequest class handles HTTP GET requests and deserializes the JSON resposne into a list of SmartDevice objects.
+ * @param <T> The type of object to deserialize from JSON, which must extend SmartDevice.
+ */
+public final class HttpsGetRequest<T extends SmartDevice> extends HttpsRequest {
     private Deserializer<T> deserializer;
     public HttpsGetRequest(String url, Map<String, String> headers, Deserializer<T> deserializer) {
-        super(url, headers.get("hue-application-key"));
+        super(url, headers);
         super.requestType = "GET";
-        super.headers = headers;
         this.deserializer = deserializer;
     }
 
@@ -22,9 +26,13 @@ public final class HttpsGetRequest<T> extends HttpsRequest {
         super.requestType = "GET";
     }
 
+    /**
+     * Executes the HTTP Get request, reads the response and deserializes it into a list of SmartDevice objects.
+     * @return  A list of objects of type T, deserialized from the JSON response.
+     */
     public List<T> request() {
         String jsonResponse = null;
-        int responseCode = 0;
+        int responseCode;
 
         try {
             URL requestUrl = new URL(url);
