@@ -6,6 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.aau.g404.device.SmartLight;
 
 // TODO: Review getters and setters
+
+/**
+ * Represents a WiZLight object that implements the SmartLight interface.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class WiZLight implements SmartLight {
     private int id = 1;
@@ -35,7 +39,6 @@ public final class WiZLight implements SmartLight {
         this.params.b = blue;
         return this;
     }
-
 
     @JsonCreator
     public WiZLight(@JsonProperty("id") int id, @JsonProperty("method") String method, @JsonProperty("params") Params params) {

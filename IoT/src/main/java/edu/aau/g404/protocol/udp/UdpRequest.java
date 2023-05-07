@@ -7,6 +7,10 @@ import edu.aau.g404.device.SmartDevice;
 import java.io.IOException;
 import java.net.*;
 
+/**
+ * UdpRequest class handles sending UDP requests containing a SmartDevice object as payload.
+ * @param <T> The type of SmartDevice object to be sent in the UDP request.
+ */
 public final class UdpRequest<T extends SmartDevice> {
     protected String ip;
     protected int port;
@@ -19,6 +23,10 @@ public final class UdpRequest<T extends SmartDevice> {
         this.port = port;
     }
 
+    /**
+     * Sends a UDP request with the SmartDevice object as payload.
+     * @param newState The SmartDevice object to be sent as payload.
+     */
     public void request(T newState) {
         ObjectMapper objectMapper = new ObjectMapper();
 

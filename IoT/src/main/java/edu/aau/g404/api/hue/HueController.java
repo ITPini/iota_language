@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Provides methods for controlling and interacting with Philips Hue smart lights.
+ */
 public final class HueController implements LightController {
     private String applicationKey;
     private String baseUrl;
@@ -26,6 +29,9 @@ public final class HueController implements LightController {
         }
     }
 
+    /**
+     * Retrieves the list of Hue light connected to the Hue Bridge and prints their identifiers and names.
+     */
     public void printLights() {
         Map<String, String> headers = new HashMap<>();
         headers.put("hue-application-key", applicationKey);
@@ -39,12 +45,17 @@ public final class HueController implements LightController {
         }
     }
 
+    /**
+     * Updates the light state of a Hue light.
+     * @param identifier    The identifer of the light to update.
+     * @param newLightState The new light state to be applied to the Hue light.
+     */
     @Override
     public void updateLightState(String identifier, SmartLight newLightState) {
         Map<String, String> headers = new HashMap<>();
         headers.put("hue-application-key", applicationKey);
 
-        put.setUrl(baseUrl + "/clip/v2/resource/light/" + identifier).setApplicationKey(applicationKey).setHeaders(headers);
+        put.setUrl(baseUrl + "/clip/v2/resource/light/" + identifier).setHeaders(headers);
         put.request(newLightState);
     }
 

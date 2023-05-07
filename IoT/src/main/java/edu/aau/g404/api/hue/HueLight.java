@@ -9,6 +9,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 // TODO: Review getters and setters
+
+/**
+ * Represenst a HueLight object that implements the SmartLight interface.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class HueLight implements SmartLight {
     @JsonProperty("id")
@@ -52,7 +56,17 @@ public final class HueLight implements SmartLight {
         return this;
     }
 
-    // Source: https://github.com/Koenkk/zigbee2mqtt/issues/272
+    /**
+     * Converts RGB color values to the CIE 1931 color space (xy) values.
+     * This method uses the sRGB D65 color space matrix for conversion.
+     * @param r The red component of the RGB color.
+     * @param g The green component of the RGB color.
+     * @param b The blue component of the RGB color.
+     * @return  A double array containing the CIE 1931 color space (xy) values.
+     * @see <a href="https://github.com/Koenkk/zigbee2mqtt/issues/272">JS implementation</a>
+     * @see <a href="http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html">RGB to XYZ Matrices</a>
+     * @see <a href="https://en.wikipedia.org/wiki/CIE_1931_color_space">XYZ to XY</a>
+     */
     protected double[] rgbToXY(int r, int g, int b) {
         // RGB to linear RGB
         double linearR = toLinearRGB(r);
@@ -67,20 +81,23 @@ public final class HueLight implements SmartLight {
         };
 
         // Linear RGB to XYZ
-        // Source: http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html, https://en.wikipedia.org/wiki/CIE_1931_color_space
         double x = linearR * colorSpace[0][0] + linearG * colorSpace[0][1] + linearB * colorSpace[0][2];
         double y = linearR * colorSpace[1][0] + linearG * colorSpace[1][1] + linearB * colorSpace[1][2];
         double z = linearR * colorSpace[2][0] + linearG * colorSpace[2][1] + linearB * colorSpace[2][2];
 
         // Normalized chromaticity coordinates x and y
-        // Source: https://en.wikipedia.org/wiki/CIE_1931_color_space
         double cieX = x / (x + y + z);
         double cieY = y / (x + y + z);
 
         return new double[]{cieX, cieY};
     }
 
-    protected double toLinearRGB(int color){ // double[] xy = testLight.rgbToXY(255, 100, 12);
+    /**
+     * Converts a single RGB color component to its linear RGB representation.
+     * @param color The color component value (0-255) to be converted.
+     * @return      The linear RGB representation of the color component.
+     */
+    protected double toLinearRGB(int color){
         double component = color / 255.0;
         return component <= 0.04045 ? component / 12.92 : Math.pow((component + 0.055) / 1.055, 2.4);
     }
