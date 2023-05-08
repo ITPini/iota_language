@@ -1,6 +1,9 @@
-package edu.aau.g404;
+package edu.aau.g404.LexicalAnalyzer;
 
 //This class just helps in the construction of the Abstract Syntax Tree (AST)
+
+import edu.aau.g404.KeyTable;
+import edu.aau.g404.Token;
 
 import java.util.ArrayList;
 import java.util.HashMap;

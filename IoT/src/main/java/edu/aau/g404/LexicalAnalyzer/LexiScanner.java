@@ -1,4 +1,7 @@
-package edu.aau.g404;
+package edu.aau.g404.LexicalAnalyzer;
+
+import edu.aau.g404.KeyTableReserved;
+import edu.aau.g404.Token;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

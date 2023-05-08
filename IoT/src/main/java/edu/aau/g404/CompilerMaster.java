@@ -1,6 +1,8 @@
 package edu.aau.g404;
 
 import edu.aau.g404.ContextualAnalyzer.ContextualAnalyzer;
+import edu.aau.g404.LexicalAnalyzer.LexiScanner;
+import edu.aau.g404.LexicalAnalyzer.TreeConstructionWorker;
 
 import java.util.ArrayList;
 
