@@ -8,11 +8,13 @@ public class CompilerMaster {
     private String helloWorld = "Hello world";
     private LexiScanner lexiScanner;
     private TreeConstructionWorker tokenManager;
+    private ContextualAnalyzer contextualAnalyzer;
 
 
     private CompilerMaster(){
         lexiScanner = new LexiScanner("src/main/java/edu/aau/g404/TestProgram.txt");
         tokenManager = new TreeConstructionWorker();
+        contextualAnalyzer = new ContextualAnalyzer();
     }
 
     public static CompilerMaster getInstance(){
@@ -29,10 +31,31 @@ public class CompilerMaster {
 
 
     public void runCompiler(){
-        ArrayList tokenList = lexiScanner.scanner();
+        ArrayList tokenList = lexiScanner.scanner(); //Scanner returning an arraylist of tokens
         //lexiScanner.printTokens();
-        Token root = tokenManager.astBuilder(tokenList);
-        tokenManager.printTree(root);
+        Token root = tokenManager.astBuilder(tokenList); //Parser returning the root token of the AST
+        //tokenManager.printTree(root); // An attempt to print the AST in a readable form
         //tokenManager.prettyPrintTree(root, tokenList.size());
+        //contextualAnalyzer.depthFirstTraverser(root);
+        prettyPrintCodeReverse(root);
+
+
+    }
+
+
+    public void prettyPrintCodeReverse(Token node){
+        if (node.getChildren()!=null){
+            for (Token t: node.getChildren()) {
+                prettyPrintCodeReverse(t);
+            }
+        } else {
+            //work on the node is done here
+            System.out.print(node.getValue());
+            if (node.getValue().equals(";")){
+                System.out.println("");
+            } else {
+                System.out.print(" ");
+            }
+        }
     }
 }

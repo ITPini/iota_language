@@ -13,38 +13,39 @@ public class TreeConstructionWorker {
     private Token previousToken = null;
     private Token currentToken = null;
     private final Token start;
-    private Map<String, String> keyTable;
+    //private Map<String, String> keyTable;
 
     public TreeConstructionWorker() {
         start = new Token("Start", "Start");
         currentToken = start;
-        keyTable = new HashMap<String, String>();
+        //keyTable = new HashMap<String, String>();
         //keywords
-        keyTable.put("Package", "Start");
-        keyTable.put("Automations", "Start");
-        keyTable.put("Triggers", "Automations");
-        keyTable.put("Actions", "Automations");
-        keyTable.put("Initiations", "Start");
-        keyTable.put("TimeValue", "Expr");
-        keyTable.put("Value", "Expr");
-        keyTable.put("Operator", "Changes");
-        keyTable.put("Bool", "BoolExpr");
-        keyTable.put("BoolExpr", "Triggers");
-        keyTable.put("Type", "Initiations");
-        keyTable.put("Changes", "Actions");
-        keyTable.put("IDValue", "Identifier");
-        keyTable.put("Identifier", "Initiations");
-        keyTable.put("Field", "Attribute");
-        keyTable.put("ScopeStart", "Automations");
-        keyTable.put("ScopeEnd", "Automations");
-        keyTable.put("Key", "Expr");
+
+        KeyTable.addValue("Package", "Start");
+        KeyTable.addValue("Automations", "Start");
+        KeyTable.addValue("Triggers", "Automations");
+        KeyTable.addValue("Actions", "Automations");
+        KeyTable.addValue("Initiations", "Start");
+        KeyTable.addValue("TimeValue", "Expr");
+        KeyTable.addValue("Value", "Expr");
+        KeyTable.addValue("Operator", "Changes");
+        KeyTable.addValue("Bool", "BoolExpr");
+        KeyTable.addValue("BoolExpr", "Triggers");
+        KeyTable.addValue("Type", "Initiations");
+        KeyTable.addValue("Changes", "Actions");
+        KeyTable.addValue("IDValue", "Identifier");
+        KeyTable.addValue("Identifier", "Initiations");
+        KeyTable.addValue("Field", "Attribute");
+        KeyTable.addValue("ScopeStart", "Automations");
+        KeyTable.addValue("ScopeEnd", "Automations");
+        KeyTable.addValue("Key", "Expr");
 
         //Multiple possible non-terminal
-        keyTable.put("Name", ""); // Identifier, PackageName, Initiations, Attribute
-        keyTable.put("Attribute", ""); //can be Expr or Change
-        keyTable.put("Expr", ""); //can be Bool or Change
-        keyTable.put("EOL", ""); //can be Triggers, Actions, Automations, Package, or Initiations
-        keyTable.put("", ""); //can be Triggers, Actions, ScopeStart, ScopeEnd or Automations
+        KeyTable.addValue("Name", ""); // Identifier, PackageName, Initiations, Attribute
+        KeyTable.addValue("Attribute", ""); //can be Expr or Change
+        KeyTable.addValue("Expr", ""); //can be Bool or Change
+        KeyTable.addValue("EOL", ""); //can be Triggers, Actions, Automations, Package, or Initiations
+        KeyTable.addValue("", ""); //can be Triggers, Actions, ScopeStart, ScopeEnd or Automations
 
         //terminals
 
@@ -64,7 +65,7 @@ public class TreeConstructionWorker {
                     currentToken = t;
                     if (currentBranch.get(0) != t) {
                         if (!t.getType().equals("")) {
-                            currentToken = new Token(keyTable.get(t.getType()), t.getType());
+                            currentToken = new Token(KeyTable.get(t.getType()), t.getType());
                             currentToken.addChild(t);
                         }
                         while (currentToken != start) {
@@ -125,9 +126,9 @@ public class TreeConstructionWorker {
                             }
                             if (currentToken.getParent() == null) {
                                 if (currentToken.getValue().equals("Expr")) {
-                                    previousToken = new Token(keyTable.get("Bool"), "Bool");
+                                    previousToken = new Token(KeyTable.get("Bool"), "Bool");
                                 } else {
-                                    previousToken = new Token(keyTable.get(currentToken.getType()), currentToken.getType());
+                                    previousToken = new Token(KeyTable.get(currentToken.getType()), currentToken.getType());
                                 }
                                 previousToken.addChild(currentToken);
                                 currentToken = previousToken;
@@ -149,9 +150,9 @@ public class TreeConstructionWorker {
 
     public void addToken(Token newToken) {
 
-        if (keyTable.get(newToken.getType()) != null) {
+        if (KeyTable.get(newToken.getType()) != null) {
             previousToken = currentToken;
-            currentToken = new Token(keyTable.get(newToken.getType()));
+            currentToken = new Token(KeyTable.get(newToken.getType()));
             previousToken.addChild(currentToken);
             currentToken.addChild(newToken);
         } else {
@@ -160,10 +161,10 @@ public class TreeConstructionWorker {
     }
 
     private void generateLeftMostBranch(ArrayList<Token> currentBranch) {
-        currentToken = new Token(keyTable.get(currentBranch.get(0).getType()), currentBranch.get(0).getType());
+        currentToken = new Token(KeyTable.get(currentBranch.get(0).getType()), currentBranch.get(0).getType());
         currentToken.addChild(currentBranch.get(0));
         while (currentToken.getType() != "Start") {
-            previousToken = new Token(keyTable.get(currentToken.getType()), currentToken.getType());
+            previousToken = new Token(KeyTable.get(currentToken.getType()), currentToken.getType());
             previousToken.addChild(currentToken);
             currentToken = previousToken;
         }

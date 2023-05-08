@@ -12,8 +12,6 @@ import static java.lang.Character.isLetter;
 
 public class LexiScanner {
 
-    private Map<String, String> keyTable;
-
     private FileReader file;
 
     private int charPointer;
@@ -28,19 +26,18 @@ public class LexiScanner {
         }
         codeAsTokens = new ArrayList<>();
 
-        keyTable = new HashMap<>();
         //keywords
-        keyTable.put("Use", "Package");
-        keyTable.put("Begin", "ScopeStart");
-        keyTable.put("Trigger", "Triggers");
-        keyTable.put("Action", "Actions");
-        keyTable.put("End", "ScopeEnd");
-        keyTable.put("Light", "Type");
-        keyTable.put("Sensor", "Type");
-        keyTable.put("and", "BoolExpr");
-        keyTable.put("or", "BoolExpr");
-        keyTable.put("TIME", "Key");
-        keyTable.put("Automation", "");
+        KeyTableReserved.addValue("Use", "Package");
+        KeyTableReserved.addValue("Begin", "ScopeStart");
+        KeyTableReserved.addValue("Trigger", "Triggers");
+        KeyTableReserved.addValue("Action", "Actions");
+        KeyTableReserved.addValue("End", "ScopeEnd");
+        KeyTableReserved.addValue("Light", "Type");
+        KeyTableReserved.addValue("Sensor", "Type");
+        KeyTableReserved.addValue("and", "BoolExpr");
+        KeyTableReserved.addValue("or", "BoolExpr");
+        KeyTableReserved.addValue("TIME", "Key");
+        KeyTableReserved.addValue("Automation", "");
 
 
 
@@ -66,8 +63,8 @@ public class LexiScanner {
                 while (isLetter(currentChar = this.readNextChar()) || isDigit(currentChar) || currentChar == '-' || currentChar == '_') {
                     currentWord += currentChar;
                 }
-                if (keyTable.get(currentWord) != null) {
-                        codeAsTokens.add(new Token(keyTable.get(currentWord), currentWord));
+                if (KeyTableReserved.get(currentWord) != null) {
+                        codeAsTokens.add(new Token(KeyTableReserved.get(currentWord), currentWord));
                 } else {
                     codeAsTokens.add(new Token("Name", currentWord));
                 }
