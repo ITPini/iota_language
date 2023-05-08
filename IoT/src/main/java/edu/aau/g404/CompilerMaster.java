@@ -1,5 +1,7 @@
 package edu.aau.g404;
 
+import edu.aau.g404.ContextualAnalyzer.ContextualAnalyzer;
+
 import java.util.ArrayList;
 
 public class CompilerMaster {
@@ -34,10 +36,11 @@ public class CompilerMaster {
         ArrayList tokenList = lexiScanner.scanner(); //Scanner returning an arraylist of tokens
         //lexiScanner.printTokens();
         Token root = tokenManager.astBuilder(tokenList); //Parser returning the root token of the AST
-        //tokenManager.printTree(root); // An attempt to print the AST in a readable form
-        //tokenManager.prettyPrintTree(root, tokenList.size());
+        tokenManager.printTree(root); // An attempt to print the AST in a readable form
+
         //contextualAnalyzer.depthFirstTraverser(root);
         prettyPrintCodeReverse(root);
+        contextualAnalyzer.checkForTypeErrors(root);
 
 
     }

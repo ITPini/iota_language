@@ -201,7 +201,7 @@ public class TreeConstructionWorker {
         }
         return result;
     }
-
+/*
     public void prettyPrintTree(Token root, int totalSize) {
         int depth;
         int bottom;
@@ -233,6 +233,8 @@ public class TreeConstructionWorker {
         }
         //System.out.printf("%15s%n", "");
     }
+
+ */
 
 
     public Token getPreviousToken() {

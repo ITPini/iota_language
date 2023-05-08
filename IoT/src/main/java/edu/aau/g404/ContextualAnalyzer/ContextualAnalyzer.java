@@ -1,14 +1,22 @@
-package edu.aau.g404;
+package edu.aau.g404.ContextualAnalyzer;
+
+import edu.aau.g404.Token;
 
 public class ContextualAnalyzer {
 
+    private TypeChecker typeChecker;
 
     private Token root;
 
     public ContextualAnalyzer(){
+        this.typeChecker = new TypeChecker();
     }
 
 
+    public void checkForTypeErrors(Token token){
+        typeChecker.depthFirstTraverser(token);
+    }
+/*
     public void depthFirstTraverser(Token node){
         if (node.getChildren()!=null){
             for (Token t: node.getChildren()) {
@@ -18,6 +26,6 @@ public class ContextualAnalyzer {
         //work on the node is done here
         //System.out.println(node.getValue());
     }
-
+*/
 
 }
