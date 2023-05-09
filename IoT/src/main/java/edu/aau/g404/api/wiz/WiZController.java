@@ -1,7 +1,7 @@
 package edu.aau.g404.api.wiz;
 
-import edu.aau.g404.api.LightController;
-import edu.aau.g404.device.SmartLight;
+import edu.aau.g404.device.light.LightController;
+import edu.aau.g404.device.light.SmartLight;
 import edu.aau.g404.protocol.udp.UdpRequest;
 
 /**

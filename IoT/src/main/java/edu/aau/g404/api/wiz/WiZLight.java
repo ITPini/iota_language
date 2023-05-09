@@ -3,7 +3,7 @@ package edu.aau.g404.api.wiz;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import edu.aau.g404.device.SmartLight;
+import edu.aau.g404.device.light.SmartLight;
 
 // TODO: Review getters and setters
 
