@@ -2,7 +2,7 @@ package edu.aau.g404.core;
 
 import edu.aau.g404.core.action.Action;
 import edu.aau.g404.core.trigger.Trigger;
-import edu.aau.g404.api.LightController;
+import edu.aau.g404.device.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  * Automation class represents a system to manage and execute a series of actions
  * based on a series of triggers for various light controllers.
  */
-public final class Automation  {
+public final class Automation<T extends Action> {
     private ScheduledExecutorService executorService;
     private List<AutomationThread> automationThreads = new ArrayList<>();
 
@@ -28,13 +28,13 @@ public final class Automation  {
     /**
      * Adds a new AutomationThread to the list of automationThreads
      * with the provided LightController, identifier, actionList and triggerList.
-     * @param lightController   The LightController responsible for mangaging the SmartLight.
+     * @param controller        The LightController responsible for mangaging the SmartLight.
      * @param identifier        The identifier of the SmartLight.
      * @param actionList        List of actions to be executed.
      * @param triggerList       List of trigger to be checked.
      */
-    public void addThread(LightController lightController, String identifier, List<Action> actionList, List<Trigger> triggerList) {
-        automationThreads.add(new AutomationThread(lightController, identifier, actionList, triggerList));
+    public void addThread(Controller controller, String identifier, List<T> actionList, List<Trigger> triggerList) {
+        automationThreads.add(new AutomationThread(controller, identifier, actionList, triggerList));
     }
 
     /**
@@ -66,14 +66,14 @@ public final class Automation  {
      * with a specific LightController, identifier, actionList and triggerList.
      */
     private class AutomationThread {
-        private LightController lightController;
+        private Controller controller;
         private String identifier;
-        private List<Action> actionList;
+        private List<T> actionList;
         private List<Trigger> triggerList;
         private long lastExecutionTime;
 
-        public AutomationThread(LightController lightController, String identifier, List<Action> actionList, List<Trigger> triggerList) {
-            this.lightController = lightController;
+        public AutomationThread(Controller controller, String identifier, List<T> actionList, List<Trigger> triggerList) {
+            this.controller = controller;
             this.identifier = identifier;
             this.actionList = actionList;
             this.triggerList = triggerList;
@@ -87,8 +87,8 @@ public final class Automation  {
             long currentTime = System.currentTimeMillis();
             if (currentTime - lastExecutionTime >= TimeUnit.MINUTES.toMillis(1)) {
                 if (shouldTrigger()) {
-                    for (Action action : actionList) {
-                        action.execute(lightController, identifier);
+                    for (Action lightAction : actionList) {
+                        lightAction.execute(controller, identifier);
                         sleep(1000);
                     }
                     lastExecutionTime = currentTime;

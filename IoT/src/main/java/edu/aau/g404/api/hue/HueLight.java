@@ -3,7 +3,7 @@ package edu.aau.g404.api.hue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import edu.aau.g404.device.SmartLight;
+import edu.aau.g404.device.light.SmartLight;
 
 import java.util.HashMap;
 import java.util.Map;

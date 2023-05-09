@@ -1,7 +1,7 @@
 package edu.aau.g404.api.hue;
 
-import edu.aau.g404.api.LightController;
-import edu.aau.g404.device.SmartLight;
+import edu.aau.g404.device.light.LightController;
+import edu.aau.g404.device.light.SmartLight;
 import edu.aau.g404.protocol.https.HttpsGetRequest;
 import edu.aau.g404.protocol.https.HttpsPutRequest;
 import edu.aau.g404.protocol.https.SSLHelper;
