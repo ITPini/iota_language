@@ -14,6 +14,8 @@ public class CompilerMaster {
     private TreeConstructionWorker tokenManager;
     private ContextualAnalyzer contextualAnalyzer;
 
+    private Token ast;
+
 
     private CompilerMaster(){
         lexiScanner = new LexiScanner("src/main/java/edu/aau/g404/TestProgram.txt");
@@ -37,12 +39,12 @@ public class CompilerMaster {
     public void runCompiler(){
         ArrayList tokenList = lexiScanner.scanner(); //Scanner returning an arraylist of tokens
         //lexiScanner.printTokens();
-        Token root = tokenManager.astBuilder(tokenList); //Parser returning the root token of the AST
-        tokenManager.printTree(root); // An attempt to print the AST in a readable form
+        ast = tokenManager.astBuilder(tokenList); //Parser returning the root token of the AST
+        tokenManager.printTree(ast); // An attempt to print the AST in a readable form
 
         //contextualAnalyzer.depthFirstTraverser(root);
-        prettyPrintCodeReverse(root);
-        contextualAnalyzer.checkForTypeErrors(root);
+        prettyPrintCodeReverse(ast);
+        contextualAnalyzer.checkForTypeErrors(ast);
 
 
     }

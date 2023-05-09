@@ -1,14 +1,12 @@
 package edu.aau.g404.LexicalAnalyzer;
 
-import edu.aau.g404.KeyTableReserved;
+import edu.aau.g404.SymbolTable;
 import edu.aau.g404.Token;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import static java.lang.Character.isDigit;
 import static java.lang.Character.isLetter;
@@ -30,17 +28,17 @@ public class LexiScanner {
         codeAsTokens = new ArrayList<>();
 
         //keywords
-        KeyTableReserved.addValue("Use", "Package");
-        KeyTableReserved.addValue("Begin", "ScopeStart");
-        KeyTableReserved.addValue("Trigger", "Triggers");
-        KeyTableReserved.addValue("Action", "Actions");
-        KeyTableReserved.addValue("End", "ScopeEnd");
-        KeyTableReserved.addValue("Light", "Type");
-        KeyTableReserved.addValue("Sensor", "Type");
-        KeyTableReserved.addValue("and", "BoolExpr");
-        KeyTableReserved.addValue("or", "BoolExpr");
-        KeyTableReserved.addValue("TIME", "Key");
-        KeyTableReserved.addValue("Automation", "");
+        SymbolTable.addValue("Use", "Package");
+        SymbolTable.addValue("Begin", "ScopeStart");
+        SymbolTable.addValue("Trigger", "Triggers");
+        SymbolTable.addValue("Action", "Actions");
+        SymbolTable.addValue("End", "ScopeEnd");
+        SymbolTable.addValue("Light", "Type");
+        SymbolTable.addValue("Sensor", "Type");
+        SymbolTable.addValue("and", "BoolExpr");
+        SymbolTable.addValue("or", "BoolExpr");
+        SymbolTable.addValue("TIME", "Key");
+        SymbolTable.addValue("Automation", "");
 
 
 
@@ -66,8 +64,8 @@ public class LexiScanner {
                 while (isLetter(currentChar = this.readNextChar()) || isDigit(currentChar) || currentChar == '-' || currentChar == '_') {
                     currentWord += currentChar;
                 }
-                if (KeyTableReserved.get(currentWord) != null) {
-                        codeAsTokens.add(new Token(KeyTableReserved.get(currentWord), currentWord));
+                if (SymbolTable.get(currentWord) != null) {
+                        codeAsTokens.add(new Token(SymbolTable.get(currentWord), currentWord));
                 } else {
                     codeAsTokens.add(new Token("Name", currentWord));
                 }
