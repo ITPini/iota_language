@@ -4,8 +4,10 @@ edu.aau.g404.api.hue
 edu.aau.g404.api.wiz
 edu.aau.g404.core
 edu.aau.g404.core.action
+edu.aau.g404.core.action.light
 edu.aau.g404.core.trigger
 edu.aau.g404.device
+edu.aau.g404.device.light
 edu.aau.g404.protocol
 edu.aau.g404.protocol.https
 edu.aau.g404.protocol.udp
