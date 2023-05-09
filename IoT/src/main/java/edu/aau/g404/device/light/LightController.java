@@ -1,12 +1,12 @@
-package edu.aau.g404.api;
+package edu.aau.g404.device.light;
 
-import edu.aau.g404.device.SmartLight;
+import edu.aau.g404.device.Controller;
 
 /**
  * LightController interface for controlling and interacting with SmartLight devices.
  * Provides methods to update the light state and get the light class.
  */
-public interface LightController {
+public interface LightController extends Controller {
     /**
      * Update the state of the SmartLight with the specified identifier.
      * @param identifier    The unique identifier of the SmartLight to be updated.

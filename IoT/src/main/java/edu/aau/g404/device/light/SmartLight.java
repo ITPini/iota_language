@@ -1,4 +1,6 @@
-package edu.aau.g404.device;
+package edu.aau.g404.device.light;
+
+import edu.aau.g404.device.SmartDevice;
 
 /**
  * SmartLight is an interface representing a specific type of SmartDevice: a smart light.
