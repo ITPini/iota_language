@@ -37,7 +37,7 @@ public class LexiScanner {
         SymbolTable.addValue("Sensor", "Type");
         SymbolTable.addValue("and", "BoolExpr");
         SymbolTable.addValue("or", "BoolExpr");
-        SymbolTable.addValue("TIME", "Key");
+        SymbolTable.addValue("TIME", "TimeValue");
         SymbolTable.addValue("Automation", "");
         SymbolTable.addValue("Hue", "PackageName");
         SymbolTable.addValue("Wiz", "PackageName");
@@ -124,7 +124,7 @@ public class LexiScanner {
                         codeAsTokens.add(new Token("Operator", "" + currentChar));
                         break;
                     case '=': case '<': case '>':
-                        codeAsTokens.add(new Token("Bool", "" + currentChar));
+                        codeAsTokens.add(new Token("BoolOperator", "" + currentChar));
                         break;
                     case '.':
                         //Attribute

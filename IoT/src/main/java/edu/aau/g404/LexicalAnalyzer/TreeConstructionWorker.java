@@ -45,6 +45,7 @@ public class TreeConstructionWorker {
         KeyTable.addValue("Key", "Expr");
         KeyTable.addValue("PackageName", "Package");
         KeyTable.addValue("AttributeName", "Attribute");
+        KeyTable.addValue("BoolOperator", "Bool");
         //Multiple possible non-terminal
         KeyTable.addValue("DeviceName", ""); // Identifier, PackageName, Initiations, Attribute
         KeyTable.addValue("Attribute", ""); //can be Expr or Change
