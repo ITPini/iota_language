@@ -10,6 +10,10 @@ public class TypeChecker {
 
 
     public void depthFirstTraverser(Token node) {
+        if (node.getValue().equals("Initiations")){
+            defineDeviceName(node.getChildren().get(1).getChildren().get(0).getValue(),
+                    node.getChildren().get(0).getChildren().get(0).getValue());
+        }
         if (node.getChildren()!=null){ //if it have branches, do a recursive call
             for (Token t: node.getChildren()) {
                 depthFirstTraverser(t);
@@ -26,5 +30,9 @@ public class TypeChecker {
         }
         //work on the node is done here
         //System.out.println(node.getValue());
+    }
+    public void defineDeviceName(String name, String type){
+        SymbolTable.addValue(name,type);
+        System.out.println("defining");
     }
 }
