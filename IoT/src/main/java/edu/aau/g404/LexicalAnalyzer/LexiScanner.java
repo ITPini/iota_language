@@ -39,6 +39,8 @@ public class LexiScanner {
         SymbolTable.addValue("or", "BoolExpr");
         SymbolTable.addValue("TIME", "Key");
         SymbolTable.addValue("Automation", "");
+        SymbolTable.addValue("Hue", "PackageName");
+        SymbolTable.addValue("Wiz", "PackageName");
 
 
 
@@ -67,7 +69,7 @@ public class LexiScanner {
                 if (SymbolTable.get(currentWord) != null) {
                         codeAsTokens.add(new Token(SymbolTable.get(currentWord), currentWord));
                 } else {
-                    codeAsTokens.add(new Token("Name", currentWord));
+                    codeAsTokens.add(new Token("DeviceName", currentWord));
                 }
             } else if (currentChar == '"') {
                 //IDValue

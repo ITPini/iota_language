@@ -1,4 +1,4 @@
-
+Use Hue;
 
 Light LivingRoomLight1 "b20b77ab-7e6f-4fd9-bc56-96fd23d0358c";
 Light LivingRoomLight2 "778f9ae8-ad6e-4775-879f-a8d490b05e4b", LivingRoomLight1;

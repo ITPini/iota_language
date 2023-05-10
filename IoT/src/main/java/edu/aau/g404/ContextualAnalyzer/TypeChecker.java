@@ -15,7 +15,7 @@ public class TypeChecker {
                 depthFirstTraverser(t);
             }
         } else { //if leaf, do this
-            if (node.getType().equals("Name") && SymbolTable.get(node.getValue())==null){
+            if (node.getType().equals("DeviceName") && SymbolTable.get(node.getValue())==null){
                 try {
                     throw new IOTCompilerError(node.getValue() + " not defined");
                 } catch (IOTCompilerError iotCompilerError) {

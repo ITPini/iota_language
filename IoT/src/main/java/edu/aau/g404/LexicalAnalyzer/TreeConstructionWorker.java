@@ -42,9 +42,10 @@ public class TreeConstructionWorker {
         KeyTable.addValue("ScopeStart", "Automations");
         KeyTable.addValue("ScopeEnd", "Automations");
         KeyTable.addValue("Key", "Expr");
+        KeyTable.addValue("PackageName", "Package");
 
         //Multiple possible non-terminal
-        KeyTable.addValue("Name", ""); // Identifier, PackageName, Initiations, Attribute
+        KeyTable.addValue("DeviceName", ""); // Identifier, PackageName, Initiations, Attribute
         KeyTable.addValue("Attribute", ""); //can be Expr or Change
         KeyTable.addValue("Expr", ""); //can be Bool or Change
         KeyTable.addValue("EOL", ""); //can be Triggers, Actions, Automations, Package, or Initiations
@@ -89,9 +90,8 @@ public class TreeConstructionWorker {
                                         }
                                     }
                                 } else {//This needs work
-                                    if (currentToken.getValue().equals("Name") &&
+                                    if (currentToken.getValue().equals("DeviceName") &&
                                             (tokenCheck.getValue().equals("Identifier") ||
-                                                    tokenCheck.getValue().equals("PackageName") ||
                                                     tokenCheck.getValue().equals("Initiations") ||
                                                     tokenCheck.getValue().equals("Attribute"))) {
                                         tokenCheck.addChild(currentToken);
