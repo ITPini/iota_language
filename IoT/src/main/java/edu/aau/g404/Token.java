@@ -9,11 +9,13 @@ public class Token {
     private String type;
     private String value;
     private ArrayList<Token> children;
-
+/*
     public Token(String type){
         this.type = type;
         //children = new ArrayList<Token>();
     }
+
+ */
     public Token(String type, String value){
         this.type = type;
         this.value = value;

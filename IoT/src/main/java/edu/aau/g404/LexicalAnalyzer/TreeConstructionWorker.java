@@ -51,7 +51,9 @@ public class TreeConstructionWorker {
         KeyTable.addValue("Attribute", ""); //can be Expr or Change
         KeyTable.addValue("Expr", ""); //can be Bool or Change
         KeyTable.addValue("EOL", ""); //can be Triggers, Actions, Automations, Package, or Initiations
-        KeyTable.addValue("", ""); //can be Triggers, Actions, ScopeStart, ScopeEnd or Automations
+        KeyTable.addValue("(", ""); //can be Triggers, Actions, ScopeStart, ScopeEnd or Automations
+        KeyTable.addValue(")", ""); //can be Triggers, Actions, ScopeStart, ScopeEnd or Automations
+        //KeyTable.addValue("", "");
 
         //terminals
 
@@ -70,7 +72,7 @@ public class TreeConstructionWorker {
                     //System.out.println("Working on: " + t.getValue());//Snitch!
                     currentToken = t;
                     if (currentBranch.get(0) != t) {
-                        if (!t.getType().equals("")) {
+                        if (!t.getType().equals("")) { //Add known parent
                             currentToken = new Token(KeyTable.get(t.getType()), t.getType());
                             currentToken.addChild(t);
                         }
@@ -82,61 +84,65 @@ public class TreeConstructionWorker {
                         while (currentToken != start) {
                             //System.out.println(currentToken.getValue());//Snitch
                             int count = currentBranch.indexOf(t);
-                            Token tokenCheck = t;
+                            Token tokenChecker = t;
                             while (currentToken.getParent() == null && count >= 0) {
                                 //System.out.println(" - loop time!");
+                                System.out.println(currentToken.getType() + " "+ currentToken.getValue());
                                 if (!currentToken.getType().equals("")) {
-                                    if (tokenCheck.getValue() == currentToken.getType()) {
-                                        tokenCheck.addChild(currentToken);
-                                    } else if (tokenCheck.getParent() != null) {
-                                        tokenCheck = tokenCheck.getParent();
+                                    if (tokenChecker.getValue() == currentToken.getType()) {
+                                        tokenChecker.addChild(currentToken);
+                                    } else if (tokenChecker.getParent() != null) {
+                                        tokenChecker = tokenChecker.getParent();
                                     } else {
                                         count--;
                                         if (count >= 0) {
-                                            tokenCheck = currentBranch.get(count);
+                                            tokenChecker = currentBranch.get(count);
                                         }
                                     }
                                 } else {//This needs work
                                     if (currentToken.getValue().equals("DeviceName") &&
-                                            (tokenCheck.getValue().equals("Identifier") ||
-                                                    tokenCheck.getValue().equals("Initiations") ||
-                                                    tokenCheck.getValue().equals("Attribute"))) {
-                                        tokenCheck.addChild(currentToken);
+                                            (tokenChecker.getValue().equals("Identifier") ||
+                                                    tokenChecker.getValue().equals("Initiations") ||
+                                                    tokenChecker.getValue().equals("Attribute"))) {
+                                        tokenChecker.addChild(currentToken);
                                     } else if (currentToken.getValue().equals("Attribute") &&
-                                            (tokenCheck.getValue().equals("Expr") ||
-                                                    tokenCheck.getValue().equals("Changes"))) {
-                                        tokenCheck.addChild(currentToken);
+                                            (tokenChecker.getValue().equals("Expr") ||
+                                                    tokenChecker.getValue().equals("Changes"))) {
+                                        tokenChecker.addChild(currentToken);
                                     } else if (currentToken.getValue().equals("Expr") &&
-                                            (tokenCheck.getValue().equals("Bool") ||
-                                                    tokenCheck.getValue().equals("Changes"))) {
-                                        tokenCheck.addChild(currentToken);
+                                            (tokenChecker.getValue().equals("Bool") ||
+                                                    tokenChecker.getValue().equals("Changes"))) {
+                                        tokenChecker.addChild(currentToken);
                                     } else if (currentToken.getValue().equals("EOL") &&
-                                            (tokenCheck.getValue().equals("Triggers") ||
-                                                    tokenCheck.getValue().equals("Actions") ||
-                                                    tokenCheck.getValue().equals("Automations") ||
-                                                    tokenCheck.getValue().equals("Package") ||
-                                                    tokenCheck.getValue().equals("Initiations"))) {
-                                        tokenCheck.addChild(currentToken);
-                                    } else if (currentToken.getValue().equals("") &&
-                                            (tokenCheck.getValue().equals("Triggers") ||
-                                                    tokenCheck.getValue().equals("Actions") ||
-                                                    tokenCheck.getValue().equals("Automations") ||
-                                                    tokenCheck.getValue().equals("ScopeStart") ||
-                                                    tokenCheck.getValue().equals("ScopeEnd"))) {
-                                        tokenCheck.addChild(currentToken);
-                                    } else if (tokenCheck.getParent() != null) {
-                                        tokenCheck = tokenCheck.getParent();
+                                            (tokenChecker.getValue().equals("Triggers") ||
+                                                    tokenChecker.getValue().equals("Actions") ||
+                                                    tokenChecker.getValue().equals("Automations") ||
+                                                    tokenChecker.getValue().equals("Package") ||
+                                                    tokenChecker.getValue().equals("Initiations"))) {
+                                        tokenChecker.addChild(currentToken);
+                                    } else if ((currentToken.getValue().equals("(")||currentToken.getValue().equals(")")) &&
+                                            (tokenChecker.getValue().equals("Triggers") ||
+                                                    tokenChecker.getValue().equals("Actions") ||
+                                                    tokenChecker.getValue().equals("Automations") ||
+                                                    tokenChecker.getValue().equals("ScopeStart") ||
+                                                    tokenChecker.getValue().equals("ScopeEnd"))) {
+                                        tokenChecker.addChild(currentToken);
+                                    } else if (tokenChecker.getParent() != null) {
+                                        tokenChecker = tokenChecker.getParent();
                                     } else {
                                         count--;
                                         if (count >= 0) {
-                                            tokenCheck = currentBranch.get(count);
+                                            tokenChecker = currentBranch.get(count);
                                         }
                                     }
                                 }
                             }
+
                             if (currentToken.getParent() == null) {
                                 if (currentToken.getValue().equals("Expr")) {
                                     previousToken = new Token(KeyTable.get("Bool"), "Bool");
+                                } else if(currentToken.getValue().equals("DeviceName")){ //Does not check for Identifier!! Need Fix!!
+                                    previousToken = new Token(KeyTable.get("Attribute"), "Attribute");
                                 } else {
                                     previousToken = new Token(KeyTable.get(currentToken.getType()), currentToken.getType());
                                 }
@@ -157,7 +163,7 @@ public class TreeConstructionWorker {
 
     }
 
-
+/*
     public void addToken(Token newToken) {
 
         if (KeyTable.get(newToken.getType()) != null) {
@@ -169,6 +175,8 @@ public class TreeConstructionWorker {
             currentToken.addChild(newToken);
         }
     }
+
+ */
 
     private void generateLeftMostBranch(ArrayList<Token> currentBranch) {
         currentToken = new Token(KeyTable.get(currentBranch.get(0).getType()), currentBranch.get(0).getType());
@@ -201,7 +209,7 @@ public class TreeConstructionWorker {
         if (result.size()==printDepth){
             result.add(new String[8]);
         }
-        result.get(printDepth)[depth] = token.getValue();
+        result.get(printDepth)[depth] = "t: " + token.getValue();
         if (token.getChildren() != null) {
             for (Token e : token.getChildren()) {
                 result = printLeaf(e, result, depth+1);
