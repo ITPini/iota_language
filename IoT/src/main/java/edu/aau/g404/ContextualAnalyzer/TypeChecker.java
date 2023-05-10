@@ -33,6 +33,5 @@ public class TypeChecker {
     }
     public void defineDeviceName(String name, String type){
         SymbolTable.addValue(name,type);
-        System.out.println("defining");
     }
 }

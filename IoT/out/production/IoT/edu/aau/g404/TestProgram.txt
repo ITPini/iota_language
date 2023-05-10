@@ -11,8 +11,8 @@ Begin(Automation)
 End(Automation);
 
 Begin(Automation)
-	Trigger(MovementSensor1.Movement > 50); 
+	Trigger(MotionSensor1.Movement > 50);
 	Action(LivingRoomLight1.On TRUE);
-	Action(LivingRoomLight1.Brightness + 50);
+	Action(LivingRoomLight2.Brightness + 50);
 	Action(LivingRoomLight1.Color 255,000,160);
 End(Automation);

@@ -41,6 +41,9 @@ public class LexiScanner {
         SymbolTable.addValue("Automation", "");
         SymbolTable.addValue("Hue", "PackageName");
         SymbolTable.addValue("Wiz", "PackageName");
+        SymbolTable.addValue("TRUE", "Value");
+        SymbolTable.addValue("FALSE", "Value");
+
 
 
 
@@ -126,6 +129,10 @@ public class LexiScanner {
                     case '.':
                         //Attribute
                         codeAsTokens.add(new Token("Attribute", "" + currentChar));
+                        while ((currentChar = this.readNextChar()) != ' '){
+                            currentWord += currentChar;
+                        }
+                        codeAsTokens.add(new Token("AttributeName", currentWord));
                         break;
                     case ',':
                         // Group or several values

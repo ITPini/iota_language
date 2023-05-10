@@ -5,6 +5,7 @@ package edu.aau.g404.LexicalAnalyzer;
 import edu.aau.g404.KeyTable;
 import edu.aau.g404.Token;
 
+import javax.print.attribute.Attribute;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +44,7 @@ public class TreeConstructionWorker {
         KeyTable.addValue("ScopeEnd", "Automations");
         KeyTable.addValue("Key", "Expr");
         KeyTable.addValue("PackageName", "Package");
-
+        KeyTable.addValue("AttributeName", "Attribute");
         //Multiple possible non-terminal
         KeyTable.addValue("DeviceName", ""); // Identifier, PackageName, Initiations, Attribute
         KeyTable.addValue("Attribute", ""); //can be Expr or Change
