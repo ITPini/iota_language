@@ -104,7 +104,7 @@ public class TreeConstructionWorker {
                                         tokenCheck.addChild(currentToken);
                                     } else if (currentToken.getValue().equals("Attribute") &&
                                             (tokenCheck.getValue().equals("Expr") ||
-                                                    tokenCheck.getValue().equals("Change"))) {
+                                                    tokenCheck.getValue().equals("Changes"))) {
                                         tokenCheck.addChild(currentToken);
                                     } else if (currentToken.getValue().equals("Expr") &&
                                             (tokenCheck.getValue().equals("Bool") ||
