@@ -74,6 +74,11 @@ public class TreeConstructionWorker {
                             currentToken = new Token(KeyTable.get(t.getType()), t.getType());
                             currentToken.addChild(t);
                         }
+                        if (currentToken.getType().equals("Expr")){
+                            previousToken = currentToken;
+                            currentToken = new Token(KeyTable.get(previousToken.getType()), previousToken.getType());
+                            currentToken.addChild(previousToken);
+                        }
                         while (currentToken != start) {
                             //System.out.println(currentToken.getValue());//Snitch
                             int count = currentBranch.indexOf(t);

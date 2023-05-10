@@ -41,6 +41,7 @@ public class TypeChecker {
         }
     }
     public void typeCheckBool(Token node){
+        System.out.println("checking of bool");
         if (node.getChildren().size() > 1){
             String type1 = node.getChildren().get(0).getChildren().get(0).getValue();
             String type2 = node.getChildren().get(2).getChildren().get(0).getValue();
