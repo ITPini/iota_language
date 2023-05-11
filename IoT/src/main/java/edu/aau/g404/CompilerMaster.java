@@ -37,9 +37,9 @@ public class CompilerMaster {
 
 
     public void runCompiler(){
-        ArrayList tokenList = lexiScanner.scanner(); //Scanner returning an arraylist of tokens
+        //ArrayList tokenList = lexiScanner.scanner(); //Scanner returning an arraylist of tokens
         //lexiScanner.printTokens();
-        ast = tokenManager.astBuilder(tokenList); //Parser returning the root token of the AST
+        ast = tokenManager.astBuilder(lexiScanner.scanner()); //Parser returning the root token of the AST
 
         tokenManager.printTree(ast); // An attempt to print the AST in a readable form
         prettyPrintCodeReverse(ast);
