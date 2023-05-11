@@ -46,14 +46,16 @@ public class TreeConstructionWorker {
         KeyTable.addValue("PackageName", "Package");
         KeyTable.addValue("AttributeName", "Attribute");
         KeyTable.addValue("BoolOperator", "Bool");
+        KeyTable.addValue("Color", "Expr");
+        KeyTable.addValue("ColorValue", "Color");
         //Multiple possible non-terminal
         KeyTable.addValue("DeviceName", ""); // Identifier, PackageName, Initiations, Attribute
         KeyTable.addValue("Attribute", ""); //can be Expr or Change
         KeyTable.addValue("Expr", ""); //can be Bool or Change
         KeyTable.addValue("EOL", ""); //can be Triggers, Actions, Automations, Package, or Initiations
-        KeyTable.addValue("(", ""); //can be Triggers, Actions, ScopeStart, ScopeEnd or Automations
-        KeyTable.addValue(")", ""); //can be Triggers, Actions, ScopeStart, ScopeEnd or Automations
-        //KeyTable.addValue("", "");
+        KeyTable.addValue("(", ""); //can be Triggers, Actions, ScopeStart, ScopeEnd, or Automations
+        KeyTable.addValue(")", ""); //can be Triggers, Actions, ScopeStart, ScopeEnd, or Automations
+        KeyTable.addValue(",", ""); //Can be Identifier, or Color
 
         //terminals
 
@@ -69,25 +71,28 @@ public class TreeConstructionWorker {
 
                 generateLeftMostBranch(currentBranch); //Creates the left most branch of the AST containing this line of code
                 for (Token t : currentBranch) {
-                    //System.out.println("Working on: " + t.getValue());//Snitch!
+                    //printTree(start); //Snitch, prints tree after every leaf added
                     currentToken = t;
                     if (currentBranch.get(0) != t) {
-                        if (!t.getType().equals("")) { //Add known parent
+                        //add a parent node if known
+                        if (!(t.getType().equals("") || t.getType().equals("Attribute") ||
+                                t.getType().equals("Color") || t.getType().equals("Identifier"))) {
                             currentToken = new Token(KeyTable.get(t.getType()), t.getType());
                             currentToken.addChild(t);
                         }
-                        if (currentToken.getType().equals("Expr")){
+                        //add an additional parent node if that node is known to be an Expr node
+                        if (currentToken.getType().equals("Expr")) {
                             previousToken = currentToken;
                             currentToken = new Token(KeyTable.get(previousToken.getType()), previousToken.getType());
                             currentToken.addChild(previousToken);
                         }
+                        //Adding token to the AST
                         while (currentToken != start) {
-                            //System.out.println(currentToken.getValue());//Snitch
                             int count = currentBranch.indexOf(t);
                             Token tokenChecker = t;
+                            //searches the tree so far to see if the current node or leaf should be added to one of the existing nodes
                             while (currentToken.getParent() == null && count >= 0) {
-                                //System.out.println(" - loop time!");
-                                System.out.println(currentToken.getType() + " "+ currentToken.getValue());
+                                System.out.println(currentToken.getType() + " " + currentToken.getValue() + "       " + t.getValue()); //snitch
                                 if (!currentToken.getType().equals("")) {
                                     if (tokenChecker.getValue() == currentToken.getType()) {
                                         tokenChecker.addChild(currentToken);
@@ -109,6 +114,15 @@ public class TreeConstructionWorker {
                                             (tokenChecker.getValue().equals("Expr") ||
                                                     tokenChecker.getValue().equals("Changes"))) {
                                         tokenChecker.addChild(currentToken);
+                                    } else if (currentToken.getValue().equals("Attribute") &&
+                                            tokenChecker.getValue().equals("Actions")) {
+                                        tokenChecker.addChild(new Token(KeyTable.get("Changes"), "Changes"));
+                                        tokenChecker.getChildren().get(2).addChild(currentToken);
+                                    } else if (currentToken.getValue().equals("Attribute") &&
+                                            tokenChecker.getValue().equals("Triggers")) {
+                                        previousToken = currentToken;
+                                        currentToken = new Token(KeyTable.get("Expr"), "Expr");
+                                        currentToken.addChild(previousToken);
                                     } else if (currentToken.getValue().equals("Expr") &&
                                             (tokenChecker.getValue().equals("Bool") ||
                                                     tokenChecker.getValue().equals("Changes"))) {
@@ -120,11 +134,15 @@ public class TreeConstructionWorker {
                                                     tokenChecker.getValue().equals("Package") ||
                                                     tokenChecker.getValue().equals("Initiations"))) {
                                         tokenChecker.addChild(currentToken);
-                                    } else if ((currentToken.getValue().equals("(")||currentToken.getValue().equals(")")) &&
+                                    } else if ((currentToken.getValue().equals("(") || currentToken.getValue().equals(")")) &&
                                             (tokenChecker.getValue().equals("Triggers") ||
                                                     tokenChecker.getValue().equals("Actions") ||
                                                     tokenChecker.getValue().equals("Automations") ||
                                                     tokenChecker.getValue().equals("ScopeStart") ||
+                                                    tokenChecker.getValue().equals("ScopeEnd"))) {
+                                        tokenChecker.addChild(currentToken);
+                                    } else if (currentToken.getValue().equals("Automation") &&
+                                            (tokenChecker.getValue().equals("ScopeStart") ||
                                                     tokenChecker.getValue().equals("ScopeEnd"))) {
                                         tokenChecker.addChild(currentToken);
                                     } else if (tokenChecker.getParent() != null) {
@@ -141,7 +159,7 @@ public class TreeConstructionWorker {
                             if (currentToken.getParent() == null) {
                                 if (currentToken.getValue().equals("Expr")) {
                                     previousToken = new Token(KeyTable.get("Bool"), "Bool");
-                                } else if(currentToken.getValue().equals("DeviceName")){ //Does not check for Identifier!! Need Fix!!
+                                } else if (currentToken.getValue().equals("DeviceName")) { //Does not check for Identifier!! Need Fix!!
                                     previousToken = new Token(KeyTable.get("Attribute"), "Attribute");
                                 } else {
                                     previousToken = new Token(KeyTable.get(currentToken.getType()), currentToken.getType());
@@ -181,10 +199,16 @@ public class TreeConstructionWorker {
     private void generateLeftMostBranch(ArrayList<Token> currentBranch) {
         currentToken = new Token(KeyTable.get(currentBranch.get(0).getType()), currentBranch.get(0).getType());
         currentToken.addChild(currentBranch.get(0));
-        while (currentToken.getType() != "Start") {
-            previousToken = new Token(KeyTable.get(currentToken.getType()), currentToken.getType());
-            previousToken.addChild(currentToken);
-            currentToken = previousToken;
+        //System.out.println(currentToken.getType() + " - " + currentToken.getValue());
+        while (!currentToken.getType().equals("Start")) {
+            if (currentToken.getType().equals("Automations") && !currentToken.getValue().equals("ScopeStart")){
+                start.getChildren().get(start.getChildren().size()-1).addChild(currentToken);
+                currentToken = currentToken.getParent();
+            } else {
+                previousToken = new Token(KeyTable.get(currentToken.getType()), currentToken.getType());
+                previousToken.addChild(currentToken);
+                currentToken = previousToken;
+            }
         }
         start.addChild(currentToken);
     }
@@ -194,8 +218,8 @@ public class TreeConstructionWorker {
 
         ArrayList<String[]> valueList = printLeaf(rootToken, new ArrayList<String[]>(), 0);
         for (String[] a : valueList) {
-            for (String s: a){
-                if (s == null){
+            for (String s : a) {
+                if (s == null) {
                     System.out.printf(" %-15.15s ", "");
                 } else {
                     System.out.printf(" %-15.15s ", s);
@@ -203,16 +227,17 @@ public class TreeConstructionWorker {
             }
             System.out.println("");
         }
+        printDepth = 0;
     }
 
     private ArrayList<String[]> printLeaf(Token token, ArrayList<String[]> result, int depth) {
-        if (result.size()==printDepth){
-            result.add(new String[8]);
+        if (result.size() == printDepth) {
+            result.add(new String[9]);
         }
         result.get(printDepth)[depth] = "t: " + token.getValue();
         if (token.getChildren() != null) {
             for (Token e : token.getChildren()) {
-                result = printLeaf(e, result, depth+1);
+                result = printLeaf(e, result, depth + 1);
             }
         } else {
             printDepth++;

@@ -91,7 +91,7 @@ public class LexiScanner {
             } else if (isDigit(currentChar)) {
                 //time or numerical value
                 currentWord += currentChar;
-                while (isDigit(currentChar = this.readNextChar()) || currentChar == ':' || currentChar == '.') {
+                while (isDigit(currentChar = this.readNextChar()) || currentChar == ':' || currentChar == '.'||currentChar == ',') {
                     currentWord += currentChar;
                     if (currentChar == ':') {
                         for (int i = 0; i < 2; i++) {
@@ -104,10 +104,26 @@ public class LexiScanner {
                         }
                         //Token is TimeValue
                         codeAsTokens.add(new Token("TimeValue", currentWord));
+                    } else if(currentChar == ','){
+                        codeAsTokens.add(new Token("ColorValue", currentWord.substring(0, currentWord.length() - 1)));
+                        codeAsTokens.add(new Token("Color", "" + currentChar));
+                        currentWord = "";
+                        while ((currentChar = this.readNextChar()) != ')'){
+                            if (isDigit(currentChar)){
+                                currentWord += currentChar;
+                            } else if (currentChar == ','){
+                                codeAsTokens.add(new Token("ColorValue", currentWord));
+                                codeAsTokens.add(new Token("Color", "" + currentChar));
+                                currentWord = "";
+                            }
+                        }
+                        codeAsTokens.add(new Token("ColorValue", currentWord));
+                        currentWord = "";
+
                     }
 
                 }
-                if (codeAsTokens.get(codeAsTokens.size() - 1).getType() != "TimeValue") {
+                if (!codeAsTokens.get(codeAsTokens.size() - 1).getType().equals("TimeValue") && !codeAsTokens.get(codeAsTokens.size() - 1).getType().equals("ColorValue")) {
                     //check if time, if not, it is Value
                     codeAsTokens.add(new Token("Value", currentWord));
                 }
@@ -129,13 +145,14 @@ public class LexiScanner {
                     case '.':
                         //Attribute
                         codeAsTokens.add(new Token("Attribute", "" + currentChar));
+                        currentWord = "";
                         while ((currentChar = this.readNextChar()) != ' '){
                             currentWord += currentChar;
                         }
                         codeAsTokens.add(new Token("AttributeName", currentWord));
                         break;
                     case ',':
-                        // Group or several values
+                        // Group od IDValue or DeviceName
                         codeAsTokens.add(new Token("Identifier", "" + currentChar));
                         break;
                     case ';':
