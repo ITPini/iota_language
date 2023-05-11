@@ -27,8 +27,8 @@ public final class Automation<T extends Action> {
 
     /**
      * Adds a new AutomationThread to the list of automationThreads
-     * with the provided LightController, identifier, actionList and triggerList.
-     * @param controller        The LightController responsible for mangaging the SmartLight.
+     * with the provided controller, identifier, actionList and triggerList.
+     * @param controller        The controller responsible for managing the SmartDevice.
      * @param identifier        The identifier of the SmartLight.
      * @param actionList        List of actions to be executed.
      * @param triggerList       List of trigger to be checked.
@@ -63,7 +63,7 @@ public final class Automation<T extends Action> {
 
     /**
      * AutomationThread is a private inner class that represents an individual automation thread
-     * with a specific LightController, identifier, actionList and triggerList.
+     * with a specific controller, identifier, actionList and triggerList.
      */
     private class AutomationThread {
         private Controller controller;
