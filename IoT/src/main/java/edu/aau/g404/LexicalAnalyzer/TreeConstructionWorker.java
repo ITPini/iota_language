@@ -92,7 +92,7 @@ public class TreeConstructionWorker {
                             Token tokenChecker = t;
                             //searches the tree so far to see if the current node or leaf should be added to one of the existing nodes
                             while (currentToken.getParent() == null && count >= 0) {
-                                System.out.println(currentToken.getType() + " " + currentToken.getValue() + "       " + t.getValue()); //snitch
+                                //System.out.println(currentToken.getType() + " " + currentToken.getValue() + "       " + t.getValue()); //snitch
                                 if (!currentToken.getType().equals("")) {
                                     if (tokenChecker.getValue() == currentToken.getType()) {
                                         tokenChecker.addChild(currentToken);
@@ -197,13 +197,15 @@ public class TreeConstructionWorker {
  */
 
     private void generateLeftMostBranch(ArrayList<Token> currentBranch) {
+        //System.out.println("Generating left most branch for: " + currentBranch.get(0).getValue()); //snitch
         currentToken = new Token(KeyTable.get(currentBranch.get(0).getType()), currentBranch.get(0).getType());
         currentToken.addChild(currentBranch.get(0));
-        //System.out.println(currentToken.getType() + " - " + currentToken.getValue());
+
         while (!currentToken.getType().equals("Start")) {
             if (currentToken.getType().equals("Automations") && !currentToken.getValue().equals("ScopeStart")){
                 start.getChildren().get(start.getChildren().size()-1).addChild(currentToken);
                 currentToken = currentToken.getParent();
+                return;
             } else {
                 previousToken = new Token(KeyTable.get(currentToken.getType()), currentToken.getType());
                 previousToken.addChild(currentToken);

@@ -1,5 +1,7 @@
 package edu.aau.g404;
 
+import edu.aau.g404.ContextualAnalyzer.IOTCompilerError;
+
 import java.util.ArrayList;
 
 public class Token {
@@ -27,6 +29,14 @@ public class Token {
             children = new ArrayList<Token>();
         }
         children.add(newChild);
+        if (newChild.getParent()!=null){
+            try {
+                throw new IOTCompilerError("DUPLICATE PARENT!!!");
+            } catch (IOTCompilerError iotCompilerError) {
+                iotCompilerError.printStackTrace();
+                System.exit(1);
+            }
+        }
         newChild.setParent(this);
 
     }

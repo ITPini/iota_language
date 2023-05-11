@@ -40,10 +40,12 @@ public class CompilerMaster {
         ArrayList tokenList = lexiScanner.scanner(); //Scanner returning an arraylist of tokens
         //lexiScanner.printTokens();
         ast = tokenManager.astBuilder(tokenList); //Parser returning the root token of the AST
+
         tokenManager.printTree(ast); // An attempt to print the AST in a readable form
+        prettyPrintCodeReverse(ast);
 
         //contextualAnalyzer.depthFirstTraverser(root);
-        prettyPrintCodeReverse(ast);
+
         contextualAnalyzer.checkForTypeErrors(ast);
 
 
