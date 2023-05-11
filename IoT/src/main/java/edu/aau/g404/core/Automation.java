@@ -85,14 +85,18 @@ public final class Automation<T extends Action> {
          */
         public void run() {
             long currentTime = System.currentTimeMillis();
-            if (currentTime - lastExecutionTime >= TimeUnit.MINUTES.toMillis(1)) {
-                if (shouldTrigger()) {
-                    for (Action lightAction : actionList) {
-                        lightAction.execute(controller, identifier);
-                        sleep(1000);
-                    }
-                    lastExecutionTime = currentTime;
+
+            // Check if enough time has passed since the last execution (1 minute)
+            boolean isTimeToExecute = (currentTime - lastExecutionTime) >= TimeUnit.MINUTES.toMillis(1);
+
+            // If enough time has passed and any triggers in the trigger list are activated
+            if (isTimeToExecute && shouldTrigger()) {
+                for (Action lightAction : actionList) {
+                    lightAction.execute(controller, identifier);
+                    sleep(1000);
                 }
+                // Update the last execution time to the current time
+                lastExecutionTime = currentTime;
             }
         }
 
