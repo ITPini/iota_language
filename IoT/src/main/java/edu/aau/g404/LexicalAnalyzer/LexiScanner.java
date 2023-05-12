@@ -78,7 +78,7 @@ public class LexiScanner {
                 //IDValue
                 currentWord +=currentChar;
                 while ((currentChar = readNextChar()) != '"'){
-                    if (currentChar == '-'||currentChar == '_'||isDigit(currentChar)||isLetter(currentChar)){
+                    if (currentChar == '-'||currentChar == '_'||isDigit(currentChar)||isLetter(currentChar)||currentChar=='.'){
                         currentWord += currentChar;
                     } else {
                         errorMessage = "ERROR: " + currentChar + " character not valid in IDValue";
