@@ -29,6 +29,10 @@ public final class HueController implements LightController {
         }
     }
 
+    public HueController(){
+
+    }
+
     /**
      * Retrieves the list of Hue light connected to the Hue Bridge and prints their identifiers and names.
      */
