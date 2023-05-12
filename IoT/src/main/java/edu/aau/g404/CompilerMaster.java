@@ -1,5 +1,6 @@
 package edu.aau.g404;
 
+import edu.aau.g404.CodeGenerator.CodeGenerator;
 import edu.aau.g404.ContextualAnalyzer.ContextualAnalyzer;
 import edu.aau.g404.LexicalAnalyzer.LexiScanner;
 import edu.aau.g404.LexicalAnalyzer.TreeConstructionWorker;
@@ -13,14 +14,16 @@ public class CompilerMaster {
     private LexiScanner lexiScanner;
     private TreeConstructionWorker tokenManager;
     private ContextualAnalyzer contextualAnalyzer;
+    private CodeGenerator codeGenerator;
 
     private Token ast;
 
 
     private CompilerMaster(){
-        lexiScanner = new LexiScanner("src/main/java/edu/aau/g404/TestProgram.txt");
+        lexiScanner = new LexiScanner("IoT/src/main/java/edu/aau/g404/TestProgram.txt");
         tokenManager = new TreeConstructionWorker();
         contextualAnalyzer = new ContextualAnalyzer();
+        codeGenerator = new CodeGenerator();
     }
 
     public static CompilerMaster getInstance(){
@@ -48,7 +51,7 @@ public class CompilerMaster {
 
         contextualAnalyzer.checkForTypeErrors(ast);
 
-
+        codeGenerator.execute(ast);
     }
 
 
