@@ -86,6 +86,7 @@ public final class CodeGenerator {
                                     Action onAction = new OnAction(onValue);
                                     //System.out.println("Adding on value: " + onValue);
                                     globalActions.add(onAction);
+                                    automateIt(child);
                                     break;
                                 case "Brightness":
                                     float brightnessValue;
@@ -100,6 +101,7 @@ public final class CodeGenerator {
                                     Action brightnessAction = new DimmingAction(brightnessValue, operator);
                                     //System.out.println("Adding brightness value: " + brightnessValue);
                                     globalActions.add(brightnessAction);
+                                    automateIt(child);
                                     break;
                                 case "Color":
                                     int r, g, b;
@@ -109,12 +111,21 @@ public final class CodeGenerator {
                                     Action colorAction = new ColorAction(r, g, b);
                                     //System.out.println("Adding color value: " + r + " " + g + " " + b);
                                     globalActions.add(colorAction);
+                                    automateIt(child);
                                     break;
                             }
                     }
                 }
+                globalTriggers.clear();
 
         }
+    }
+
+    private void automateIt(Token child) {
+        automation.addThread(controller.get(devices.get(child.getChildren().get(2).getChildren().get(0).getChildren().get(0).getChildren().get(0).getValue()).getDeviceBrand()),
+                devices.get(child.getChildren().get(2).getChildren().get(0).getChildren().get(0).getChildren().get(0).getValue()).getDeviceIdentifier(),
+                globalActions, globalTriggers);
+        globalActions.clear();
     }
 
     private DeviceData addDevice(Token node) {
