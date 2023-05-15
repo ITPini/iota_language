@@ -86,7 +86,7 @@ public final class CodeGenerator {
                                     Action onAction = new OnAction(onValue);
                                     //System.out.println("Adding on value: " + onValue);
                                     globalActions.add(onAction);
-                                    automateIt(child);
+                                    automateIt(child, onAction);
                                     break;
                                 case "Brightness":
                                     float brightnessValue;
@@ -101,7 +101,7 @@ public final class CodeGenerator {
                                     Action brightnessAction = new DimmingAction(brightnessValue, operator);
                                     //System.out.println("Adding brightness value: " + brightnessValue);
                                     globalActions.add(brightnessAction);
-                                    automateIt(child);
+                                    automateIt(child, brightnessAction);
                                     break;
                                 case "Color":
                                     int r, g, b;
@@ -111,7 +111,7 @@ public final class CodeGenerator {
                                     Action colorAction = new ColorAction(r, g, b);
                                     //System.out.println("Adding color value: " + r + " " + g + " " + b);
                                     globalActions.add(colorAction);
-                                    automateIt(child);
+                                    automateIt(child, colorAction);
                                     break;
                             }
                     }
@@ -121,10 +121,10 @@ public final class CodeGenerator {
         }
     }
 
-    private void automateIt(Token child) {
+    private void automateIt(Token child, Action action) {
         automation.addThread(controller.get(devices.get(child.getChildren().get(2).getChildren().get(0).getChildren().get(0).getChildren().get(0).getValue()).getDeviceBrand()),
                 devices.get(child.getChildren().get(2).getChildren().get(0).getChildren().get(0).getChildren().get(0).getValue()).getDeviceIdentifier(),
-                globalActions, globalTriggers);
+                new ArrayList<Action>(){{add(action);}}, new ArrayList<Trigger>(globalTriggers));
         globalActions.clear();
     }
 
