@@ -25,6 +25,12 @@ public final class WiZController implements LightController {
         udp.setIp(identifier).setPort(DEFAULT_WIZ_PORT).request(newLightState);
     }
 
+    // TODO: Implement this
+    @Override
+    public SmartLight getLightState(String identifier) {
+        return null;
+    }
+
     @Override
     public SmartLight getLightClass() {
         return new WiZLight();

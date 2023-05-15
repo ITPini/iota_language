@@ -13,7 +13,7 @@ public interface SmartLight extends SmartDevice {
      * @param bool  True if the light should be turned on, false if it should be turned off.
      * @return      The SmartLight instance with the updated on/off state.
      */
-    SmartLight isOn(boolean bool);
+    SmartLight changeOnState(boolean bool);
 
     /**
      * Sets the brightness of the SmartLight.
@@ -29,5 +29,11 @@ public interface SmartLight extends SmartDevice {
      * @param blue  Blue an integer between 0 and 255.
      * @return      The SmartLight instance with the updated color.
      */
-    SmartLight setColor(int red, int green, int blue);
+    SmartLight setColors(int red, int green, int blue);
+
+    boolean checkIfOn();
+
+    float getBrightness();
+
+    int[] getColors();
 }

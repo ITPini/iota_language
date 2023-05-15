@@ -64,6 +64,18 @@ public final class HueController implements LightController {
     }
 
     @Override
+    public SmartLight getLightState(String identifier) {
+        Map<String, String> headers = new HashMap<>();
+        headers.put("hue-application-key", applicationKey);
+
+        HttpsGetRequest get = new HttpsGetRequest(baseUrl + "/clip/v2/resource/light/" + identifier, headers, new HueLightDeserializer());
+
+        List<HueLight> lights = get.request();
+
+        return lights.get(0);
+    }
+
+    @Override
     public SmartLight getLightClass() {
         return new HueLight();
     }

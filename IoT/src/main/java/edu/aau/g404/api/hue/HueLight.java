@@ -1,6 +1,7 @@
 package edu.aau.g404.api.hue;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.aau.g404.device.light.SmartLight;
@@ -33,27 +34,42 @@ public final class HueLight implements SmartLight {
     public HueLight() {
     }
 
-    @Override
-    public SmartLight isOn(boolean bool) {
+    @Override @JsonIgnore
+    public SmartLight changeOnState(boolean bool) {
         this.onState = new On();
-        this.onState.setOn(bool);
+        this.onState.on = bool;
         return this;
     }
 
-    @Override
+    @Override @JsonIgnore
     public SmartLight setBrightness(float brightness) {
         this.dimming = new Dimming();
         this.dimming.brightness = brightness;
         return this;
     }
 
-    @Override
-    public SmartLight setColor(int red, int green, int blue) {
+    @Override @JsonIgnore
+    public SmartLight setColors(int red, int green, int blue) {
         this.color = new Color();
         double[] xy = rgbToXY(red, green, blue);
         this.color.setX(xy[0]);
         this.color.setY(xy[1]);
         return this;
+    }
+
+    @Override @JsonIgnore
+    public boolean checkIfOn() {
+        return this.onState.on;
+    }
+
+    @Override @JsonIgnore
+    public float getBrightness() {
+        return this.dimming.brightness;
+    }
+
+    @Override @JsonIgnore
+    public int[] getColors() {
+        return new int[0];
     }
 
     /**

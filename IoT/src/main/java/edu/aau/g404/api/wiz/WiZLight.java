@@ -21,7 +21,7 @@ public final class WiZLight implements SmartLight {
     }
 
     @Override
-    public SmartLight isOn(boolean bool) {
+    public SmartLight changeOnState(boolean bool) {
         this.params.state = bool;
         return this;
     }
@@ -33,11 +33,27 @@ public final class WiZLight implements SmartLight {
     }
 
     @Override
-    public SmartLight setColor(int red, int green, int blue) {
+    public SmartLight setColors(int red, int green, int blue) {
         this.params.r = red;
         this.params.g = green;
         this.params.b = blue;
         return this;
+    }
+
+    // TODO: Implement this
+    @Override
+    public boolean checkIfOn() {
+        return false;
+    }
+
+    @Override
+    public float getBrightness() {
+        return 0;
+    }
+
+    @Override
+    public int[] getColors() {
+        return new int[0];
     }
 
     @JsonCreator

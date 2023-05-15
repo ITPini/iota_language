@@ -14,6 +14,8 @@ public interface LightController extends Controller {
      */
     void updateLightState(String identifier, SmartLight newLightState);
 
+    SmartLight getLightState(String identifier);
+
     /**
      * Returns the SmartLight class associated with the LightCotnroller implementation.
      * @return The SmartLight class.
