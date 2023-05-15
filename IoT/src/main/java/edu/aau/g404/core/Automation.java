@@ -42,6 +42,7 @@ public final class Automation<T extends Action> {
      */
     public void start(){
         for (AutomationThread thread : automationThreads) {
+            System.out.println("Controller: " + thread.controller + " Identifier: " + thread.identifier + " Action: " + thread.actionList.get(0).toString() + " Trigger: " + thread.triggerList.get(0).toString());
             executorService.scheduleAtFixedRate(thread::run, 0, 1000, TimeUnit.MILLISECONDS);
         }
     }

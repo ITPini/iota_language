@@ -1,7 +1,7 @@
 package edu.aau.g404.core;
 
 import edu.aau.g404.api.hue.HueController;
-import edu.aau.g404.api.LightController;
+import edu.aau.g404.device.light.LightController;
 import org.junit.jupiter.api.Test;
 
 // TODO: Implement tests

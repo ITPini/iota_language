@@ -14,8 +14,8 @@ public class HttpsGetRequestTest {
     @BeforeEach
     void init() {
         HTTPS_GET_REQUEST
-                .setUrl("https://192.168.0.134/clip/v2/resource/light")
-                .setApplicationKey("XAxUnLEodCpkcqb0hnLYi--mdL0x4J3MbQZZ5iuc");
+                .setUrl("https://192.168.0.134/clip/v2/resource/light");
+                //.setApplicationKey("XAxUnLEodCpkcqb0hnLYi--mdL0x4J3MbQZZ5iuc");
     }
 
     @Test
@@ -45,16 +45,5 @@ public class HttpsGetRequestTest {
     void setUrl() {
         HTTPS_GET_REQUEST.setUrl("https://192.168.0.100/clip/v2/resource/light");
         assertEquals("https://192.168.0.100/clip/v2/resource/light", HTTPS_GET_REQUEST.getUrl());
-    }
-
-    @Test
-    void getApplicationKey() {
-        assertEquals("XAxUnLEodCpkcqb0hnLYi--mdL0x4J3MbQZZ5iuc", HTTPS_GET_REQUEST.getApplicationKey());
-    }
-
-    @Test
-    void setApplicationKey() {
-        HTTPS_GET_REQUEST.setApplicationKey("aYvLvawY7PE2Y4yZ9of1FYkMS7onTlIkWOZfuAex");
-        assertEquals("aYvLvawY7PE2Y4yZ9of1FYkMS7onTlIkWOZfuAex", HTTPS_GET_REQUEST.getApplicationKey());
     }
 }

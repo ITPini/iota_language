@@ -12,8 +12,8 @@ class WiZLightTest {
         wiZLight = new WiZLight();
     }
     @Test
-    void isOn() {
-        wiZLight.isOn(true);
+    void setOn() {
+        wiZLight.changeOnState(true);
         assertTrue(wiZLight.getParams().getState());
     }
     @Test
@@ -24,7 +24,7 @@ class WiZLightTest {
 
     @Test
     void setColor() {
-        wiZLight.setColor(12, 100, 50);
+        wiZLight.setColors(12, 100, 50);
         assertEquals(12, wiZLight.getParams().getR());
         assertEquals(100, wiZLight.getParams().getG());
         assertEquals(50, wiZLight.getParams().getB());

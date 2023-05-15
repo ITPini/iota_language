@@ -28,8 +28,8 @@ class HueLightTest {
     }
 
     @Test
-    void isOn() {
-        testLight.isOn(true);
+    void setOn() {
+        testLight.changeOnState(true);
         assertTrue(testLight.getOnState().isOn());
     }
 
@@ -41,7 +41,7 @@ class HueLightTest {
 
     @Test
     void setColor() {
-        testLight.setColor(255, 100, 12);
+        testLight.setColors(255, 100, 12);
         double[] xy = testLight.rgbToXY(255, 100, 12);
         assertEquals(xy[0], testLight.getColor().getX(), 0.0001);
         assertEquals(xy[1], testLight.getColor().getY(), 0.0001);

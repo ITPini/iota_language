@@ -18,27 +18,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class CodeGenerator {
-    private HueController hueController;
-    private WiZController wizController;
-    private Map<String, Controller> controller = Map.of("Hue", new HueController(), "Wiz", new WiZController());
-    private Map<String, Action> action = Map.of("On", new OnAction(), "Brightness", new DimmingAction(), "Color", new ColorAction());
-    private ArrayList<String> packagesAllowed = new ArrayList<>();
+    private Map<String, Controller> controller = Map.of("Hue", new HueController("192.168.0.100", "aYvLvawY7PE2Y4yZ9of1FYkMS7onTlIkWOZfuAex"), "Wiz", new WiZController());
+    private Map<String, Controller> packagesAllowed = new HashMap<>();
     private Map<String, DeviceData> devices = new HashMap<>();
-    private ArrayList<Action> globalActions = new ArrayList<>();
     private ArrayList<Trigger> globalTriggers = new ArrayList<>();
     private Automation automation;
 
     public CodeGenerator() {
-        //this.hueController = new HueController("192.168.0.134", "XAxUnLEodCpkcqb0hnLYi--mdL0x4J3MbQZZ5iuc");
-        //this.hueController = new HueController("192.168.0.100", "aYvLvawY7PE2Y4yZ9of1FYkMS7onTlIkWOZfuAex");
         this.automation = new Automation();
     }
 
     public void execute(Token root){
         traverseTree(root);
         printCode();
-        //automation.addThread(hueController, devices.get("LivingRoomLight1").getDeviceIdentifier(), globalActions, globalTriggers);
-        //automation.start();
+        automation.start();
     }
 
     private void traverseTree(Token node){
@@ -52,13 +45,13 @@ public final class CodeGenerator {
 
         switch(value) {
             case "Package":
-                packagesAllowed.add(node.getChildren().get(1).getChildren().get(0).getValue());
+                packagesAllowed.put(node.getChildren().get(1).getChildren().get(0).getValue(), controller.get(node.getChildren().get(1).getChildren().get(0).getValue()));
                 break;
             case "Initiations":
                 devices.put(node.getChildren().get(1).getChildren().get(0).getValue(), addDevice(node));
                 break;
             case "Automations":
-                //System.out.println("This is a " + node.getValue());
+                System.out.println("This is a " + node.getValue());
                 ArrayList<Token> automationNode = node.getChildren();
 
                 for (Token child : automationNode) { // This will technically also check "ScopeStart" and "ScopeEnd"
@@ -83,10 +76,8 @@ public final class CodeGenerator {
                             switch (actionType) {
                                 case "On":
                                     boolean onValue = child.getChildren().get(2).getChildren().get(1).getChildren().get(0).getChildren().get(0).getValue().equals("TRUE");
-                                    Action onAction = new OnAction(onValue);
                                     //System.out.println("Adding on value: " + onValue);
-                                    globalActions.add(onAction);
-                                    automateIt(child, onAction);
+                                    automateIt(child, new OnAction(onValue));
                                     break;
                                 case "Brightness":
                                     float brightnessValue;
@@ -98,20 +89,16 @@ public final class CodeGenerator {
                                         brightnessValue = Float.parseFloat(child.getChildren().get(2).getChildren().get(1).getChildren().get(0).getChildren().get(0).getValue());
                                     }
 
-                                    Action brightnessAction = new DimmingAction(brightnessValue, operator);
                                     //System.out.println("Adding brightness value: " + brightnessValue);
-                                    globalActions.add(brightnessAction);
-                                    automateIt(child, brightnessAction);
+                                    automateIt(child, new DimmingAction(brightnessValue, operator));
                                     break;
                                 case "Color":
                                     int r, g, b;
                                     r = Integer.parseInt(child.getChildren().get(2).getChildren().get(1).getChildren().get(0).getChildren().get(0).getChildren().get(0).getValue());
                                     g = Integer.parseInt(child.getChildren().get(2).getChildren().get(1).getChildren().get(0).getChildren().get(2).getChildren().get(0).getValue());
                                     b = Integer.parseInt(child.getChildren().get(2).getChildren().get(1).getChildren().get(0).getChildren().get(4).getChildren().get(0).getValue());
-                                    Action colorAction = new ColorAction(r, g, b);
                                     //System.out.println("Adding color value: " + r + " " + g + " " + b);
-                                    globalActions.add(colorAction);
-                                    automateIt(child, colorAction);
+                                    automateIt(child, new ColorAction(r, g, b));
                                     break;
                             }
                     }
@@ -122,10 +109,11 @@ public final class CodeGenerator {
     }
 
     private void automateIt(Token child, Action action) {
-        automation.addThread(controller.get(devices.get(child.getChildren().get(2).getChildren().get(0).getChildren().get(0).getChildren().get(0).getValue()).getDeviceBrand()),
+        //System.out.println("Controller brand: " + devices.get(child.getChildren().get(2).getChildren().get(0).getChildren().get(0).getChildren().get(0).getValue()).getDeviceBrand());
+        //System.out.println("Identifier: " + devices.get(child.getChildren().get(2).getChildren().get(0).getChildren().get(0).getChildren().get(0).getValue()).getDeviceIdentifier());
+        automation.addThread(packagesAllowed.get(devices.get(child.getChildren().get(2).getChildren().get(0).getChildren().get(0).getChildren().get(0).getValue()).getDeviceBrand()),
                 devices.get(child.getChildren().get(2).getChildren().get(0).getChildren().get(0).getChildren().get(0).getValue()).getDeviceIdentifier(),
                 new ArrayList<Action>(){{add(action);}}, new ArrayList<Trigger>(globalTriggers));
-        globalActions.clear();
     }
 
     private DeviceData addDevice(Token node) {
@@ -154,12 +142,6 @@ public final class CodeGenerator {
     }
 
     public void printCode(){
-        for (Action a : globalActions) {
-            System.out.println(a.toString());
-        }
-        for (Trigger t : globalTriggers) {
-            System.out.println(t.toString());
-        }
         for (Map.Entry<String, DeviceData> entry : devices.entrySet()) {
             System.out.println(entry.getValue().toString());
         }

@@ -1,7 +1,6 @@
 package edu.aau.g404.api.wiz;
 
-import edu.aau.g404.api.hue.HueLight;
-import edu.aau.g404.device.SmartLight;
+import edu.aau.g404.device.light.SmartLight;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -19,7 +18,7 @@ class WiZControllerTest {
     @BeforeAll
     static void beforeAll() {
         testLight = new WiZLight();
-        testLight.setBrightness(100).setColor(0, 255, 255).isOn(true);
+        testLight.setBrightness(100).setColors(0, 255, 255).changeOnState(true);
 
         wiZController = new WiZController();
 
