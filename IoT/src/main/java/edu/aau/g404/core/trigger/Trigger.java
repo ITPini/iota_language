@@ -10,4 +10,6 @@ public interface Trigger {
      * @return {@code true} if the trigger conditions is met, {@code false} otherwise.
      */
     boolean isTriggered();
+
+    String toString();
 }
