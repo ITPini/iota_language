@@ -16,6 +16,10 @@ public final class ColorAction implements LightAction {
         this.blue = blue;
     }
 
+    public ColorAction() {
+
+    }
+
     /**
      * Executes the ColorAction by creating a new SmartLight instance with the specified color
      * and updating the light state using the provided LightController and identifier.
@@ -26,7 +30,17 @@ public final class ColorAction implements LightAction {
     public void execute(Controller controller, String identifier) {
         LightController lightController = (LightController) controller;
         SmartLight newLightState = createSmartLightInstance(lightController);
-        newLightState.setColor(red, green, blue);
+        newLightState.changeOnState(true);
+        newLightState.setColors(red, green, blue);
         lightController.updateLightState(identifier, newLightState);
+    }
+
+    @Override
+    public String toString() {
+        return "ColorAction{" +
+                "red=" + red +
+                ", green=" + green +
+                ", blue=" + blue +
+                '}';
     }
 }

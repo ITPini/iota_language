@@ -9,4 +9,6 @@ public interface Action {
      * @param identifier        The unique identifier of the smart device to be updated.
      */
     void execute(Controller controller, String identifier);
+
+    String toString();
 }

@@ -14,6 +14,10 @@ public final class OnAction implements LightAction {
         this.on = on;
     }
 
+    public OnAction() {
+
+    }
+
     /**
      * Executes the OnAction by creating a new SmartLight instance with the specified on/off state
      * and updating the light state using the provided LightController and identifier.
@@ -24,7 +28,14 @@ public final class OnAction implements LightAction {
     public void execute(Controller controller, String identifier) {
         LightController lightController = (LightController) controller;
         SmartLight newLightState = createSmartLightInstance(lightController);
-        newLightState.isOn(on);
+        newLightState.changeOnState(on);
         lightController.updateLightState(identifier, newLightState);
+    }
+
+    @Override
+    public String toString() {
+        return "OnAction{" +
+                "on=" + on +
+                '}';
     }
 }
