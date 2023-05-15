@@ -19,7 +19,7 @@ public final class TimeTrigger implements Trigger {
      */
     @Override
     public boolean isTriggered() {
-        return LocalTime.now().isAfter(triggerTime.minusMinutes(1)) && LocalTime.now().isBefore(triggerTime.plusMinutes(1));
+        return LocalTime.now().isAfter(triggerTime) && LocalTime.now().isBefore(triggerTime.plusSeconds(1));
     }
 
     @Override
