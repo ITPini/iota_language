@@ -3,16 +3,14 @@ package edu.aau.g404;
 import edu.aau.g404.CodeGenerator.CodeGenerator;
 import edu.aau.g404.ContextualAnalyzer.ContextualAnalyzer;
 import edu.aau.g404.LexicalAnalyzer.LexiScanner;
-import edu.aau.g404.LexicalAnalyzer.TreeConstructionWorker;
-
-import java.util.ArrayList;
+import edu.aau.g404.LexicalAnalyzer.ASTBuilder;
 
 public class CompilerMaster {
 
     private static CompilerMaster instance = null;
     private String helloWorld = "Hello world";
     private LexiScanner lexiScanner;
-    private TreeConstructionWorker tokenManager;
+    private ASTBuilder tokenManager;
     private ContextualAnalyzer contextualAnalyzer;
     private CodeGenerator codeGenerator;
 
@@ -21,7 +19,7 @@ public class CompilerMaster {
 
     private CompilerMaster(){
         lexiScanner = new LexiScanner("src/main/java/edu/aau/g404/TestProgram.txt");
-        tokenManager = new TreeConstructionWorker();
+        tokenManager = new ASTBuilder();
         contextualAnalyzer = new ContextualAnalyzer();
         codeGenerator = new CodeGenerator();
     }
@@ -51,7 +49,7 @@ public class CompilerMaster {
 
         contextualAnalyzer.checkForTypeErrors(ast);
 
-        codeGenerator.execute(ast);
+        //codeGenerator.execute(ast);
     }
 
 

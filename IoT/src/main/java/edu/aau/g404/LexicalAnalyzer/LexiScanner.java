@@ -162,8 +162,17 @@ public class LexiScanner {
                         //Attribute
                         codeAsTokens.add(new Token("Attribute", "" + currentChar));
                         currentWord = "";
-                        while ((currentChar = this.readNextChar()) != ' '){
-                            currentWord += currentChar;
+                        if (isLetter(currentChar = this.readNextChar())){
+                            do{
+                                currentWord += currentChar;
+                            }while (isLetter(currentChar = this.readNextChar()) || isDigit(currentChar) || currentChar == '-' || currentChar == '_');
+                        } else {
+                            try {
+                                throw new IOTCompilerError("AttributeName must begin with a letter");
+                            } catch (IOTCompilerError iotCompilerError) {
+                                iotCompilerError.printStackTrace();
+                                System.exit(1);
+                            }
                         }
                         codeAsTokens.add(new Token("AttributeName", currentWord));
                         break;

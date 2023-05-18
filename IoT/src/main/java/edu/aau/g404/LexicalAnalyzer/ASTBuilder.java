@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TreeConstructionWorker {
+public class ASTBuilder {
 
     int printDepth = 0;
 
@@ -19,7 +19,7 @@ public class TreeConstructionWorker {
     private final Token start;
     //private Map<String, String> keyTable;
 
-    public TreeConstructionWorker() {
+    public ASTBuilder() {
         start = new Token("Start", "Start");
         currentToken = start;
         //keyTable = new HashMap<String, String>();
