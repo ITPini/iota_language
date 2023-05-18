@@ -55,7 +55,7 @@ public class TypeChecker {
     }
 
     public void typeCheckTrigger(Token node) {
-        System.out.println("checking Trigger");
+        //System.out.println("checking Trigger");
         if (node.getChildren().size() > 1) {
             Token type1 = node.getChildren().get(0).getChildren().get(0);
             Token type2 = node.getChildren().get(2).getChildren().get(0);
@@ -76,7 +76,7 @@ public class TypeChecker {
     }
 
     private void typeCheckAction(Token node) {
-        System.out.println("checking of Changes");
+        //System.out.println("checking of Changes");
         if (node.getChildren().size() > 1) {
             Token type1 = node.getChildren().get(0).getChildren().get(2).getChildren().get(0);
             Token type2 = node.getChildren().get(node.getChildren().size() - 1).getChildren().get(0);

@@ -1,5 +1,6 @@
 package edu.aau.g404.LexicalAnalyzer;
 
+import edu.aau.g404.ContextualAnalyzer.IOTCompilerError;
 import edu.aau.g404.SymbolTable;
 import edu.aau.g404.Token;
 
@@ -86,12 +87,12 @@ public class LexiScanner {
                 currentChar=readNextChar();
                 codeAsTokens.add(new Token("IDValue", currentWord));
 
-            } else if (isDigit(currentChar)) {
-                //time or numerical value
+            } else if (isDigit(currentChar)) {//time, color, or numerical value
                 currentWord += currentChar;
                 while (isDigit(currentChar = this.readNextChar()) || currentChar == ':' || currentChar == '.'||currentChar == ',') {
-                    currentWord += currentChar;
+
                     if (currentChar == ':') {
+                        currentWord += currentChar;
                         for (int i = 0; i < 2; i++) {
                             currentChar = this.readNextChar();
                             if (isDigit(currentChar)) {
@@ -103,22 +104,39 @@ public class LexiScanner {
                         //Token is TimeValue
                         codeAsTokens.add(new Token("TimeValue", currentWord));
                     } else if(currentChar == ','){
-                        codeAsTokens.add(new Token("ColorValue", currentWord.substring(0, currentWord.length() - 1)));
-                        codeAsTokens.add(new Token("Color", "" + currentChar));
-                        currentWord = "";
-                        while ((currentChar = this.readNextChar()) != ')'){
+                        do {
                             if (isDigit(currentChar)){
                                 currentWord += currentChar;
                             } else if (currentChar == ','){
+                                if (currentWord.isEmpty() || currentWord.length()>3){
+                                    try {
+                                        throw new IOTCompilerError("Incorrect input in Color, must be a number no longer that 3 digits");
+                                    } catch (IOTCompilerError iotCompilerError) {
+                                        iotCompilerError.printStackTrace();
+                                        System.exit(1);
+                                    }
+                                } else if (currentWord.length()<2){
+                                    currentWord = "00" + currentWord;
+                                } else if (currentWord.length()<3){
+                                    currentWord = "0" + currentWord;
+                                }
+                                if(Character.getNumericValue(currentWord.charAt(0))>2){
+                                    try {
+                                        throw new IOTCompilerError("Color value = " + Character.getNumericValue(currentWord.charAt(0)) +" Individual RGB Color values can be no greater than 255");
+                                    } catch (IOTCompilerError iotCompilerError) {
+                                        iotCompilerError.printStackTrace();
+                                        System.exit(1);
+                                    }
+                                }
                                 codeAsTokens.add(new Token("ColorValue", currentWord));
                                 codeAsTokens.add(new Token("Color", "" + currentChar));
                                 currentWord = "";
                             }
-                        }
+                        } while ((currentChar = this.readNextChar()) != ')');
                         codeAsTokens.add(new Token("ColorValue", currentWord));
                         currentWord = "";
-
-                    }
+                        break;
+                    } else currentWord += currentChar;
 
                 }
                 if (!codeAsTokens.get(codeAsTokens.size() - 1).getType().equals("TimeValue") && !codeAsTokens.get(codeAsTokens.size() - 1).getType().equals("ColorValue")) {
