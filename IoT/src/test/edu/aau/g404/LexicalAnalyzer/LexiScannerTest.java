@@ -66,9 +66,4 @@ class LexiScannerTest {
         assertEquals("EOL", tokenTest.get(11).getType());
 
     }
-
-
-    @Test
-    void readNextChar() {
-    }
 }

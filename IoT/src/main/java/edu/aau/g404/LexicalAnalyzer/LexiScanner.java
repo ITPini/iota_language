@@ -180,7 +180,7 @@ public class LexiScanner {
     }
 
 
-    public char readNextChar() {
+    private char readNextChar() {
         try {
             this.charPointer = file.read();
         } catch (IOException e) { //custom error handler should be implemented at some point
