@@ -32,6 +32,7 @@ public class TreeConstructionWorker {
         KeyTable.addValue("Initiations", "Start");
         KeyTable.addValue("TimeValue", "Expr");
         KeyTable.addValue("Value", "Expr");
+        KeyTable.addValue("BoolValue", "Expr");
         KeyTable.addValue("Operator", "Changes");
         KeyTable.addValue("Bool", "BoolExpr");
         KeyTable.addValue("BoolExpr", "Triggers");
