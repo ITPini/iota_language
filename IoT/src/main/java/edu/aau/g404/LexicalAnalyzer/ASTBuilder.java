@@ -110,7 +110,13 @@ public class ASTBuilder {
                                             (tokenChecker.getValue().equals("Identifier") ||
                                                     tokenChecker.getValue().equals("Initiations") ||
                                                     tokenChecker.getValue().equals("Attribute"))) {
-                                        tokenChecker.addChild(currentToken);
+                                        if (tokenChecker.getChildren() != null && tokenChecker.getValue().equals("Attribute")){
+                                            previousToken = new Token( "Expr", "Attribute");
+                                            previousToken.addChild(currentToken);
+                                            currentToken = previousToken;
+                                        } else {
+                                            tokenChecker.addChild(currentToken);
+                                        }
                                     } else if (currentToken.getValue().equals("Attribute") &&
                                             (tokenChecker.getValue().equals("Expr") ||
                                                     tokenChecker.getValue().equals("Changes"))) {
@@ -182,20 +188,6 @@ public class ASTBuilder {
 
     }
 
-/*
-    public void addToken(Token newToken) {
-
-        if (KeyTable.get(newToken.getType()) != null) {
-            previousToken = currentToken;
-            currentToken = new Token(KeyTable.get(newToken.getType()));
-            previousToken.addChild(currentToken);
-            currentToken.addChild(newToken);
-        } else {
-            currentToken.addChild(newToken);
-        }
-    }
-
- */
 
     private void generateLeftMostBranch(ArrayList<Token> currentBranch) {
         //System.out.println("Generating left most branch for: " + currentBranch.get(0).getValue()); //snitch
@@ -247,40 +239,6 @@ public class ASTBuilder {
         }
         return result;
     }
-/*
-    public void prettyPrintTree(Token root, int totalSize) {
-        int depth;
-        int bottom;
-        int size;
-        System.out.printf("%10s%n", "print time!");
-        for (int i = 0; i < totalSize / 2; i++) {
-            System.out.printf("%10s ", "");
-        }
-        System.out.printf("%10s%n", root.getValue());
-
-
-        size = root.getChildren().size();
-        for (int i = 0; i < (totalSize / 2 - size / 2); i++) {
-            System.out.printf("%10s ", "");
-        }
-        System.out.printf("%5s%5s ", "/", "");
-        for (int i = 0; i < size - 2; i++) {
-            System.out.printf("%5s%5s ", "|", "");
-        }
-        System.out.printf("%5s%5s%n", "\\", "");
-
-
-        size = root.getChildren().size();
-        for (int i = 0; i < (totalSize / 2 - size / 2); i++) {
-            System.out.printf("%10s ", "");
-        }
-        for (Token t : root.getChildren()) {
-            System.out.printf("%10s ", t.getValue());
-        }
-        //System.out.printf("%15s%n", "");
-    }
-
- */
 
 
     public Token getPreviousToken() {
