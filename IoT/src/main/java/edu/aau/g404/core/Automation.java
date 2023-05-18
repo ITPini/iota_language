@@ -22,7 +22,7 @@ public final class Automation<T extends Action> {
      * Construct a ScheduledExecutorService that uses the available number of processors.
      */
     public Automation() {
-        this.executorService = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
+        this.executorService = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()+30);
     }
 
     /**
@@ -42,7 +42,7 @@ public final class Automation<T extends Action> {
      */
     public void start(){
         for (AutomationThread thread : automationThreads) {
-            executorService.scheduleAtFixedRate(thread::run, 0, 1000, TimeUnit.MILLISECONDS);
+            executorService.scheduleAtFixedRate(thread::run, 1, 1000, TimeUnit.MILLISECONDS);
         }
     }
 
@@ -92,6 +92,7 @@ public final class Automation<T extends Action> {
             // If enough time has passed and any triggers in the trigger list are activated
             if (isTimeToExecute && shouldTrigger()) {
                 for (Action lightAction : actionList) {
+                    sleep(300*automationThreads.indexOf(this));
                     lightAction.execute(controller, identifier);
                     sleep(1000);
                 }
