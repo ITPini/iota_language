@@ -3,6 +3,7 @@ package edu.aau.g404.ContextualAnalyzer;
 import edu.aau.g404.SymbolTable;
 import edu.aau.g404.Token;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class TypeChecker {
@@ -18,17 +19,17 @@ public class TypeChecker {
 
 
     public void depthFirstTraverser(Token node) {
-        if (node.getValue().equals("Initiations")){
+        if (node.getValue().equals("Initiations")) {
             defineDeviceName(node.getChildren().get(1).getChildren().get(0).getValue(),
                     node.getChildren().get(0).getChildren().get(0).getValue());
         }
         typeCheck(node);
-        if (node.getChildren()!=null){ //if it have branches, do a recursive call
-            for (Token t: node.getChildren()) {
+        if (node.getChildren() != null) { //if it have branches, do a recursive call
+            for (Token t : node.getChildren()) {
                 depthFirstTraverser(t);
             }
         } else { //if leaf, do this
-            if (node.getType().equals("DeviceName") && SymbolTable.get(node.getValue())==null){
+            if (node.getType().equals("DeviceName") && SymbolTable.get(node.getValue()) == null) {
                 try {
                     throw new IOTCompilerError(node.getValue() + " not defined");
                 } catch (IOTCompilerError iotCompilerError) {
@@ -40,9 +41,10 @@ public class TypeChecker {
         //work on the node is done here
         //System.out.println(node.getValue());
     }
-    public void typeCheck(Token node){
+
+    public void typeCheck(Token node) {
         String nodeValue = node.getValue();
-        switch(nodeValue) {
+        switch (nodeValue) {
             case "Bool":
                 typeCheckTrigger(node);
                 break;
@@ -52,28 +54,22 @@ public class TypeChecker {
         }
     }
 
-    public void typeCheckTrigger(Token node){
+    public void typeCheckTrigger(Token node) {
         System.out.println("checking Trigger");
-        if (node.getChildren().size() > 1){
-            String type1 = node.getChildren().get(0).getChildren().get(0).getValue();
-            String type2 = node.getChildren().get(2).getChildren().get(0).getValue();
-            if (!type1.equals("Attribute") && !type2.equals("Attribute") && !type1.equals(type2)){
+        if (node.getChildren().size() > 1) {
+            Token type1 = node.getChildren().get(0).getChildren().get(0);
+            Token type2 = node.getChildren().get(2).getChildren().get(0);
+            checkColor(type1);
+            checkColor(type2);
+
+            String type1Val = type1.getValue().equals("Attribute") ? attributeTypes.get(type1.getChildren().get(2).getChildren().get(0).getValue()) : type1.getValue();
+            String type2Val = type2.getValue().equals("Attribute") ? attributeTypes.get(type2.getChildren().get(2).getChildren().get(0).getValue()) : type2.getValue();
+            if (!type1Val.equals(type2Val)) {
                 try {
-                    throw new IOTCompilerError(type1 + " and "+ type2+ " are not the same type");
+                    throw new IOTCompilerError(type1Val + " and " + type2Val + " are not the same type");
                 } catch (IOTCompilerError iotCompilerError) {
                     iotCompilerError.printStackTrace();
                     System.exit(1);
-                }
-            } else if (type1.equals("Attribute") || type2.equals("Attribute")){
-                type1 = type1.equals("Attribute")? attributeTypes.get(node.getChildren().get(0).getChildren().get(0).getChildren().get(2).getChildren().get(0).getValue()) : type1;
-                type2 = type2.equals("Attribute")? attributeTypes.get(node.getChildren().get(2).getChildren().get(0).getChildren().get(2).getChildren().get(0).getValue()) : type2;
-                if (!type1.equals(type2)){
-                    try {
-                        throw new IOTCompilerError(type1 + " and "+ type2+ " are not the same type");
-                    } catch (IOTCompilerError iotCompilerError) {
-                        iotCompilerError.printStackTrace();
-                        System.exit(1);
-                    }
                 }
             }
         }
@@ -81,27 +77,22 @@ public class TypeChecker {
 
     private void typeCheckAction(Token node) {
         System.out.println("checking of Changes");
-        if (node.getChildren().size() > 1){
-            String type1 = attributeTypes.get(node.getChildren().get(0).getChildren().get(2).getChildren().get(0).getValue());
-            String type2 = node.getChildren().get(node.getChildren().size()-1).getChildren().get(0).getValue();
-            if (!type2.equals("Attribute") && !type1.equals(type2)){
+        if (node.getChildren().size() > 1) {
+            Token type1 = node.getChildren().get(0).getChildren().get(2).getChildren().get(0);
+            Token type2 = node.getChildren().get(node.getChildren().size() - 1).getChildren().get(0);
+            checkColor(type2);
+            String type1Val = attributeTypes.get(type1.getValue());
+            String type2Val = type2.getValue().equals("Attribute") ? attributeTypes.get(type2.getChildren().get(2).getChildren().get(0).getValue()) : type2.getValue();
+
+            if (!type1Val.equals(type2Val)) {
                 try {
-                    throw new IOTCompilerError(type1 + " and "+ type2+ " are not the same type");
+                    throw new IOTCompilerError(type1Val + " and " + type2Val + " are not the same type");
                 } catch (IOTCompilerError iotCompilerError) {
                     iotCompilerError.printStackTrace();
                     System.exit(1);
                 }
-            } else if (type2.equals("Attribute")){
-                type2 = attributeTypes.get(node.getChildren().get(node.getChildren().size()-1).getChildren().get(0).getChildren().get(2).getChildren().get(0).getValue());
-                if (!type1.equals(type2)){
-                    try {
-                        throw new IOTCompilerError(type1 + " and "+ type2+ " are not the same type");
-                    } catch (IOTCompilerError iotCompilerError) {
-                        iotCompilerError.printStackTrace();
-                        System.exit(1);
-                    }
-                }
             }
+
         } else {
             try {
                 throw new IOTCompilerError("Argument missing! Actions must have an attribute and a change to the given attribute");
@@ -112,8 +103,23 @@ public class TypeChecker {
         }
     }
 
-    public void defineDeviceName(String name, String type){
-        SymbolTable.addValue(name,type);
+    private void checkColor(Token node) {
+        if (node.getValue().equals("Color")) {
+            ArrayList<Token> colorList = node.getChildren();
+            if (!colorList.get(0).getValue().equals(colorList.get(2).getValue()) || !colorList.get(2).getValue().equals(colorList.get(4).getValue())) {
+                try {
+                    throw new IOTCompilerError("Argument does not have the right format of (xxx, xxx, xxx)");
+                } catch (IOTCompilerError iotCompilerError) {
+                    iotCompilerError.printStackTrace();
+                    System.exit(1);
+                }
+            }
+        }
+
+    }
+
+    public void defineDeviceName(String name, String type) {
+        SymbolTable.addValue(name, type);
     }
 
 
