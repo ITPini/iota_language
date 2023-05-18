@@ -24,9 +24,6 @@ class TreeConstructionWorkerTest {
 
     @Test
     void astBuilder() {
-        for (Token token : testTokensList) {
-            System.out.println(token.getValue());
-        }
         treeConstructionWorker = new TreeConstructionWorker();
         Token astToken = treeConstructionWorker.astBuilder(testTokensList);
         treeConstructionWorker.printTree(astToken);

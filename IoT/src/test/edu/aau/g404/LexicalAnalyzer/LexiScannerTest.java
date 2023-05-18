@@ -64,6 +64,8 @@ class LexiScannerTest {
         assertEquals("EOL", tokenTest.get(9).getType());
         assertEquals("ScopeEnd", tokenTest.get(10).getType());
         assertEquals("EOL", tokenTest.get(11).getType());
-
+        TreeConstructionWorker treeConstructionWorker = new TreeConstructionWorker();
+        Token astToken = treeConstructionWorker.astBuilder(tokenTest);
+        treeConstructionWorker.printTree(astToken);
     }
 }
