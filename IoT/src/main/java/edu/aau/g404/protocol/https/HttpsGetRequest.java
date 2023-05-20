@@ -60,12 +60,13 @@ public final class HttpsGetRequest<T extends SmartDevice> extends HttpsRequest {
             System.out.println("Response Code : " + responseCode); // For debugging
 
             jsonResponse = response.toString();
+
+            // Deserialize response
+            return deserializer.deserialize(jsonResponse);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        // Deserialize response
-        return deserializer.deserialize(jsonResponse);
+        return null;
     }
 
     public HttpsGetRequest setDeserializer(Deserializer<T> deserializer) {
