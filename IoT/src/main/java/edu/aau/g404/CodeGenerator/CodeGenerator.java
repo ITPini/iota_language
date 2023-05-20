@@ -45,7 +45,11 @@ public final class CodeGenerator {
 
         switch(value) {
             case "Package":
-                packagesAllowed.put(node.getChildren().get(1).getChildren().get(0).getValue(), controller.get(node.getChildren().get(1).getChildren().get(0).getValue()));
+                if (node.getChildren().size()>3){
+                    packagesAllowed.put(node.getChildren().get(1).getChildren().get(0).getValue(), new HueController(node.getChildren().get(2).getChildren().get(0).getValue(), node.getChildren().get(3).getChildren().get(0).getValue()));
+                } else {
+                    packagesAllowed.put(node.getChildren().get(1).getChildren().get(0).getValue(), controller.get(node.getChildren().get(1).getChildren().get(0).getValue()));
+                }
                 break;
             case "Initiations":
                 devices.put(node.getChildren().get(1).getChildren().get(0).getValue(), addDevice(node));
