@@ -76,6 +76,8 @@ public class LexiScanner {
                     codeAsTokens.add(new Token("DeviceName", currentWord));
                 }
             } else if (currentChar == '"') {
+
+
                 //IDValue
                 while ((currentChar = readNextChar()) != '"'){
                     if (currentChar == '-'||currentChar == '_'||isDigit(currentChar)||isLetter(currentChar)||currentChar=='.'){
@@ -85,7 +87,13 @@ public class LexiScanner {
                     }
                 }
                 currentChar=readNextChar();
-                codeAsTokens.add(new Token("IDValue", currentWord));
+                if (codeAsTokens.get(codeAsTokens.size()-2).getValue().equals("Use")){//Bridge ip
+                    codeAsTokens.add(new Token("BridgeIP", currentWord));
+                } else if (codeAsTokens.get(codeAsTokens.size()-3).getValue().equals("Use")){//Bridge key
+                    codeAsTokens.add(new Token("BridgeKey", currentWord));
+                } else {
+                    codeAsTokens.add(new Token("IDValue", currentWord));
+                }
 
             } else if (isDigit(currentChar)) {//time, color, or numerical value
                 currentWord += currentChar;

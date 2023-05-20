@@ -49,6 +49,8 @@ public class ASTBuilder {
         KeyTable.addValue("BoolOperator", "Bool");
         KeyTable.addValue("Color", "Expr");
         KeyTable.addValue("ColorValue", "Color");
+        KeyTable.addValue("BridgeIP", "Package");
+        KeyTable.addValue("BridgeKey", "Package");
         //Multiple possible non-terminal
         KeyTable.addValue("DeviceName", ""); // Identifier, PackageName, Initiations, Attribute
         KeyTable.addValue("Attribute", ""); //can be Expr or Change

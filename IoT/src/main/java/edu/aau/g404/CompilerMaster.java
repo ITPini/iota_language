@@ -49,7 +49,7 @@ public class CompilerMaster {
 
         contextualAnalyzer.checkForTypeErrors(ast);
 
-        //codeGenerator.execute(ast);
+        codeGenerator.execute(ast);
     }
 
 
