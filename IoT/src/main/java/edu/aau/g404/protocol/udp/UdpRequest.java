@@ -37,15 +37,10 @@ public final class UdpRequest<T extends SmartDevice> {
             byte[] data = payload.getBytes();
             DatagramPacket packet = new DatagramPacket(data, data.length, address, port);
 
-            try (DatagramSocket datagramSocket = new DatagramSocket()) {
-                datagramSocket.send(packet);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            DatagramSocket datagramSocket = new DatagramSocket();
+            datagramSocket.send(packet);
 
-        } catch (UnknownHostException e) {
-            throw new RuntimeException(e);
-        } catch (JsonProcessingException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
