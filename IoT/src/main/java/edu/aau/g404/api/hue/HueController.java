@@ -36,7 +36,8 @@ public final class HueController implements LightController {
     /**
      * Retrieves the list of Hue light connected to the Hue Bridge and prints their identifiers and names.
      */
-    public void printLights() {
+    @Override
+    public void printDevices() {
         Map<String, String> headers = new HashMap<>();
         headers.put("hue-application-key", applicationKey);
 
@@ -44,6 +45,7 @@ public final class HueController implements LightController {
 
         List<HueLight> lights = get.request();
 
+        System.out.println("\u001b[33mList of Philips Hue Devices Found:\u001b[0m");
         for (HueLight light : lights) {
             System.out.printf("\u001B[32m%s\u001b[36m (%s)\n", light.getIdentifier(), light.getMetaData().getName());
         }

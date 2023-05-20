@@ -30,6 +30,9 @@ public final class CodeGenerator {
 
     public void execute(Token root){
         traverseTree(root);
+        for (Map.Entry<String, Controller> entry : packagesAllowed.entrySet()) {
+            entry.getValue().printDevices();
+        }
         printCode();
         automation.start();
     }
