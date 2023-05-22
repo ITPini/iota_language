@@ -8,6 +8,9 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This unit tests only works if the client and Hue Bridge is connected to the same network.
+ */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class HueControllerTest {
 
@@ -35,6 +38,8 @@ class HueControllerTest {
 
     @Test
     void getLightState() {
-
+        HueLight hueLight = (HueLight) hueController.getLightState("b20b77ab-7e6f-4fd9-bc56-96fd23d0358c");
+        assertEquals(100, hueLight.getBrightness());
+        assertTrue(hueLight.getOnState().isOn());
     }
 }

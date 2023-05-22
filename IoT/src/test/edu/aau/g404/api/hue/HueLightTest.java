@@ -13,20 +13,7 @@ class HueLightTest {
         testLight = new HueLight();
     }
 
-    @Test
-    void rgbToXY() {
-        double[] xy = testLight.rgbToXY(255, 100, 12);
-        assertEquals(0.64180971468, xy[0], 0.0001);
-        assertEquals(0.34607322094, xy[1], 0.0001);
-    }
-
-    @Test
-    void toLinearRGB() {
-        assertEquals(1, testLight.toLinearRGB(255));
-        assertEquals(0.12743768043, testLight.toLinearRGB(100), 0.0001);
-        assertEquals(0.00367650732, testLight.toLinearRGB(12), 0.0001);
-    }
-
+    // Interface specific tests
     @Test
     void setOn() {
         testLight.changeOnState(true);
@@ -45,6 +32,21 @@ class HueLightTest {
         double[] xy = testLight.rgbToXY(255, 100, 12);
         assertEquals(xy[0], testLight.getColor().getX(), 0.0001);
         assertEquals(xy[1], testLight.getColor().getY(), 0.0001);
+    }
+
+    // Class specific tests
+    @Test
+    void rgbToXY() {
+        double[] xy = testLight.rgbToXY(255, 100, 12);
+        assertEquals(0.64180971468, xy[0], 0.0001);
+        assertEquals(0.34607322094, xy[1], 0.0001);
+    }
+
+    @Test
+    void toLinearRGB() {
+        assertEquals(1, testLight.toLinearRGB(255));
+        assertEquals(0.12743768043, testLight.toLinearRGB(100), 0.0001);
+        assertEquals(0.00367650732, testLight.toLinearRGB(12), 0.0001);
     }
 
     @Test

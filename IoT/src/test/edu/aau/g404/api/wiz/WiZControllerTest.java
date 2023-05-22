@@ -9,6 +9,9 @@ import org.junit.jupiter.api.TestMethodOrder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 // TODO: Implement tests
+/**
+ * This unit tests only works if the client and a WiZ Light is connected to the same network.
+ */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class WiZControllerTest {
 

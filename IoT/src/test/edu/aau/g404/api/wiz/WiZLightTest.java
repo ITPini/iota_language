@@ -11,6 +11,8 @@ class WiZLightTest {
     void init() {
         wiZLight = new WiZLight();
     }
+
+    // Interface specific tests
     @Test
     void setOn() {
         wiZLight.changeOnState(true);
@@ -30,6 +32,7 @@ class WiZLightTest {
         assertEquals(50, wiZLight.getParams().getB());
     }
 
+    // Class specific tests
     @Test
     void gettersAndSetters() {
         wiZLight.setId(2);
