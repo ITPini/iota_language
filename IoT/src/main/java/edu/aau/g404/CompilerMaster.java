@@ -18,7 +18,7 @@ public class CompilerMaster {
 
 
     private CompilerMaster(){
-        lexiScanner = new LexiScanner("src/main/java/edu/aau/g404/TestProgram.txt");
+        lexiScanner = new LexiScanner("src/main/java/edu/aau/g404/TestProgram.iota");
         tokenManager = new ASTBuilder();
         contextualAnalyzer = new ContextualAnalyzer();
         codeGenerator = new CodeGenerator();
