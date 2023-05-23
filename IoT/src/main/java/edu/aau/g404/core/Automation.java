@@ -106,6 +106,10 @@ public final class Automation<T extends Action> {
          * @return {@code true} if any of the triggers are triggered, {@code false} otherwise.
          */
         private boolean shouldTrigger(){
+            if (triggerList.isEmpty()){
+                return true;
+            }
+
             for (Trigger trigger : triggerList) {
                 if (trigger.isTriggered()) {
                     return true;
