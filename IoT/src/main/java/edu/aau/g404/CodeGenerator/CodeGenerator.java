@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class CodeGenerator {
-    private Map<String, Controller> controller = Map.of("Hue", new HueController("192.168.0.100", "aYvLvawY7PE2Y4yZ9of1FYkMS7onTlIkWOZfuAex"), "Wiz", new WiZController());
+    private Map<String, Controller> controller = Map.of("Hue", new HueController(), "Wiz", new WiZController());
     private Map<String, Controller> packagesAllowed = new HashMap<>();
     private Map<String, DeviceData> devices = new HashMap<>();
     private ArrayList<Trigger> globalTriggers = new ArrayList<>();

@@ -50,7 +50,7 @@ public final class Automation<T extends Action> {
      * Stops the Automation by shutting down the executorService and waiting for the tasks to complete.
      * Just for unit testing currently.
      */
-    public void stop() {
+    public void stopAll() {
         executorService.shutdown();
         try {
             if (!executorService.awaitTermination(5, TimeUnit.MINUTES)) { // Wait for the tasks to complete, with a specified timeout (e.g., 5 minutes)
@@ -96,9 +96,6 @@ public final class Automation<T extends Action> {
                     lightAction.execute(controller, identifier);
                     sleep(1000);
                 }
-                if (triggerList.isEmpty()){
-                    stop();
-                }
                 // Update the last execution time to the current time
                 lastExecutionTime = currentTime;
             }
@@ -109,10 +106,6 @@ public final class Automation<T extends Action> {
          * @return {@code true} if any of the triggers are triggered, {@code false} otherwise.
          */
         private boolean shouldTrigger(){
-            if (triggerList.isEmpty()){
-                return true;
-            }
-
             for (Trigger trigger : triggerList) {
                 if (trigger.isTriggered()) {
                     return true;
