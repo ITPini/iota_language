@@ -1,18 +1,16 @@
 package edu.aau.g404.LexicalAnalyzer;
 
 import edu.aau.g404.Token;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TreeConstructionWorkerTest {
+class ASTBuilderTest {
 
-    private TreeConstructionWorker treeConstructionWorker;
+    private ASTBuilder astBuilder;
     private ArrayList<Token> testTokensList = new ArrayList<>(Arrays.asList(
             new Token("Package", "Use"),
             new Token("PackageName", "Hue"),
@@ -24,9 +22,9 @@ class TreeConstructionWorkerTest {
 
     @Test
     void astBuilder() {
-        treeConstructionWorker = new TreeConstructionWorker();
-        Token astToken = treeConstructionWorker.astBuilder(testTokensList);
-        treeConstructionWorker.printTree(astToken);
+        astBuilder = new ASTBuilder();
+        Token astToken = astBuilder.astBuilder(testTokensList);
+        astBuilder.printTree(astToken);
 
         assertEquals("Use", astToken.getChildren().get(0).getChildren().get(0).getValue());
         assertEquals("Hue", astToken.getChildren().get(0).getChildren().get(1).getChildren().get(0).getValue());

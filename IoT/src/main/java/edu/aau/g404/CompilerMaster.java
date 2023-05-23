@@ -1,6 +1,6 @@
 package edu.aau.g404;
 
-import edu.aau.g404.CodeGenerator.CodeGenerator;
+import edu.aau.g404.translator.Translator;
 import edu.aau.g404.ContextualAnalyzer.ContextualAnalyzer;
 import edu.aau.g404.LexicalAnalyzer.LexiScanner;
 import edu.aau.g404.LexicalAnalyzer.ASTBuilder;
@@ -12,7 +12,7 @@ public class CompilerMaster {
     private LexiScanner lexiScanner;
     private ASTBuilder tokenManager;
     private ContextualAnalyzer contextualAnalyzer;
-    private CodeGenerator codeGenerator;
+    private Translator translator;
 
     private Token ast;
 
@@ -21,7 +21,7 @@ public class CompilerMaster {
         lexiScanner = new LexiScanner("src/main/java/edu/aau/g404/Main.iota");
         tokenManager = new ASTBuilder();
         contextualAnalyzer = new ContextualAnalyzer();
-        codeGenerator = new CodeGenerator();
+        translator = new Translator();
     }
 
     public static CompilerMaster getInstance(){
@@ -49,7 +49,7 @@ public class CompilerMaster {
 
         contextualAnalyzer.checkForTypeErrors(ast);
 
-        codeGenerator.execute(ast);
+        translator.execute(ast);
     }
 
 
