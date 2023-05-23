@@ -4,18 +4,18 @@ Use Wiz;
 Light LivingRoomLight1 "b2ef7371-9321-452a-a70e-49ce5b6cd879";
 Light LivingRoomLight2 "68b29eda-68fc-499f-a6e7-2ba957aeb1d3";
 Sensor MotionSensor1 "f456-ff4646-fg466-789f";
-Light MyWizLight "192.168.0.104";
+Light MyWizLight "192.168.0.105";
 
-Begin
+Begin(Automation)
 	Trigger(TIME = 08:00);
 	Trigger(TIME = 17:00);
 	Action(LivingRoomLight1.On TRUE);
-End;
+End(Automation);
 
-Begin
+Begin(Automation)
 	Trigger(MotionSensor1.Movement > 50);
 	Action(LivingRoomLight1.On TRUE);
 	Action(LivingRoomLight2.Brightness + 50);
 	Action(LivingRoomLight1.Color 255,000,200);
 	Action(MyWizLight.Color 255,000,000);
-End;
+End(Automation);
