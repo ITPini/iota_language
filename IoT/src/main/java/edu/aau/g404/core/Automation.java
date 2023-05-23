@@ -96,6 +96,9 @@ public final class Automation<T extends Action> {
                     lightAction.execute(controller, identifier);
                     sleep(1000);
                 }
+                if (triggerList.isEmpty()){
+                    stop();
+                }
                 // Update the last execution time to the current time
                 lastExecutionTime = currentTime;
             }
