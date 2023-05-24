@@ -21,7 +21,7 @@ class LexiScannerTest {
     @BeforeEach
     void init() {
         try {
-            file = File.createTempFile("LexiTestProgram", ".txt");
+            file = File.createTempFile("LexiTestProgram", ".iota");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
