@@ -1,4 +1,4 @@
-package edu.aau.g404.CodeGenerator;
+package edu.aau.g404.translator;
 
 import edu.aau.g404.Token;
 import edu.aau.g404.api.hue.HueController;
@@ -17,27 +17,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class CodeGenerator {
+public final class Translator {
     private Map<String, Controller> controller = Map.of("Hue", new HueController(), "Wiz", new WiZController());
     private Map<String, Controller> packagesAllowed = new HashMap<>();
     private Map<String, DeviceData> devices = new HashMap<>();
     private ArrayList<Trigger> globalTriggers = new ArrayList<>();
     private Automation automation;
 
-    public CodeGenerator() {
+    public Translator() {
         this.automation = new Automation();
     }
 
     public void execute(Token root){
         traverseTree(root);
-        for (Map.Entry<String, Controller> entry : packagesAllowed.entrySet()) {
-            entry.getValue().printDevices();
-        }
+        printDevicesOnNetwork();
         printCode();
         automation.start();
     }
 
-    private void traverseTree(Token node){
+    protected void traverseTree(Token node){
         String value = node.getValue();
 
         if(node.getChildren() != null) {
@@ -152,5 +150,23 @@ public final class CodeGenerator {
         for (Map.Entry<String, DeviceData> entry : devices.entrySet()) {
             System.out.println(entry.getValue().toString());
         }
+    }
+
+    private void printDevicesOnNetwork() {
+        for (Map.Entry<String, Controller> entry : packagesAllowed.entrySet()) {
+            entry.getValue().printDevices();
+        }
+    }
+
+    public Map<String, DeviceData> getDevices() {
+        return devices;
+    }
+
+    public Map<String, Controller> getPackagesAllowed() {
+        return packagesAllowed;
+    }
+
+    public ArrayList<Trigger> getGlobalTriggers() {
+        return globalTriggers;
     }
 }
