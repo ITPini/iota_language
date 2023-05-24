@@ -12,10 +12,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TranslatorTest {
     Token root = new Token("Start", "Start");
+    Translator translator = new Translator();
 
     @AfterEach
     void tearDown() {
         root = new Token("Start", "Start"); // Reset root after each test
+        translator = new Translator();
     }
 
     @Test
@@ -34,7 +36,6 @@ class TranslatorTest {
         root.getChildren().get(0).addChild(new Token("", "EOL"));
         root.getChildren().get(0).getChildren().get(3).addChild(new Token("EOL", ";"));
 
-        Translator translator = new Translator();
         translator.traverseTree(root);
 
         DeviceData deviceData = translator.getDevices().get("LivingRoomLight1");
@@ -57,7 +58,6 @@ class TranslatorTest {
         root.getChildren().get(0).addChild(new Token("", "EOL"));
         root.getChildren().get(0).getChildren().get(2).addChild(new Token("EOL", ";"));
 
-        Translator translator = new Translator();
         translator.traverseTree(root);
 
         assertNotNull(translator.getPackagesAllowed());
@@ -153,7 +153,6 @@ class TranslatorTest {
         root.getChildren().get(2).addChild(new Token("", "EOL"));
         root.getChildren().get(2).getChildren().get(4).addChild(new Token("EOL", ";"));
 
-        Translator translator = new Translator();
         translator.traverseTree(root);
 
         Automation.AutomationThread automationThread = (Automation.AutomationThread) translator.getAutomation().getAutomationThreads().get(0);
