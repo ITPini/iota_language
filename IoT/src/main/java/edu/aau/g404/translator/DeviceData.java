@@ -1,6 +1,6 @@
-package edu.aau.g404.CodeGenerator;
+package edu.aau.g404.translator;
 
-public class DeviceData {
+public final class DeviceData {
     private String deviceName;
     private String deviceType;
     private String deviceBrand;
