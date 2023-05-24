@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  */
 public final class Automation<T extends Action> {
     private ScheduledExecutorService executorService;
-    private List<AutomationThread> automationThreads = new ArrayList<>();
+    private List<AutomationThread> automationThreads = new ArrayList<AutomationThread>();
 
     /**
      * Construct a ScheduledExecutorService that uses the available number of processors.
@@ -61,11 +61,15 @@ public final class Automation<T extends Action> {
         }
     }
 
+    public List<AutomationThread> getAutomationThreads() {
+        return automationThreads;
+    }
+
     /**
      * AutomationThread is a private inner class that represents an individual automation thread
      * with a specific controller, identifier, actionList and triggerList.
      */
-    private class AutomationThread {
+    public class AutomationThread {
         private Controller controller;
         private String identifier;
         private List<T> actionList;
@@ -124,6 +128,22 @@ public final class Automation<T extends Action> {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+        }
+
+        public Controller getController() {
+            return controller;
+        }
+
+        public String getIdentifier() {
+            return identifier;
+        }
+
+        public List<T> getActionList() {
+            return actionList;
+        }
+
+        public List<Trigger> getTriggerList() {
+            return triggerList;
         }
     }
 }

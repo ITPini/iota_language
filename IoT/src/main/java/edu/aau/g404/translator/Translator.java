@@ -169,4 +169,8 @@ public final class Translator {
     public ArrayList<Trigger> getGlobalTriggers() {
         return globalTriggers;
     }
+
+    public Automation getAutomation() {
+        return automation;
+    }
 }
