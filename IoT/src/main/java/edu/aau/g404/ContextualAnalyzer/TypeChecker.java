@@ -6,7 +6,7 @@ import edu.aau.g404.Token;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class TypeChecker {
+public final class TypeChecker {
 
     private Map<String, String> attributeTypes = Map.of(
             "On", "BoolValue",

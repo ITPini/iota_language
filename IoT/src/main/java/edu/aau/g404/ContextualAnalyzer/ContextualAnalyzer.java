@@ -2,7 +2,7 @@ package edu.aau.g404.ContextualAnalyzer;
 
 import edu.aau.g404.Token;
 
-public class ContextualAnalyzer {
+public final class ContextualAnalyzer {
 
     private TypeChecker typeChecker;
 
