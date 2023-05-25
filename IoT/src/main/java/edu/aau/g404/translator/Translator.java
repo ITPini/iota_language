@@ -56,7 +56,7 @@ public final class Translator {
                 devices.put(node.getChildren(1).getChildren(0).getValue(), addDevice(node));
                 break;
             case "Automations":
-                System.out.println("This is a " + node.getValue());
+                //System.out.println("This is a " + node.getValue());
                 ArrayList<Token> automationNode = node.getChildren();
 
                 for (Token child : automationNode) { // This will technically also check "ScopeStart" and "ScopeEnd"
