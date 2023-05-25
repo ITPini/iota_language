@@ -20,8 +20,8 @@ public class TypeChecker {
 
     public void depthFirstTraverser(Token node) {
         if (node.getValue().equals("Initiations")) {
-            defineDeviceName(node.getChildren().get(1).getChildren().get(0).getValue(),
-                    node.getChildren().get(0).getChildren().get(0).getValue());
+            defineDeviceName(node.getChildren(1).getChildren(0).getValue(),
+                    node.getChildren(0).getChildren(0).getValue());
         }
         typeCheck(node);
         if (node.getChildren() != null) { //if it have branches, do a recursive call
@@ -61,13 +61,13 @@ public class TypeChecker {
     private void typeCheckTrigger(Token node) {
         System.out.println("checking Trigger");
         if (node.getChildren().size() > 1) {
-            Token type1 = node.getChildren().get(0).getChildren().get(0);
-            Token type2 = node.getChildren().get(2).getChildren().get(0);
+            Token type1 = node.getChildren(0).getChildren(0);
+            Token type2 = node.getChildren(2).getChildren(0);
             checkColor(type1);
             checkColor(type2);
 
-            String type1Val = type1.getValue().equals("Attribute") ? attributeTypes.get(type1.getChildren().get(2).getChildren().get(0).getValue()) : type1.getValue();
-            String type2Val = type2.getValue().equals("Attribute") ? attributeTypes.get(type2.getChildren().get(2).getChildren().get(0).getValue()) : type2.getValue();
+            String type1Val = type1.getValue().equals("Attribute") ? attributeTypes.get(type1.getChildren(2).getChildren(0).getValue()) : type1.getValue();
+            String type2Val = type2.getValue().equals("Attribute") ? attributeTypes.get(type2.getChildren(2).getChildren(0).getValue()) : type2.getValue();
             if (!type1Val.equals(type2Val)) {
                 try {
                     throw new IOTCompilerError(type1Val + " and " + type2Val + " are not the same type");
@@ -82,11 +82,11 @@ public class TypeChecker {
     private void typeCheckAction(Token node) {
         System.out.println("checking of Action");
         if (node.getChildren().size() > 1) {
-            Token type1 = node.getChildren().get(0).getChildren().get(2).getChildren().get(0);
-            Token type2 = node.getChildren().get(node.getChildren().size() - 1).getChildren().get(0);
+            Token type1 = node.getChildren(0).getChildren(2).getChildren(0);
+            Token type2 = node.getChildren(node.getChildren().size() - 1).getChildren(0);
             checkColor(type2);
             String type1Val = attributeTypes.get(type1.getValue());
-            String type2Val = type2.getValue().equals("Attribute") ? attributeTypes.get(type2.getChildren().get(2).getChildren().get(0).getValue()) : type2.getValue();
+            String type2Val = type2.getValue().equals("Attribute") ? attributeTypes.get(type2.getChildren(2).getChildren(0).getValue()) : type2.getValue();
 
             if (!type1Val.equals(type2Val)) {
                 try {

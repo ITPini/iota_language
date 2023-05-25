@@ -126,7 +126,7 @@ public class ASTBuilder {
                                     } else if (currentToken.getValue().equals("Attribute") &&
                                             tokenChecker.getValue().equals("Actions")) {
                                         tokenChecker.addChild(new Token(KeyTable.get("Changes"), "Changes"));
-                                        tokenChecker.getChildren().get(2).addChild(currentToken);
+                                        tokenChecker.getChildren(2).addChild(currentToken);
                                     } else if (currentToken.getValue().equals("Attribute") &&
                                             tokenChecker.getValue().equals("Triggers")) {
                                         previousToken = currentToken;
@@ -198,7 +198,7 @@ public class ASTBuilder {
 
         while (!currentToken.getType().equals("Start")) {
             if (currentToken.getType().equals("Automations") && !currentToken.getValue().equals("ScopeStart")){
-                start.getChildren().get(start.getChildren().size()-1).addChild(currentToken);
+                start.getChildren(start.getChildren().size()-1).addChild(currentToken);
                 currentToken = currentToken.getParent();
                 return;
             } else {

@@ -18,7 +18,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class IntegrationTest {
+class IntegrationTest {
     private LexiScanner lexiScanner;
     private ASTBuilder astBuilder;
     private Translator translator;
