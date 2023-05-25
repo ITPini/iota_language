@@ -116,31 +116,13 @@ public class LexiScanner {
                             if (isDigit(currentChar)){
                                 currentWord += currentChar;
                             } else if (currentChar == ','){
-                                if (currentWord.isEmpty() || currentWord.length()>3){
-                                    try {
-                                        throw new IOTCompilerError("Incorrect input in Color, must be a number no longer that 3 digits");
-                                    } catch (IOTCompilerError iotCompilerError) {
-                                        iotCompilerError.printStackTrace();
-                                        System.exit(1);
-                                    }
-                                } else if (currentWord.length()<2){
-                                    currentWord = "00" + currentWord;
-                                } else if (currentWord.length()<3){
-                                    currentWord = "0" + currentWord;
-                                }
-                                if(Character.getNumericValue(currentWord.charAt(0))>2){
-                                    try {
-                                        throw new IOTCompilerError("Color value = " + Character.getNumericValue(currentWord.charAt(0)) +" Individual RGB Color values can be no greater than 255");
-                                    } catch (IOTCompilerError iotCompilerError) {
-                                        iotCompilerError.printStackTrace();
-                                        System.exit(1);
-                                    }
-                                }
+                                currentWord = checkRGBAllowed(currentWord);
                                 codeAsTokens.add(new Token("ColorValue", currentWord));
                                 codeAsTokens.add(new Token("Color", "" + currentChar));
                                 currentWord = "";
                             }
                         } while ((currentChar = this.readNextChar()) != ')');
+                        currentWord = checkRGBAllowed(currentWord);
                         codeAsTokens.add(new Token("ColorValue", currentWord));
                         currentWord = "";
                         break;
@@ -227,6 +209,32 @@ public class LexiScanner {
             return (char) charPointer;
         }
     }
+
+    private String checkRGBAllowed(String currentWord){
+        if (currentWord.isEmpty() || currentWord.length()>3){
+            try {
+                throw new IOTCompilerError("Incorrect input in Color, must be a number no longer that 3 digits");
+            } catch (IOTCompilerError iotCompilerError) {
+                iotCompilerError.printStackTrace();
+                System.exit(1);
+            }
+        } else if (currentWord.length()<2){
+            currentWord = "00" + currentWord;
+        } else if (currentWord.length()<3){
+            currentWord = "0" + currentWord;
+        }
+        if(Integer.parseInt(currentWord)>255){
+            try {
+                throw new IOTCompilerError("ColorValue = " + Integer.parseInt(currentWord) +". Individual RGB color values can be no greater than 255");
+            } catch (IOTCompilerError iotCompilerError) {
+                iotCompilerError.printStackTrace();
+                System.exit(1);
+            }
+        }
+        return currentWord;
+    }
+
+
 
     public void printFile() {
         char currentChar;

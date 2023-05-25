@@ -19,7 +19,7 @@ public class TypeChecker {
 
 
     public void depthFirstTraverser(Token node) {
-        if (node.getValue().equals("Initiations")) {
+        if (node.getValue().equals("Initiations")) { //if declaring device, add it so symbol table
             defineDeviceName(node.getChildren(1).getChildren(0).getValue(),
                     node.getChildren(0).getChildren(0).getValue());
         }
@@ -31,8 +31,6 @@ public class TypeChecker {
         } else { //if leaf, do this
             checkDeviceInitiated(node);
         }
-        //work on the node is done here
-        //System.out.println(node.getValue());
     }
 
     private void checkDeviceInitiated(Token node){
