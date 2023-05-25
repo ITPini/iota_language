@@ -45,8 +45,7 @@ public class TypeChecker {
     }
 
     private void typeCheck(Token node) {
-        String nodeValue = node.getValue();
-        switch (nodeValue) {
+        switch (node.getValue()) {
             case "Bool":
                 typeCheckTrigger(node);
                 break;
