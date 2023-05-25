@@ -41,7 +41,7 @@ public class LexiScanner {
         SymbolTable.addValue("TIME", "TimeValue");
         SymbolTable.addValue("Automation", "");
         SymbolTable.addValue("Hue", "PackageName");
-        SymbolTable.addValue("Wiz", "PackageName");
+        SymbolTable.addValue("WiZ", "PackageName");
         SymbolTable.addValue("TRUE", "BoolValue");
         SymbolTable.addValue("FALSE", "BoolValue");
 

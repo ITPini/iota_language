@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class Translator {
-    private Map<String, Controller> controller = Map.of("Hue", new HueController(), "Wiz", new WiZController());
+    private Map<String, Controller> controller = Map.of("Hue", new HueController(), "WiZ", new WiZController());
     private Map<String, Controller> packagesAllowed = new HashMap<>();
     private Map<String, DeviceData> devices = new HashMap<>();
     private ArrayList<Trigger> globalTriggers = new ArrayList<>();
@@ -139,7 +139,7 @@ public final class Translator {
 
     private String checkBrandType(String identifier) {
         // TODO: Implement this better please
-        return identifier.charAt(3) == '.' ? "Wiz" : "Hue";
+        return identifier.charAt(3) == '.' ? "WiZ" : "Hue";
     }
 
     private String checkType(Token node) {
