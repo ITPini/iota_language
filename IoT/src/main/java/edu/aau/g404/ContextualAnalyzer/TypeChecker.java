@@ -29,20 +29,24 @@ public class TypeChecker {
                 depthFirstTraverser(t);
             }
         } else { //if leaf, do this
-            if (node.getType().equals("DeviceName") && SymbolTable.get(node.getValue()) == null) {
-                try {
-                    throw new IOTCompilerError(node.getValue() + " not defined");
-                } catch (IOTCompilerError iotCompilerError) {
-                    iotCompilerError.printStackTrace();
-                    System.exit(1);
-                }
-            }
+            checkDeviceInitiated(node);
         }
         //work on the node is done here
         //System.out.println(node.getValue());
     }
 
-    public void typeCheck(Token node) {
+    private void checkDeviceInitiated(Token node){
+        if (node.getType().equals("DeviceName") && SymbolTable.get(node.getValue()) == null) {
+            try {
+                throw new IOTCompilerError(node.getValue() + " not defined");
+            } catch (IOTCompilerError iotCompilerError) {
+                iotCompilerError.printStackTrace();
+                System.exit(1);
+            }
+        }
+    }
+
+    private void typeCheck(Token node) {
         String nodeValue = node.getValue();
         switch (nodeValue) {
             case "Bool":
@@ -54,7 +58,7 @@ public class TypeChecker {
         }
     }
 
-    public void typeCheckTrigger(Token node) {
+    private void typeCheckTrigger(Token node) {
         System.out.println("checking Trigger");
         if (node.getChildren().size() > 1) {
             Token type1 = node.getChildren().get(0).getChildren().get(0);
@@ -118,7 +122,7 @@ public class TypeChecker {
 
     }
 
-    public void defineDeviceName(String name, String type) {
+    private void defineDeviceName(String name, String type) {
         SymbolTable.addValue(name, type);
     }
 
