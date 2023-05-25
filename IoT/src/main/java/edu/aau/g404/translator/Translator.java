@@ -47,13 +47,13 @@ public final class Translator {
         switch(value) {
             case "Package":
                 if (node.getChildren().size()>3){
-                    packagesAllowed.put(node.getChildren().get(1).getChildren().get(0).getValue(), new HueController(node.getChildren().get(2).getChildren().get(0).getValue(), node.getChildren().get(3).getChildren().get(0).getValue()));
+                    packagesAllowed.put(node.getChildren(1).getChildren(0).getValue(), new HueController(node.getChildren(2).getChildren(0).getValue(), node.getChildren(3).getChildren(0).getValue()));
                 } else {
-                    packagesAllowed.put(node.getChildren().get(1).getChildren().get(0).getValue(), controller.get(node.getChildren().get(1).getChildren().get(0).getValue()));
+                    packagesAllowed.put(node.getChildren(1).getChildren(0).getValue(), controller.get(node.getChildren(1).getChildren(0).getValue()));
                 }
                 break;
             case "Initiations":
-                devices.put(node.getChildren().get(1).getChildren().get(0).getValue(), addDevice(node));
+                devices.put(node.getChildren(1).getChildren(0).getValue(), addDevice(node));
                 break;
             case "Automations":
                 System.out.println("This is a " + node.getValue());
@@ -63,10 +63,10 @@ public final class Translator {
                     switch (child.getValue()) {
                         case "Triggers":
                             //System.out.println("This is a " + child.getChildren().get(0).getValue());
-                            String triggerType = child.getChildren().get(2).getChildren().get(0).getChildren().get(0).getChildren().get(0).getValue();
+                            String triggerType = child.getChildren(2).getChildren(0).getChildren(0).getChildren(0).getValue();
                             switch (triggerType) {
                                 case "TimeValue":
-                                    String timeValue = child.getChildren().get(2).getChildren().get(0).getChildren().get(2).getChildren().get(0).getChildren().get(0).getValue();
+                                    String timeValue = child.getChildren(2).getChildren(0).getChildren(2).getChildren(0).getChildren(0).getValue();
                                     //System.out.println("This is a " + timeValue);
                                     globalTriggers.add(new TimeTrigger(LocalTime.parse(timeValue)));
                                     break;
@@ -76,22 +76,22 @@ public final class Translator {
                             break;
                         case "Actions":
                             //System.out.println("This is a " + child.getChildren().get(0).getValue());
-                            String actionType = child.getChildren().get(2).getChildren().get(0).getChildren().get(2).getChildren().get(0).getValue();
+                            String actionType = child.getChildren(2).getChildren(0).getChildren(2).getChildren(0).getValue();
                             //System.out.println("This is a " + actionType);
                             switch (actionType) {
                                 case "On":
-                                    boolean onValue = child.getChildren().get(2).getChildren().get(1).getChildren().get(0).getChildren().get(0).getValue().equals("TRUE");
+                                    boolean onValue = child.getChildren(2).getChildren(1).getChildren(0).getChildren(0).getValue().equals("TRUE");
                                     //System.out.println("Adding on value: " + onValue);
                                     automateIt(child, new OnAction(onValue));
                                     break;
                                 case "Brightness":
                                     float brightnessValue;
                                     String operator = "";
-                                    if (child.getChildren().get(2).getChildren().get(1).getValue().equals("Operator")) {
-                                        operator = child.getChildren().get(2).getChildren().get(1).getChildren().get(0).getValue();
-                                        brightnessValue = Float.parseFloat(child.getChildren().get(2).getChildren().get(2).getChildren().get(0).getChildren().get(0).getValue());
+                                    if (child.getChildren(2).getChildren(1).getValue().equals("Operator")) {
+                                        operator = child.getChildren(2).getChildren(1).getChildren(0).getValue();
+                                        brightnessValue = Float.parseFloat(child.getChildren(2).getChildren(2).getChildren(0).getChildren(0).getValue());
                                     } else {
-                                        brightnessValue = Float.parseFloat(child.getChildren().get(2).getChildren().get(1).getChildren().get(0).getChildren().get(0).getValue());
+                                        brightnessValue = Float.parseFloat(child.getChildren(2).getChildren(1).getChildren(0).getChildren(0).getValue());
                                     }
 
                                     //System.out.println("Adding brightness value: " + brightnessValue);
@@ -99,9 +99,9 @@ public final class Translator {
                                     break;
                                 case "Color":
                                     int r, g, b;
-                                    r = Integer.parseInt(child.getChildren().get(2).getChildren().get(1).getChildren().get(0).getChildren().get(0).getChildren().get(0).getValue());
-                                    g = Integer.parseInt(child.getChildren().get(2).getChildren().get(1).getChildren().get(0).getChildren().get(2).getChildren().get(0).getValue());
-                                    b = Integer.parseInt(child.getChildren().get(2).getChildren().get(1).getChildren().get(0).getChildren().get(4).getChildren().get(0).getValue());
+                                    r = Integer.parseInt(child.getChildren(2).getChildren(1).getChildren(0).getChildren(0).getChildren(0).getValue());
+                                    g = Integer.parseInt(child.getChildren(2).getChildren(1).getChildren(0).getChildren(2).getChildren(0).getValue());
+                                    b = Integer.parseInt(child.getChildren(2).getChildren(1).getChildren(0).getChildren(4).getChildren(0).getValue());
                                     //System.out.println("Adding color value: " + r + " " + g + " " + b);
                                     automateIt(child, new ColorAction(r, g, b));
                                     break;
@@ -116,8 +116,8 @@ public final class Translator {
     private void automateIt(Token child, Action action) {
         //System.out.println("Controller brand: " + devices.get(child.getChildren().get(2).getChildren().get(0).getChildren().get(0).getChildren().get(0).getValue()).getDeviceBrand());
         //System.out.println("Identifier: " + devices.get(child.getChildren().get(2).getChildren().get(0).getChildren().get(0).getChildren().get(0).getValue()).getDeviceIdentifier());
-        automation.addThread(packagesAllowed.get(devices.get(child.getChildren().get(2).getChildren().get(0).getChildren().get(0).getChildren().get(0).getValue()).getDeviceBrand()),
-                devices.get(child.getChildren().get(2).getChildren().get(0).getChildren().get(0).getChildren().get(0).getValue()).getDeviceIdentifier(),
+        automation.addThread(packagesAllowed.get(devices.get(child.getChildren(2).getChildren(0).getChildren(0).getChildren(0).getValue()).getDeviceBrand()),
+                devices.get(child.getChildren(2).getChildren(0).getChildren(0).getChildren(0).getValue()).getDeviceIdentifier(),
                 new ArrayList<Action>(){{add(action);}}, new ArrayList<Trigger>(globalTriggers));
     }
 
@@ -130,11 +130,11 @@ public final class Translator {
     }
 
     private String checkDeviceIdentifier(Token node) {
-        return node.getChildren().get(2).getChildren().get(0).getChildren().get(0).getValue();
+        return node.getChildren(2).getChildren(0).getChildren(0).getValue();
     }
 
     private String checkDeviceName(Token node){
-        return node.getChildren().get(1).getChildren().get(0).getValue();
+        return node.getChildren(1).getChildren(0).getValue();
     }
 
     private String checkBrandType(String identifier) {
@@ -143,7 +143,7 @@ public final class Translator {
     }
 
     private String checkType(Token node) {
-        return node.getChildren().get(0).getChildren().get(0).getValue();
+        return node.getChildren(0).getChildren(0).getValue();
     }
 
     public void printCode(){

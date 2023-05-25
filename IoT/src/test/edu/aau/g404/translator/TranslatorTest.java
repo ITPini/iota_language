@@ -23,18 +23,18 @@ class TranslatorTest {
     @Test
     void traverseTreeInitialisation() {
         root.addChild(new Token("Start", "Initiations"));
-        root.getChildren().get(0).addChild(new Token("Initiations", "Type"));
-        root.getChildren().get(0).getChildren().get(0).addChild(new Token("Type", "Light"));
+        root.getChildren(0).addChild(new Token("Initiations", "Type"));
+        root.getChildren(0).getChildren(0).addChild(new Token("Type", "Light"));
 
-        root.getChildren().get(0).addChild(new Token("Initiations", "DeviceName"));
-        root.getChildren().get(0).getChildren().get(1).addChild(new Token("DeviceName", "LivingRoomLight1"));
+        root.getChildren(0).addChild(new Token("Initiations", "DeviceName"));
+        root.getChildren(0).getChildren(1).addChild(new Token("DeviceName", "LivingRoomLight1"));
 
-        root.getChildren().get(0).addChild(new Token("Initiations", "Identifier"));
-        root.getChildren().get(0).getChildren().get(2).addChild(new Token("Identifier", "IDValue"));
-        root.getChildren().get(0).getChildren().get(2).getChildren().get(0).addChild(new Token("IDValue", "b2ef7371-9321-452a-a70e-49ce5b6cd879"));
+        root.getChildren(0).addChild(new Token("Initiations", "Identifier"));
+        root.getChildren(0).getChildren(2).addChild(new Token("Identifier", "IDValue"));
+        root.getChildren(0).getChildren(2).getChildren(0).addChild(new Token("IDValue", "b2ef7371-9321-452a-a70e-49ce5b6cd879"));
 
-        root.getChildren().get(0).addChild(new Token("", "EOL"));
-        root.getChildren().get(0).getChildren().get(3).addChild(new Token("EOL", ";"));
+        root.getChildren(0).addChild(new Token("", "EOL"));
+        root.getChildren(0).getChildren(3).addChild(new Token("EOL", ";"));
 
         translator.traverseTree(root);
 
@@ -50,13 +50,13 @@ class TranslatorTest {
     @Test
     void traverseTreeUse(){
         root.addChild(new Token("Start", "Package"));
-        root.getChildren().get(0).addChild(new Token("Package", "Use"));
+        root.getChildren(0).addChild(new Token("Package", "Use"));
 
-        root.getChildren().get(0).addChild(new Token("Package", "PackageName"));
-        root.getChildren().get(0).getChildren().get(1).addChild(new Token("PackageName", "Wiz"));
+        root.getChildren(0).addChild(new Token("Package", "PackageName"));
+        root.getChildren(0).getChildren(1).addChild(new Token("PackageName", "Wiz"));
 
-        root.getChildren().get(0).addChild(new Token("", "EOL"));
-        root.getChildren().get(0).getChildren().get(2).addChild(new Token("EOL", ";"));
+        root.getChildren(0).addChild(new Token("", "EOL"));
+        root.getChildren(0).getChildren(2).addChild(new Token("EOL", ";"));
 
         translator.traverseTree(root);
 
@@ -70,88 +70,88 @@ class TranslatorTest {
     @Test
     void traverseTreeAutomation(){
         root.addChild(new Token("Start", "Package"));
-        root.getChildren().get(0).addChild(new Token("Package", "Use"));
+        root.getChildren(0).addChild(new Token("Package", "Use"));
 
-        root.getChildren().get(0).addChild(new Token("Package", "PackageName"));
-        root.getChildren().get(0).getChildren().get(1).addChild(new Token("PackageName", "Wiz"));
+        root.getChildren(0).addChild(new Token("Package", "PackageName"));
+        root.getChildren(0).getChildren(1).addChild(new Token("PackageName", "Wiz"));
 
-        root.getChildren().get(0).addChild(new Token("", "EOL"));
-        root.getChildren().get(0).getChildren().get(2).addChild(new Token("EOL", ";"));
+        root.getChildren(0).addChild(new Token("", "EOL"));
+        root.getChildren(0).getChildren(2).addChild(new Token("EOL", ";"));
 
         root.addChild(new Token("Start", "Initiations"));
-        root.getChildren().get(1).addChild(new Token("Initiations", "Type"));
-        root.getChildren().get(1).getChildren().get(0).addChild(new Token("Type", "Light"));
+        root.getChildren(1).addChild(new Token("Initiations", "Type"));
+        root.getChildren(1).getChildren(0).addChild(new Token("Type", "Light"));
 
-        root.getChildren().get(1).addChild(new Token("Initiations", "DeviceName"));
-        root.getChildren().get(1).getChildren().get(1).addChild(new Token("DeviceName", "LivingRoomLight1"));
+        root.getChildren(1).addChild(new Token("Initiations", "DeviceName"));
+        root.getChildren(1).getChildren(1).addChild(new Token("DeviceName", "LivingRoomLight1"));
 
-        root.getChildren().get(1).addChild(new Token("Initiations", "Identifier"));
-        root.getChildren().get(1).getChildren().get(2).addChild(new Token("Identifier", "IDValue"));
-        root.getChildren().get(1).getChildren().get(2).getChildren().get(0).addChild(new Token("IDValue", "192.168.0.104"));
+        root.getChildren(1).addChild(new Token("Initiations", "Identifier"));
+        root.getChildren(1).getChildren(2).addChild(new Token("Identifier", "IDValue"));
+        root.getChildren(1).getChildren(2).getChildren(0).addChild(new Token("IDValue", "192.168.0.104"));
 
-        root.getChildren().get(1).addChild(new Token("", "EOL"));
-        root.getChildren().get(1).getChildren().get(3).addChild(new Token("EOL", ";"));
+        root.getChildren(1).addChild(new Token("", "EOL"));
+        root.getChildren(1).getChildren(3).addChild(new Token("EOL", ";"));
 
         root.addChild(new Token("Start", "Automations"));
 
-        root.getChildren().get(2).addChild(new Token("Automations", "ScopeStart"));
-        root.getChildren().get(2).getChildren().get(0).addChild(new Token("ScopeStart", "Begin"));
-        root.getChildren().get(2).getChildren().get(0).addChild(new Token("ScopeStart", "("));
-        root.getChildren().get(2).getChildren().get(0).addChild(new Token("ScopeStart", "Automation"));
-        root.getChildren().get(2).getChildren().get(0).addChild(new Token("ScopeStart", ")"));
+        root.getChildren(2).addChild(new Token("Automations", "ScopeStart"));
+        root.getChildren(2).getChildren(0).addChild(new Token("ScopeStart", "Begin"));
+        root.getChildren(2).getChildren(0).addChild(new Token("ScopeStart", "("));
+        root.getChildren(2).getChildren(0).addChild(new Token("ScopeStart", "Automation"));
+        root.getChildren(2).getChildren(0).addChild(new Token("ScopeStart", ")"));
 
-        root.getChildren().get(2).addChild(new Token("Automations", "Triggers"));
-        root.getChildren().get(2).getChildren().get(1).addChild(new Token("Triggers", "Trigger"));
-        root.getChildren().get(2).getChildren().get(1).addChild(new Token("Triggers", "("));
-        root.getChildren().get(2).getChildren().get(1).addChild(new Token("Triggers", "BoolExpr"));
-        root.getChildren().get(2).getChildren().get(1).addChild(new Token("Triggers", ")"));
-        root.getChildren().get(2).getChildren().get(1).addChild(new Token("", "EOL"));
+        root.getChildren(2).addChild(new Token("Automations", "Triggers"));
+        root.getChildren(2).getChildren(1).addChild(new Token("Triggers", "Trigger"));
+        root.getChildren(2).getChildren(1).addChild(new Token("Triggers", "("));
+        root.getChildren(2).getChildren(1).addChild(new Token("Triggers", "BoolExpr"));
+        root.getChildren(2).getChildren(1).addChild(new Token("Triggers", ")"));
+        root.getChildren(2).getChildren(1).addChild(new Token("", "EOL"));
 
-        root.getChildren().get(2).getChildren().get(1).getChildren().get(2).addChild(new Token("BoolExpr", "Bool"));
+        root.getChildren(2).getChildren(1).getChildren(2).addChild(new Token("BoolExpr", "Bool"));
 
-        root.getChildren().get(2).getChildren().get(1).getChildren().get(2).getChildren().get(0).addChild(new Token("Bool", "Expr"));
-        root.getChildren().get(2).getChildren().get(1).getChildren().get(2).getChildren().get(0).addChild(new Token("Bool", "BoolOperator"));
-        root.getChildren().get(2).getChildren().get(1).getChildren().get(2).getChildren().get(0).addChild(new Token("Bool", "Expr"));
-        root.getChildren().get(2).getChildren().get(1).getChildren().get(2).getChildren().get(0).getChildren().get(0).addChild(new Token("Expr", "TimeValue"));
-        root.getChildren().get(2).getChildren().get(1).getChildren().get(2).getChildren().get(0).getChildren().get(0).getChildren().get(0).addChild(new Token("TimeValue", "TIME"));
+        root.getChildren(2).getChildren(1).getChildren(2).getChildren(0).addChild(new Token("Bool", "Expr"));
+        root.getChildren(2).getChildren(1).getChildren(2).getChildren(0).addChild(new Token("Bool", "BoolOperator"));
+        root.getChildren(2).getChildren(1).getChildren(2).getChildren(0).addChild(new Token("Bool", "Expr"));
+        root.getChildren(2).getChildren(1).getChildren(2).getChildren(0).getChildren(0).addChild(new Token("Expr", "TimeValue"));
+        root.getChildren(2).getChildren(1).getChildren(2).getChildren(0).getChildren(0).getChildren(0).addChild(new Token("TimeValue", "TIME"));
 
-        root.getChildren().get(2).getChildren().get(1).getChildren().get(2).getChildren().get(0).getChildren().get(1).addChild(new Token("BoolOperator", "="));
+        root.getChildren(2).getChildren(1).getChildren(2).getChildren(0).getChildren(1).addChild(new Token("BoolOperator", "="));
 
-        root.getChildren().get(2).getChildren().get(1).getChildren().get(2).getChildren().get(0).getChildren().get(2).addChild(new Token("Expr", "TimeValue"));
-        root.getChildren().get(2).getChildren().get(1).getChildren().get(2).getChildren().get(0).getChildren().get(2).getChildren().get(0).addChild(new Token("TimeValue", "08:00"));
+        root.getChildren(2).getChildren(1).getChildren(2).getChildren(0).getChildren(2).addChild(new Token("Expr", "TimeValue"));
+        root.getChildren(2).getChildren(1).getChildren(2).getChildren(0).getChildren(2).getChildren(0).addChild(new Token("TimeValue", "08:00"));
 
-        root.getChildren().get(2).getChildren().get(1).getChildren().get(4).addChild(new Token("EOL", ";"));
+        root.getChildren(2).getChildren(1).getChildren(4).addChild(new Token("EOL", ";"));
 
-        root.getChildren().get(2).addChild(new Token("Automations", "Actions"));
-        root.getChildren().get(2).getChildren().get(2).addChild(new Token("Actions", "Action"));
-        root.getChildren().get(2).getChildren().get(2).addChild(new Token("Actions", "("));
-        root.getChildren().get(2).getChildren().get(2).addChild(new Token("Actions", "Changes"));
-        root.getChildren().get(2).getChildren().get(2).addChild(new Token("Actions", ")"));
-        root.getChildren().get(2).getChildren().get(2).addChild(new Token("", "EOL"));
+        root.getChildren(2).addChild(new Token("Automations", "Actions"));
+        root.getChildren(2).getChildren(2).addChild(new Token("Actions", "Action"));
+        root.getChildren(2).getChildren(2).addChild(new Token("Actions", "("));
+        root.getChildren(2).getChildren(2).addChild(new Token("Actions", "Changes"));
+        root.getChildren(2).getChildren(2).addChild(new Token("Actions", ")"));
+        root.getChildren(2).getChildren(2).addChild(new Token("", "EOL"));
 
-        root.getChildren().get(2).getChildren().get(2).getChildren().get(2).addChild(new Token("Changes", "Attribute"));
-        root.getChildren().get(2).getChildren().get(2).getChildren().get(2).addChild(new Token("Changes", "Expr"));
+        root.getChildren(2).getChildren(2).getChildren(2).addChild(new Token("Changes", "Attribute"));
+        root.getChildren(2).getChildren(2).getChildren(2).addChild(new Token("Changes", "Expr"));
 
-        root.getChildren().get(2).getChildren().get(2).getChildren().get(2).getChildren().get(0).addChild(new Token("Attribute", "DeviceName"));
-        root.getChildren().get(2).getChildren().get(2).getChildren().get(2).getChildren().get(0).getChildren().get(0).addChild(new Token("DeviceName", "LivingRoomLight1"));
+        root.getChildren(2).getChildren(2).getChildren(2).getChildren(0).addChild(new Token("Attribute", "DeviceName"));
+        root.getChildren(2).getChildren(2).getChildren(2).getChildren(0).getChildren(0).addChild(new Token("DeviceName", "LivingRoomLight1"));
 
-        root.getChildren().get(2).getChildren().get(2).getChildren().get(2).getChildren().get(0).addChild(new Token("Attribute", "."));
+        root.getChildren(2).getChildren(2).getChildren(2).getChildren(0).addChild(new Token("Attribute", "."));
 
-        root.getChildren().get(2).getChildren().get(2).getChildren().get(2).getChildren().get(0).addChild(new Token("Attribute", "AttributeName"));
-        root.getChildren().get(2).getChildren().get(2).getChildren().get(2).getChildren().get(0).getChildren().get(2).addChild(new Token("AttributeName", "On"));
+        root.getChildren(2).getChildren(2).getChildren(2).getChildren(0).addChild(new Token("Attribute", "AttributeName"));
+        root.getChildren(2).getChildren(2).getChildren(2).getChildren(0).getChildren(2).addChild(new Token("AttributeName", "On"));
 
-        root.getChildren().get(2).getChildren().get(2).getChildren().get(2).getChildren().get(1).addChild(new Token("Expr", "BoolValue"));
-        root.getChildren().get(2).getChildren().get(2).getChildren().get(2).getChildren().get(1).getChildren().get(0).addChild(new Token("BoolValue", "TRUE"));
+        root.getChildren(2).getChildren(2).getChildren(2).getChildren(1).addChild(new Token("Expr", "BoolValue"));
+        root.getChildren(2).getChildren(2).getChildren(2).getChildren(1).getChildren(0).addChild(new Token("BoolValue", "TRUE"));
 
-        root.getChildren().get(2).getChildren().get(2).getChildren().get(4).addChild(new Token("EOL", ";"));
+        root.getChildren(2).getChildren(2).getChildren(4).addChild(new Token("EOL", ";"));
 
-        root.getChildren().get(2).addChild(new Token("Automations", "ScopeEnd"));
-        root.getChildren().get(2).getChildren().get(3).addChild(new Token("ScopeEnd", "End"));
-        root.getChildren().get(2).getChildren().get(3).addChild(new Token("ScopeEnd", "("));
-        root.getChildren().get(2).getChildren().get(3).addChild(new Token("ScopeEnd", "Automation"));
-        root.getChildren().get(2).getChildren().get(3).addChild(new Token("ScopeEnd", ")"));
-        root.getChildren().get(2).addChild(new Token("", "EOL"));
-        root.getChildren().get(2).getChildren().get(4).addChild(new Token("EOL", ";"));
+        root.getChildren(2).addChild(new Token("Automations", "ScopeEnd"));
+        root.getChildren(2).getChildren(3).addChild(new Token("ScopeEnd", "End"));
+        root.getChildren(2).getChildren(3).addChild(new Token("ScopeEnd", "("));
+        root.getChildren(2).getChildren(3).addChild(new Token("ScopeEnd", "Automation"));
+        root.getChildren(2).getChildren(3).addChild(new Token("ScopeEnd", ")"));
+        root.getChildren(2).addChild(new Token("", "EOL"));
+        root.getChildren(2).getChildren(4).addChild(new Token("EOL", ";"));
 
         translator.traverseTree(root);
 
