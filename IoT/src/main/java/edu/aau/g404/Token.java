@@ -41,10 +41,6 @@ public class Token {
 
     }
 
-    public Token getTheChild(int i){
-        return children.get(i);
-    }
-
 
     public String getType() {
         return type;
@@ -54,6 +50,10 @@ public class Token {
     }
     public ArrayList<Token> getChildren() {
         return children;
+    }
+    
+    public Token getChildren(int i){
+        return children.get(i);
     }
     public void setChildren(ArrayList<Token> children) {
         this.children = children;
