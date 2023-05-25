@@ -53,7 +53,7 @@ class TranslatorTest {
         root.getChildren(0).addChild(new Token("Package", "Use"));
 
         root.getChildren(0).addChild(new Token("Package", "PackageName"));
-        root.getChildren(0).getChildren(1).addChild(new Token("PackageName", "Wiz"));
+        root.getChildren(0).getChildren(1).addChild(new Token("PackageName", "WiZ"));
 
         root.getChildren(0).addChild(new Token("", "EOL"));
         root.getChildren(0).getChildren(2).addChild(new Token("EOL", ";"));
@@ -64,7 +64,7 @@ class TranslatorTest {
         assertNull(translator.getDevices().get("LivingRoomLight1"));
         assertEquals(0, translator.getGlobalTriggers().size());
 
-        assertEquals(WiZController.class, translator.getPackagesAllowed().get("Wiz").getClass());
+        assertEquals(WiZController.class, translator.getPackagesAllowed().get("WiZ").getClass());
     }
 
     @Test
@@ -73,7 +73,7 @@ class TranslatorTest {
         root.getChildren(0).addChild(new Token("Package", "Use"));
 
         root.getChildren(0).addChild(new Token("Package", "PackageName"));
-        root.getChildren(0).getChildren(1).addChild(new Token("PackageName", "Wiz"));
+        root.getChildren(0).getChildren(1).addChild(new Token("PackageName", "WiZ"));
 
         root.getChildren(0).addChild(new Token("", "EOL"));
         root.getChildren(0).getChildren(2).addChild(new Token("EOL", ";"));

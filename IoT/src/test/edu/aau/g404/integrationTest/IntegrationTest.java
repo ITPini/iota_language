@@ -44,7 +44,7 @@ class IntegrationTest {
 
     @Test
     void run(){
-        String testProgram = "Use Wiz;\n" +
+        String testProgram = "Use WiZ;\n" +
                 "Light MyWizLight \"192.168.0.105\";\n" +
                 "Begin(Automation)\n" +
                 "Trigger(TIME = 08:00);\n" +
