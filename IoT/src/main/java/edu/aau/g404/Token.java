@@ -41,6 +41,10 @@ public class Token {
 
     }
 
+    public Token getTheChild(int i){
+        return children.get(i);
+    }
+
 
     public String getType() {
         return type;
