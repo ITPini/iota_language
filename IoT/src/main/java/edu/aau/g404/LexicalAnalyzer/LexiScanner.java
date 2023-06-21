@@ -57,14 +57,10 @@ public class LexiScanner {
     public ArrayList<Token> scanner() {
         String errorMessage = "";
         char currentChar;
-        //char nextChar;
         String currentWord = "";
-        //int count = 0;
         System.out.println("Begin scanning!");
 
         while ((currentChar = this.readNextChar()) != '$' && errorMessage == "") {
-            //count++;
-            //System.out.println(count);
             if (isLetter(currentChar)) {
                 currentWord += currentChar;
                 while (isLetter(currentChar = this.readNextChar()) || isDigit(currentChar) || currentChar == '-' || currentChar == '_') {
@@ -184,11 +180,13 @@ public class LexiScanner {
 
             }
             currentWord = "";
+            if (errorMessage != "") {
+                System.out.println(errorMessage);
+                System.exit(1);
+            }
         }
         lastChecker();
-        if (errorMessage != "") {
-            System.out.println(errorMessage);
-        }
+
         return codeAsTokens;
     }
 
